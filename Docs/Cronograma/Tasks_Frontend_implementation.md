@@ -286,23 +286,32 @@ Configurar as bases globais da aplicação.
 
 ### Tasks
 
-- [ ] Criar `app/providers`.
-- [ ] Configurar `QueryClientProvider` do TanStack Query.
-- [ ] Configurar `WagmiProvider`.
-- [ ] Configurar `RainbowKitProvider`.
-- [ ] Configurar tema do RainbowKit compatível com dark system.
-- [ ] Criar provider de estado visual, se necessário.
-- [ ] Criar provider de toast/sonner.
-- [ ] Garantir que providers client-side usem `"use client"`.
-- [ ] Evitar transformar o layout inteiro em Client Component sem necessidade.
+- [x] Criar `app/providers`.
+- [x] Configurar `QueryClientProvider` do TanStack Query.
+- [x] Configurar `WagmiProvider`.
+- [x] Configurar `RainbowKitProvider`.
+- [x] Configurar tema do RainbowKit compatível com dark system.
+- [x] Criar provider de toast/sonner.
+- [x] Garantir que providers client-side usem `"use client"`.
+- [x] Evitar transformar o layout inteiro em Client Component sem necessidade.
+- [x] Criar `shared/config/web3.ts` com wagmiConfig.
+- [x] Atualizar `.env.example` com NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID.
+- [x] Atualizar `web/README.md` com seção de providers.
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
 
 ### Critérios de aceite
 
-- [ ] TanStack Query está disponível globalmente.
-- [ ] Wallet provider está preparado.
-- [ ] Toasts funcionam.
-- [ ] App Router permanece organizado.
-- [ ] Não há erro de hydration.
+- [x] TanStack Query está disponível globalmente.
+- [x] Wallet provider está preparado.
+- [x] Toasts funcionam.
+- [x] App Router permanece organizado.
+- [x] Não há erro de hydration.
+
+### Versionamento
+
+- [x] Fazer commit semântico do Bloco 2.
+- [ ] Fazer push da branch após validação.
 
 ---
 

@@ -99,6 +99,28 @@ Ver: `../Docs/Contratos_tecnicos/contrato_api_frontend_backend.md`
 
 ---
 
+## Providers globais
+
+Os providers são compostos em `src/app/providers/`:
+
+```txt
+RootProviders (index.tsx)
+└── Web3Provider (web3-provider.tsx)
+    └── WagmiProvider          → wagmi v2 (createConfig)
+        └── QueryProvider       → TanStack Query v5
+            └── RainbowKitProvider → tema dark FiscalizaPay
+                └── {children}
+    └── ToastProvider          → Sonner (portal, bottom-right)
+```
+
+A configuração Web3 fica em `src/shared/config/web3.ts`:
+- Chain principal: **Polygon Amoy** (ID 80002)
+- Fallback: Sepolia (ID 11155111)
+- Connector padrão: MetaMask (injected)
+- WalletConnect: ativado apenas se `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` for fornecido
+
+---
+
 ## Próximo bloco
 
-**Bloco 2 — Providers Globais:** QueryClientProvider, WagmiProvider, RainbowKitProvider e Sonner.
+**Bloco 3 — Design System e UI Base:** componentes `shared/ui`, tokens visuais, loading/error/empty states, animações base.
