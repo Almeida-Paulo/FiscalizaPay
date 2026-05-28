@@ -1,4 +1,9 @@
 import { FileSearch, ShieldCheck, CheckCircle } from "lucide-react";
+import { PermissionsShowcase } from "./permissions-showcase";
+import { ContractStatusBadge } from "@/entities/contract/ui/contract-status-badge";
+import { RoleBadge } from "@/entities/profile/ui/role-badge";
+import type { ContractStatus } from "@/entities/contract";
+import type { UserRole } from "@/entities/profile";
 import { CONTRACT_STATUS_MAP } from "@/entities/contract";
 import { ROLE_LABELS } from "@/entities/profile";
 import { EVENT_TYPE_LABELS } from "@/entities/contract-event";
@@ -230,15 +235,68 @@ export default function Home() {
           </div>
         </MotionContainer>
 
+        <Separator />
+
+        {/* Bloco 5 — Regras visuais de permissão */}
+        <MotionContainer delay={0.5}>
+          <SectionTitle
+            title="Regras visuais — Bloco 5"
+            description="Troque o perfil para ver quais ações ficam disponíveis"
+          />
+          <div className="mt-4">
+            <PermissionsShowcase />
+          </div>
+        </MotionContainer>
+
+        <Separator />
+
+        {/* Status badges — usando ContractStatusBadge */}
+        <MotionContainer delay={0.55}>
+          <SectionTitle title="ContractStatusBadge" description="Badge visual por status" />
+          <div className="mt-3 flex flex-wrap gap-2">
+            {(
+              [
+                "CRIADO",
+                "ENVIADO",
+                "ENTREGUE",
+                "VALIDADO",
+                "PAGAMENTO_AUTORIZADO",
+                "DISPUTA",
+              ] as ContractStatus[]
+            ).map((s) => (
+              <ContractStatusBadge key={s} status={s} />
+            ))}
+          </div>
+        </MotionContainer>
+
+        <Separator />
+
+        {/* Role badges */}
+        <MotionContainer delay={0.6}>
+          <SectionTitle title="RoleBadge" description="Badge visual por role" />
+          <div className="mt-3 flex flex-wrap gap-2">
+            {(
+              [
+                "GESTOR",
+                "FORNECEDOR",
+                "ENTREGADOR",
+                "FISCAL",
+                "AUDITOR",
+              ] as UserRole[]
+            ).map((r) => (
+              <RoleBadge key={r} role={r} />
+            ))}
+          </div>
+        </MotionContainer>
+
         <div className="pb-8 pt-4">
           <p className="flex items-center gap-2 text-xs text-muted-foreground">
             <CheckCircle className="h-3.5 w-3.5 text-success" />
-            Bloco 4 completo — domínio tipado, maps e helpers prontos
+            Bloco 5 completo — regras visuais, PermissionGate e perfil simulado prontos
           </p>
           <p className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-            {Object.keys(EVENT_TYPE_LABELS).length} event types oficiais
-            definidos
+            {Object.keys(EVENT_TYPE_LABELS).length} event types · backend valida de verdade
           </p>
         </div>
 

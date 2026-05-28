@@ -452,7 +452,7 @@ Criar os tipos oficiais do domínio no frontend.
 ### Versionamento
 
 - [x] Fazer commit semântico do Bloco 4.
-- [ ] Fazer push da branch após validação.
+- [x] Fazer push da branch após validação.
 
 ### Status oficiais
 
@@ -509,17 +509,49 @@ Criar regras visuais para habilitar/desabilitar ações no frontend.
 
 ### Tasks
 
-- [ ] Criar `entities/contract/model/rules.ts`.
-- [ ] Criar `canConfirmShipment`.
-- [ ] Criar `canConfirmDelivery`.
-- [ ] Criar `canValidateReceipt`.
-- [ ] Criar `canAuthorizePayment`.
-- [ ] Criar `canOpenDispute`.
-- [ ] Criar `canSimulateFraud`.
-- [ ] Criar `getNextContractAction`.
-- [ ] Criar `getContractProgress`.
-- [ ] Criar `getContractStatusLabel`.
-- [ ] Criar `getContractStatusVariant`.
+- [x] Criar `entities/contract/model/rules.ts`
+- [x] Criar `canConfirmShipment` (FORNECEDOR + CRIADO)
+- [x] Criar `canConfirmDelivery` (ENTREGADOR + ENVIADO)
+- [x] Criar `canValidateReceipt` (FISCAL + ENTREGUE)
+- [x] Criar `canAuthorizePayment` (GESTOR + VALIDADO)
+- [x] Criar `canOpenDispute` (GESTOR|FISCAL|FORNECEDOR|ENTREGADOR, exceto PGTO_AUT.)
+- [x] Criar `canSimulateFraud` (GESTOR|FISCAL + documentHash + não PGTO_AUT.)
+- [x] Criar `getNextContractAction` → ContractAction | null
+- [x] Criar `getAvailableContractActions` → ContractAction[]
+- [x] Criar `getBlockedActionReason` → string | null com mensagens amigáveis
+- [x] Criar `getContractProgress` → number
+- [x] Criar `getContractStatusLabel` → string
+- [x] Criar `getContractStatusDescription` → string
+- [x] Criar `getContractStatusVariant` → StatusVariant
+- [x] Criar `isContractInDispute` → boolean
+- [x] Criar `isContractPaymentAuthorized` → boolean
+- [x] Criar `entities/contract/ui/contract-status-badge.tsx`
+- [x] Criar `entities/profile/model/store.ts` (Zustand demo)
+- [x] Criar `entities/profile/ui/role-badge.tsx`
+- [x] Criar `entities/profile/ui/profile-switcher.tsx` (Select + Zustand)
+- [x] Criar `shared/ui/permission-gate.tsx`
+- [x] Criar `app/permissions-showcase.tsx` (client demo interativo)
+- [x] Atualizar `entities/contract/index.ts` (barrel + rules)
+- [x] Atualizar `entities/profile/index.ts` (nota sobre store)
+- [x] Atualizar `app/page.tsx` com seção de Bloco 5
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
+
+### Critérios de aceite
+
+- [x] Nenhum status em inglês é usado como oficial.
+- [x] Nenhuma role em inglês é usada como oficial.
+- [x] Event types seguem SCREAMING_SNAKE_CASE.
+- [x] Os tipos batem com o contrato API.
+- [x] Os componentes usam esses tipos.
+- [x] Zustand store comentada como "não é autenticação real".
+- [x] rules.ts comentada com aviso de segurança.
+- [x] Build limpo.
+
+### Versionamento
+
+- [x] Fazer commit semântico do Bloco 5.
+- [ ] Fazer push da branch após validação.
 
 ### Observação importante
 

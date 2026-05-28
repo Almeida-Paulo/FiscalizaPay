@@ -187,6 +187,27 @@ Modelos de domínio estão em `src/entities/`. Cada entidade exporta seus tipos 
 
 ---
 
+## Regras visuais e permissões
+
+As regras visuais ficam em `entities/contract/model/rules.ts`:
+
+```ts
+canConfirmShipment(contract, profile)  // FORNECEDOR + status CRIADO
+canConfirmDelivery(contract, profile)  // ENTREGADOR + status ENVIADO
+canValidateReceipt(contract, profile)  // FISCAL + status ENTREGUE
+canAuthorizePayment(contract, profile) // GESTOR + status VALIDADO
+canOpenDispute(contract, profile)      // GESTOR|FISCAL|FORNECEDOR|ENTREGADOR
+canSimulateFraud(contract, profile)    // GESTOR|FISCAL + documentHash presente
+getNextContractAction(contract, profile) → ContractAction | null
+getBlockedActionReason(action, contract, profile) → string | null
+```
+
+**Importante:** essas funções são apenas regras visuais. O backend é a fonte definitiva de validação e segurança.
+
+O perfil simulado (`entities/profile/model/store.ts`) existe apenas para demo frontend. Não é autenticação real.
+
+---
+
 ## Próximo bloco
 
-**Bloco 5 — Regras Visuais e Permissões:** `canConfirmShipment`, `canAuthorizePayment`, `ContractStatusBadge`, `RoleBadge`, `PermissionGate`.
+**Bloco 6 — Mocks e API Client:** httpClient, env config, mocks de contratos, eventos, perfis e dashboard.
