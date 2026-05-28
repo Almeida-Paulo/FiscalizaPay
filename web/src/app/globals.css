@@ -1,0 +1,121 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+/* ============================================
+   FiscalizaPay Web3 — Design System
+   Oraculum Design System + TailwindCSS v4
+   ============================================ */
+
+/* --- shadcn/ui CSS variables (dark theme padrão) --- */
+:root {
+  /* Backgrounds — #050816 → oklch equivalente */
+  --background: oklch(0.11 0.03 265);
+  --foreground: oklch(0.97 0.005 250);
+
+  --card: oklch(0.15 0.04 250);
+  --card-foreground: oklch(0.97 0.005 250);
+
+  --popover: oklch(0.15 0.04 250);
+  --popover-foreground: oklch(0.97 0.005 250);
+
+  /* Primary — #22D3EE */
+  --primary: oklch(0.78 0.14 205);
+  --primary-foreground: oklch(0.11 0.03 265);
+
+  /* Secondary / Muted — #1E293B */
+  --secondary: oklch(0.22 0.04 255);
+  --secondary-foreground: oklch(0.97 0.005 250);
+
+  --muted: oklch(0.22 0.04 255);
+  --muted-foreground: oklch(0.67 0.03 245);
+
+  --accent: oklch(0.22 0.04 255);
+  --accent-foreground: oklch(0.97 0.005 250);
+
+  /* Destructive — #EF4444 */
+  --destructive: oklch(0.61 0.21 25);
+
+  /* Borders — #1E293B */
+  --border: oklch(0.27 0.04 255);
+  --input: oklch(0.27 0.04 255);
+  --ring: oklch(0.78 0.14 205);
+
+  --radius: 0.75rem;
+
+  /* Sidebar */
+  --sidebar: oklch(0.13 0.04 258);
+  --sidebar-foreground: oklch(0.97 0.005 250);
+  --sidebar-primary: oklch(0.78 0.14 205);
+  --sidebar-primary-foreground: oklch(0.11 0.03 265);
+  --sidebar-accent: oklch(0.22 0.04 255);
+  --sidebar-accent-foreground: oklch(0.97 0.005 250);
+  --sidebar-border: oklch(0.27 0.04 255);
+  --sidebar-ring: oklch(0.78 0.14 205);
+}
+
+/* --- Tailwind v4 @theme — tokens FiscalizaPay --- */
+@theme inline {
+  /* Mapeamento de CSS vars para utilities Tailwind */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  /* FiscalizaPay tokens diretos */
+  --color-primary-neon: oklch(0.80 0.16 205);  /* #11DFF2 neon */
+  --color-primary-dark: oklch(0.65 0.14 205);  /* #0891B2 hover */
+  --color-success: oklch(0.65 0.18 145);        /* #22C55E */
+  --color-warning: oklch(0.73 0.15 80);         /* #F59E0B */
+  --color-danger: oklch(0.61 0.21 25);          /* #EF4444 */
+  --color-info: oklch(0.60 0.18 255);           /* #3B82F6 */
+
+  /* Tipografia */
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "Cascadia Code", monospace;
+
+  /* Border radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+/* --- Base layer --- */
+@layer base {
+  * {
+    border-color: var(--border);
+    outline-color: var(--ring);
+  }
+
+  html {
+    color-scheme: dark;
+  }
+
+  body {
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
