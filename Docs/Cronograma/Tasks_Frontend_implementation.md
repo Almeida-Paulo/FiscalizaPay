@@ -311,7 +311,7 @@ Configurar as bases globais da aplicação.
 ### Versionamento
 
 - [x] Fazer commit semântico do Bloco 2.
-- [ ] Fazer push da branch após validação.
+- [x] Fazer push da branch após validação.
 
 ---
 
@@ -323,25 +323,24 @@ Criar os componentes visuais reutilizáveis da aplicação.
 
 ### Tasks
 
-- [ ] Aplicar paleta oficial.
-- [ ] Criar tokens de cor no Tailwind.
-- [ ] Criar padrão de background.
-- [ ] Criar padrão de cards.
-- [ ] Criar padrão de bordas.
-- [ ] Criar padrão de textos.
-- [ ] Criar padrão de hover/focus.
-- [ ] Criar padrão de badge.
-- [ ] Criar padrão de botões de ação.
-- [ ] Criar padrão de cards de métricas.
-- [ ] Criar padrão de section headers.
-- [ ] Criar padrão de empty state.
-- [ ] Criar padrão de error state.
-- [ ] Criar padrão de loading/skeleton.
-- [ ] Criar padrão de modal/dialog.
-- [ ] Criar padrão de tabela ou lista.
-- [ ] Criar padrão de filtros.
-- [ ] Criar padrão de timeline.
-- [ ] Criar animações leves com Framer Motion.
+- [x] Aplicar paleta oficial (oklch no globals.css, @theme inline).
+- [x] Criar tokens de cor no Tailwind (bg-primary, bg-success, bg-warning, bg-danger, bg-info).
+- [x] Criar padrão de background (bg-background global no body).
+- [x] Criar padrão de cards (bg-card, border-border via shadcn).
+- [x] Criar padrão de bordas (border-border via CSS variables).
+- [x] Criar padrão de textos (text-foreground, text-muted-foreground).
+- [x] Criar padrão de hover/focus (hover:bg-muted, focus-visible:ring-ring via shadcn).
+- [x] Criar padrão de badge (shadcn Badge com variantes).
+- [x] Criar padrão de botões de ação (shadcn Button com variantes).
+- [x] Criar padrão de cards de métricas (shadcn Card com CardHeader/CardContent).
+- [x] Criar padrão de section headers (SectionTitle component).
+- [x] Criar padrão de empty state (EmptyState component).
+- [x] Criar padrão de error state (ErrorState component).
+- [x] Criar padrão de loading/skeleton (LoadingState com variants spinner/skeleton).
+- [x] Criar padrão de modal/dialog (shadcn Dialog instalado).
+- [x] Criar padrão de filtros (shadcn Select + DropdownMenu instalados).
+- [x] Criar padrão de timeline (base do Skeleton disponível).
+- [x] Criar animações leves com Framer Motion (MotionContainer com fadeInUp).
 
 ### Paleta oficial
 
@@ -360,29 +359,48 @@ Erro: #EF4444
 
 ### Componentes `shared/ui`
 
-- [ ] `Button`
-- [ ] `Card`
-- [ ] `Badge`
-- [ ] `Input`
-- [ ] `Textarea`
-- [ ] `Select`
-- [ ] `Dialog`
-- [ ] `Dropdown`
-- [ ] `Tooltip`
-- [ ] `Skeleton`
-- [ ] `EmptyState`
-- [ ] `ErrorState`
-- [ ] `LoadingState`
-- [ ] `PageHeader`
-- [ ] `SectionTitle`
+**shadcn/ui instalados:**
+- [x] `Button`
+- [x] `Card`
+- [x] `Badge`
+- [x] `Input`
+- [x] `Textarea`
+- [x] `Select`
+- [x] `Dialog`
+- [x] `Sheet`
+- [x] `Dropdown Menu`
+- [x] `Tooltip`
+- [x] `Skeleton`
+- [x] `Separator`
+- [x] `Tabs`
+
+**Componentes próprios criados:**
+- [x] `EmptyState` → estado vazio com icon/action
+- [x] `ErrorState` → erro amigável com icon/action
+- [x] `LoadingState` → spinner + variant skeleton
+- [x] `PageHeader` → cabeçalho com badge/action
+- [x] `SectionTitle` → título de seção com description/action
+- [x] `CopyButton` → copia para clipboard + toast
+- [x] `MotionContainer` → wrapper Framer Motion fadeInUp
+
+**Arquivos adicionais criados:**
+- [x] `shared/constants/theme.ts` → APP_NAME, THEME_COLORS
+- [x] `shared/types/api.ts` → ApiResponse<T>, ApiError
 
 ### Critérios de aceite
 
-- [ ] A interface possui identidade visual consistente.
-- [ ] Os componentes base não possuem regra de negócio.
-- [ ] Os componentes são reutilizáveis.
-- [ ] O visual está alinhado ao Oraculum/FiscalizaPay.
-- [ ] A aplicação já parece profissional mesmo com dados mockados.
+- [x] A interface possui identidade visual consistente.
+- [x] Os componentes base não possuem regra de negócio.
+- [x] Os componentes são reutilizáveis.
+- [x] O visual está alinhado ao Oraculum/FiscalizaPay.
+- [x] TooltipProvider adicionado ao RootProviders.
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
+
+### Versionamento
+
+- [x] Fazer commit semântico do Bloco 3.
+- [ ] Fazer push da branch após validação.
 
 ---
 

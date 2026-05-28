@@ -1,13 +1,182 @@
+import { FileSearch, ShieldCheck } from "lucide-react";
+
+import { Button } from "@/shared/ui/button";
+import { Badge } from "@/shared/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
+import { Skeleton } from "@/shared/ui/skeleton";
+import { Separator } from "@/shared/ui/separator";
+import { EmptyState } from "@/shared/ui/empty-state";
+import { ErrorState } from "@/shared/ui/error-state";
+import { LoadingState } from "@/shared/ui/loading-state";
+import { PageHeader } from "@/shared/ui/page-header";
+import { SectionTitle } from "@/shared/ui/section-title";
+import { CopyButton } from "@/shared/ui/copy-button";
+import { MotionContainer } from "@/shared/ui/motion-container";
+import { APP_NAME, APP_DESCRIPTION } from "@/shared/constants/theme";
+
+/**
+ * Showcase temporário do Design System — Bloco 3
+ * Esta página será substituída pelo dashboard real no Bloco 9.
+ */
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-background text-foreground">
-      <div className="text-center space-y-4">
-        <h1 className="text-2xl font-semibold tracking-tight text-primary">
-          FiscalizaPay Web3
-        </h1>
-        <p className="text-muted-foreground text-sm">
-          Frontend iniciado — Bloco 1 concluído
-        </p>
+    <main className="min-h-screen bg-background px-4 py-8 md:px-8">
+      <div className="mx-auto max-w-4xl space-y-10">
+
+        {/* Cabeçalho */}
+        <MotionContainer>
+          <PageHeader
+            title={APP_NAME}
+            description={APP_DESCRIPTION}
+            badge={<Badge variant="outline">Design System — Bloco 3</Badge>}
+          />
+        </MotionContainer>
+
+        <Separator />
+
+        {/* Botões */}
+        <MotionContainer delay={0.05}>
+          <SectionTitle title="Botões" description="Variantes base do shadcn/ui" />
+          <div className="mt-4 flex flex-wrap gap-3">
+            <Button>Primário</Button>
+            <Button variant="secondary">Secundário</Button>
+            <Button variant="outline">Outline</Button>
+            <Button variant="ghost">Ghost</Button>
+            <Button variant="destructive">Destrutivo</Button>
+          </div>
+        </MotionContainer>
+
+        <Separator />
+
+        {/* Badges */}
+        <MotionContainer delay={0.1}>
+          <SectionTitle title="Badges" description="Status e labels visuais" />
+          <div className="mt-4 flex flex-wrap gap-2">
+            <Badge>Default</Badge>
+            <Badge variant="secondary">Secondary</Badge>
+            <Badge variant="outline">Outline</Badge>
+            <Badge variant="destructive">Destructive</Badge>
+          </div>
+        </MotionContainer>
+
+        <Separator />
+
+        {/* Cards */}
+        <MotionContainer delay={0.15}>
+          <SectionTitle title="Cards" description="Superfícies principais da interface" />
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm">Contratos ativos</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold text-primary">12</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm">Em validação</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold text-warning">4</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-sm">Em disputa</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold text-danger">1</p>
+              </CardContent>
+            </Card>
+          </div>
+        </MotionContainer>
+
+        <Separator />
+
+        {/* Skeleton */}
+        <MotionContainer delay={0.2}>
+          <SectionTitle title="Skeletons" description="Estados de carregamento" />
+          <div className="mt-4 space-y-2">
+            <Skeleton className="h-8 w-1/3" />
+            <Skeleton className="h-4 w-full" />
+            <Skeleton className="h-4 w-5/6" />
+          </div>
+        </MotionContainer>
+
+        <Separator />
+
+        {/* Estados visuais */}
+        <MotionContainer delay={0.25}>
+          <SectionTitle title="Estados visuais" description="Empty, Error e Loading" />
+          <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <Card>
+              <EmptyState
+                title="Sem contratos"
+                description="Crie um contrato para começar."
+                icon={<FileSearch className="h-6 w-6" />}
+              />
+            </Card>
+            <Card>
+              <ErrorState
+                title="Falha ao carregar"
+                description="Verifique sua conexão e tente novamente."
+              />
+            </Card>
+            <Card>
+              <LoadingState label="Carregando contratos..." />
+            </Card>
+          </div>
+        </MotionContainer>
+
+        <Separator />
+
+        {/* CopyButton */}
+        <MotionContainer delay={0.3}>
+          <SectionTitle
+            title="CopyButton"
+            description="Usado em documentHash e transactionHash"
+          />
+          <div className="mt-4 flex items-center gap-2">
+            <code className="rounded bg-muted px-2 py-1 font-mono text-xs text-primary">
+              0xa1b2c3d4e5f6...
+            </code>
+            <CopyButton
+              value="0xa1b2c3d4e5f6789012345678901234567890abcdef"
+              label="Copiar hash"
+            />
+          </div>
+        </MotionContainer>
+
+        <Separator />
+
+        {/* Paleta */}
+        <MotionContainer delay={0.35}>
+          <SectionTitle title="Paleta Oraculum" description="Cores oficiais do Design System" />
+          <div className="mt-4 flex flex-wrap gap-3">
+            {[
+              { label: "Primary", cls: "bg-primary" },
+              { label: "Success", cls: "bg-success" },
+              { label: "Warning", cls: "bg-warning" },
+              { label: "Danger", cls: "bg-danger" },
+              { label: "Info", cls: "bg-info" },
+              { label: "Muted", cls: "bg-muted" },
+            ].map(({ label, cls }) => (
+              <div key={label} className="flex flex-col items-center gap-1">
+                <div className={`h-10 w-10 rounded-lg border border-border ${cls}`} />
+                <span className="text-xs text-muted-foreground">{label}</span>
+              </div>
+            ))}
+          </div>
+        </MotionContainer>
+
+        <div className="pb-8 pt-4">
+          <p className="flex items-center gap-2 text-xs text-muted-foreground">
+            <ShieldCheck className="h-3.5 w-3.5 text-primary" />
+            Design System pronto — próximo bloco: Modelos de domínio
+          </p>
+        </div>
+
       </div>
     </main>
   );

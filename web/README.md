@@ -121,6 +121,50 @@ A configuração Web3 fica em `src/shared/config/web3.ts`:
 
 ---
 
+## Design System
+
+Paleta oficial (Oraculum Design System):
+
+| Token | Hex | Classe Tailwind |
+|---|---|---|
+| Primário | `#22D3EE` | `text-primary`, `bg-primary` |
+| Neon | `#11DFF2` | `text-primary-neon` |
+| Sucesso | `#22C55E` | `text-success`, `bg-success` |
+| Alerta | `#F59E0B` | `text-warning`, `bg-warning` |
+| Erro | `#EF4444` | `text-danger`, `bg-danger` |
+| Background | `#050816` | `bg-background` |
+| Cards | `#0F172A` | `bg-card` |
+
+### Componentes shadcn/ui disponíveis (`shared/ui/`)
+
+```txt
+button, card, badge, input, textarea, select,
+dialog, sheet, dropdown-menu, tooltip, skeleton,
+separator, tabs
+```
+
+### Componentes próprios (`shared/ui/`)
+
+```txt
+EmptyState        → estado vazio com icon/action opcional
+ErrorState        → estado de erro amigável
+LoadingState      → spinner (variant spinner) ou skeleton
+PageHeader        → cabeçalho de página com badge/action
+SectionTitle      → título de seção com description/action
+CopyButton        → copia para clipboard + toast Sonner
+MotionContainer   → wrapper Framer Motion para animações de entrada
+```
+
+### Tipos e constantes
+
+```txt
+shared/constants/theme.ts  → APP_NAME, APP_DESCRIPTION, THEME_COLORS
+shared/types/api.ts        → ApiResponse<T>, ApiError
+shared/lib/utils.ts        → cn() (clsx + tailwind-merge)
+```
+
+---
+
 ## Próximo bloco
 
-**Bloco 3 — Design System e UI Base:** componentes `shared/ui`, tokens visuais, loading/error/empty states, animações base.
+**Bloco 4 — Modelos de Domínio:** ContractStatus, UserRole, ContractEventType, tipos Contract/ContractEvent/Profile, status maps, rules.
