@@ -97,13 +97,13 @@ Permissões principais:
 
 ```text
 Frontend Web
-React + TypeScript + TailwindCSS + shadcn/ui
+Next.js App Router + TypeScript + TailwindCSS + shadcn/ui
         ↓
 Backend API
-Node.js + Express/NestJS + Supabase/PostgreSQL
+Node.js + NestJS (preferencialmente) + Supabase/PostgreSQL
         ↓
 Integração Web3
-Ethers.js
+wagmi + viem + RainbowKit (frontend) / ethers.js ou viem (backend)
         ↓
 Smart Contract
 Solidity + Hardhat + Testnet
@@ -274,17 +274,23 @@ Construção visual do sistema, experiência do usuário, navegação, telas e i
 
 Transformar o FiscalizaPay Web3 em uma aplicação visualmente forte, funcional e apresentável para a demo.
 
-### Stack sugerida
+### Stack oficial
 
-- React
+- Next.js App Router
 - TypeScript
-- Vite
 - TailwindCSS
 - shadcn/ui
+- Framer Motion
+- TanStack Query
+- Zustand
+- React Hook Form
+- Zod
+- wagmi
+- viem
+- RainbowKit
 - Lucide React
-- React Router
-- TanStack Query ou Axios
-- Ethers.js no frontend, se necessário
+
+> **Stack descartada:** React + Vite, React Router e Ethers.js no frontend foram substituídos pela stack oficial acima.
 
 ---
 
@@ -446,12 +452,14 @@ Cada item da timeline deve exibir:
 Eventos esperados:
 
 ```text
-ContratoCriado
-EnvioConfirmado
-EntregaConfirmada
-RecebimentoValidado
-PagamentoAutorizado
-DisputaAberta
+CONTRATO_CRIADO
+ENVIO_CONFIRMADO
+ENTREGA_CONFIRMADA
+RECEBIMENTO_VALIDADO
+PAGAMENTO_AUTORIZADO
+DISPUTA_ABERTA
+FRAUDE_SIMULADA
+HASH_REGISTRADO
 ```
 
 Critérios de aceite:
@@ -556,13 +564,18 @@ supplier_name
 supplier_wallet
 object
 amount
+start_date
+end_date
 deadline
-fiscal_name
-fiscal_wallet
+inspector_name
+inspector_wallet
+logistics_responsible
+logistics_wallet
 manager_name
 manager_wallet
 status
 document_hash
+blockchain_contract_id
 created_at
 updated_at
 ```
@@ -575,13 +588,15 @@ Campos:
 id
 contract_id
 event_type
-actor_role
-actor_wallet
+responsible_role
+responsible_name
+responsible_wallet
 description
-status_from
-status_to
+status_before
+status_after
 document_hash
-tx_hash
+transaction_hash
+blockchain_timestamp
 created_at
 ```
 
@@ -625,13 +640,20 @@ Critérios de aceite:
 
 Endpoints sugeridos:
 
+### Dashboard
+
+```http
+GET /dashboard/summary
+```
+
 ### Contratos
 
 ```http
 GET /contracts
-GET /contracts/:id
 POST /contracts
+GET /contracts/:id
 PATCH /contracts/:id
+DELETE /contracts/:id
 ```
 
 ### Eventos por etapa
@@ -642,6 +664,7 @@ POST /contracts/:id/confirm-delivery
 POST /contracts/:id/validate-receipt
 POST /contracts/:id/authorize-payment
 POST /contracts/:id/open-dispute
+POST /contracts/:id/simulate-fraud
 ```
 
 ### Timeline
@@ -650,10 +673,11 @@ POST /contracts/:id/open-dispute
 GET /contracts/:id/events
 ```
 
-### Dashboard
+### Blockchain
 
 ```http
-GET /dashboard/summary
+GET /contracts/:id/blockchain-status
+POST /contracts/:id/register-on-chain
 ```
 
 Critérios de aceite:
@@ -668,35 +692,36 @@ Critérios de aceite:
 
 ## 3. Regras de status no backend
 
-Enum sugerido:
+Status oficiais (em português):
 
 ```ts
-enum ContractStatus {
-  CREATED = 'CREATED',
-  SHIPMENT_CONFIRMED = 'SHIPMENT_CONFIRMED',
-  DELIVERY_CONFIRMED = 'DELIVERY_CONFIRMED',
-  RECEIPT_VALIDATED = 'RECEIPT_VALIDATED',
-  PAYMENT_AUTHORIZED = 'PAYMENT_AUTHORIZED',
-  DISPUTE = 'DISPUTE'
-}
+export type ContractStatus =
+  | "CRIADO"
+  | "ENVIADO"
+  | "ENTREGUE"
+  | "VALIDADO"
+  | "PAGAMENTO_AUTORIZADO"
+  | "DISPUTA";
 ```
 
 Fluxo permitido:
 
 ```text
-CREATED
-→ SHIPMENT_CONFIRMED
-→ DELIVERY_CONFIRMED
-→ RECEIPT_VALIDATED
-→ PAYMENT_AUTHORIZED
+CRIADO
+→ ENVIADO
+→ ENTREGUE
+→ VALIDADO
+→ PAGAMENTO_AUTORIZADO
 ```
 
 Fluxo alternativo:
 
 ```text
 Qualquer etapa com divergência
-→ DISPUTE
+→ DISPUTA
 ```
+
+> **Status em inglês descartados:** CREATED, SHIPMENT_CONFIRMED, DELIVERY_CONFIRMED, RECEIPT_VALIDATED, PAYMENT_AUTHORIZED e DISPUTE não devem ser usados. Use apenas os status oficiais em português acima.
 
 Critérios de aceite:
 
@@ -1080,20 +1105,25 @@ Só fazer se sobrar tempo.
 
 ## Pessoa 2 — Checklist
 
-- [ ] Criar projeto frontend
-- [ ] Configurar Tailwind
+- [ ] Criar projeto Next.js com App Router e TypeScript
+- [ ] Configurar TailwindCSS
 - [ ] Configurar shadcn/ui
-- [ ] Criar layout base
-- [ ] Criar dashboard
+- [ ] Configurar wagmi + viem + RainbowKit
+- [ ] Configurar TanStack Query e Zustand
+- [ ] Criar estrutura Feature-Sliced Design (app/pages/widgets/features/entities/shared)
+- [ ] Criar mocks isolados em shared/mocks
+- [ ] Criar layout base (sidebar + header)
+- [ ] Criar dashboard com métricas
 - [ ] Criar listagem de contratos
 - [ ] Criar cadastro de contrato
 - [ ] Criar detalhe do contrato
-- [ ] Criar timeline
-- [ ] Criar badges de status
-- [ ] Criar botões por perfil
-- [ ] Integrar com API
-- [ ] Exibir hash e tx hash
+- [ ] Criar timeline auditável
+- [ ] Criar badges de status (CRIADO, ENVIADO, ENTREGUE, VALIDADO, PAGAMENTO_AUTORIZADO, DISPUTA)
+- [ ] Criar painel de ações por perfil/status
+- [ ] Integrar com API real (substituir mocks)
+- [ ] Exibir documentHash e transactionHash
 - [ ] Criar tela/modal de disputa
+- [ ] Criar simulação de fraude por hash
 - [ ] Preparar apresentação visual
 
 ## Pessoa 3 — Checklist
@@ -1159,12 +1189,12 @@ No FiscalizaPay, o pagamento só avança quando existe comprovação, conformida
 fiscalizapay-web3/
 ├── frontend/
 │   ├── src/
-│   │   ├── components/
+│   │   ├── app/
 │   │   ├── pages/
-│   │   ├── services/
-│   │   ├── hooks/
-│   │   ├── types/
-│   │   └── utils/
+│   │   ├── widgets/
+│   │   ├── features/
+│   │   ├── entities/
+│   │   └── shared/
 │   └── README.md
 │
 ├── backend/
