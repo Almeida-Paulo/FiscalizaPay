@@ -165,6 +165,28 @@ shared/lib/utils.ts        → cn() (clsx + tailwind-merge)
 
 ---
 
+## Domínio frontend
+
+Modelos de domínio estão em `src/entities/`. Cada entidade exporta seus tipos e constantes via barrel file `index.ts`.
+
+| Entidade | Tipos principais | Constantes |
+|---|---|---|
+| `entities/contract` | `ContractStatus`, `Contract`, `DashboardSummary`, `BlockchainStatus` | `CONTRACT_STATUS_MAP`, `CONTRACT_STATUS_TRANSITIONS` |
+| `entities/contract-event` | `ContractEventType`, `ContractEvent` | `EVENT_TYPE_MAP`, `ACTION_EVENT_MAP` |
+| `entities/profile` | `UserRole`, `Profile` | `ROLE_LABELS`, `ROLE_VISUAL_MAP` |
+| `entities/wallet` | `WalletInfo`, `WalletNetwork` | `SUPPORTED_NETWORKS`, `OFFICIAL_CHAIN_ID` |
+| `entities/transaction` | `TransactionStatus`, `BlockchainTransaction` | — |
+
+**Status oficiais** (em português, conforme domínio):
+`CRIADO` → `ENVIADO` → `ENTREGUE` → `VALIDADO` → `PAGAMENTO_AUTORIZADO` / `DISPUTA`
+
+**Roles oficiais**: `GESTOR`, `FORNECEDOR`, `ENTREGADOR`, `FISCAL`, `AUDITOR`
+
+**Helpers** em `shared/lib/formatters.ts`:
+`formatCurrencyBRL`, `formatDateBR`, `formatDateTimeBR`, `shortenAddress`, `shortenHash`, `formatCurrencyCompact`
+
+---
+
 ## Próximo bloco
 
-**Bloco 4 — Modelos de Domínio:** ContractStatus, UserRole, ContractEventType, tipos Contract/ContractEvent/Profile, status maps, rules.
+**Bloco 5 — Regras Visuais e Permissões:** `canConfirmShipment`, `canAuthorizePayment`, `ContractStatusBadge`, `RoleBadge`, `PermissionGate`.

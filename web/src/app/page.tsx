@@ -1,4 +1,8 @@
-import { FileSearch, ShieldCheck } from "lucide-react";
+import { FileSearch, ShieldCheck, CheckCircle } from "lucide-react";
+import { CONTRACT_STATUS_MAP } from "@/entities/contract";
+import { ROLE_LABELS } from "@/entities/profile";
+import { EVENT_TYPE_LABELS } from "@/entities/contract-event";
+import { formatCurrencyBRL, shortenAddress } from "@/shared/lib/formatters";
 
 import { Button } from "@/shared/ui/button";
 import { Badge } from "@/shared/ui/badge";
@@ -170,10 +174,71 @@ export default function Home() {
           </div>
         </MotionContainer>
 
+        <Separator />
+
+        {/* Domínio — Status de contratos */}
+        <MotionContainer delay={0.4}>
+          <SectionTitle
+            title="Status do contrato"
+            description="Bloco 4 — Modelos de domínio implementados"
+          />
+          <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
+            {(Object.entries(CONTRACT_STATUS_MAP) as [string, { label: string; description: string; progress: number }][]).map(
+              ([status, info]) => (
+                <Card key={status} className="p-3">
+                  <p className="font-mono text-xs text-muted-foreground">
+                    {status}
+                  </p>
+                  <p className="mt-1 text-sm font-medium">{info.label}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {info.progress}%
+                  </p>
+                </Card>
+              ),
+            )}
+          </div>
+        </MotionContainer>
+
+        <Separator />
+
+        {/* Domínio — Roles e Formatters */}
+        <MotionContainer delay={0.45}>
+          <SectionTitle
+            title="Roles e helpers"
+            description="UserRole labels e formatCurrencyBRL / shortenAddress"
+          />
+          <div className="mt-4 flex flex-wrap gap-2">
+            {Object.values(ROLE_LABELS).map((label) => (
+              <Badge key={label} variant="outline">
+                {label}
+              </Badge>
+            ))}
+          </div>
+          <div className="mt-3 flex flex-col gap-1">
+            <p className="text-sm">
+              <span className="text-muted-foreground">formatCurrencyBRL(150000): </span>
+              <span className="font-mono text-primary">
+                {formatCurrencyBRL(150000)}
+              </span>
+            </p>
+            <p className="text-sm">
+              <span className="text-muted-foreground">shortenAddress: </span>
+              <span className="font-mono text-primary">
+                {shortenAddress("0x742d35Cc6634C0532925a3b8D4C9C35")}
+              </span>
+            </p>
+          </div>
+        </MotionContainer>
+
         <div className="pb-8 pt-4">
           <p className="flex items-center gap-2 text-xs text-muted-foreground">
+            <CheckCircle className="h-3.5 w-3.5 text-success" />
+            Bloco 4 completo — domínio tipado, maps e helpers prontos
+          </p>
+          <p className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-            Design System pronto — próximo bloco: Modelos de domínio
+            {Object.keys(EVENT_TYPE_LABELS).length} event types oficiais
+            definidos
           </p>
         </div>
 

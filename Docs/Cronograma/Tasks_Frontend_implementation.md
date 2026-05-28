@@ -400,7 +400,7 @@ Erro: #EF4444
 ### Versionamento
 
 - [x] Fazer commit semântico do Bloco 3.
-- [ ] Fazer push da branch após validação.
+- [x] Fazer push da branch após validação.
 
 ---
 
@@ -412,18 +412,47 @@ Criar os tipos oficiais do domínio no frontend.
 
 ### Tasks
 
-- [ ] Criar `entities/contract/model/types.ts`.
-- [ ] Criar `entities/contract-event/model/types.ts`.
-- [ ] Criar `entities/profile/model/types.ts`.
-- [ ] Criar `entities/wallet/model/types.ts`.
-- [ ] Criar `entities/transaction/model/types.ts`.
-- [ ] Criar `shared/types/api.ts`.
-- [ ] Criar status oficiais.
-- [ ] Criar roles oficiais.
-- [ ] Criar event types oficiais.
-- [ ] Criar status map visual.
-- [ ] Criar role map visual.
-- [ ] Criar event type map visual.
+- [x] Criar `entities/contract/model/types.ts` → ContractStatus, Contract, DashboardSummary, BlockchainStatus
+- [x] Criar `entities/contract/model/constants.ts` → CONTRACT_STATUS_MAP, CONTRACT_STATUS_TRANSITIONS
+- [x] Criar `entities/contract/index.ts` → barrel export
+- [x] Criar `entities/contract-event/model/types.ts` → ContractEventType, ContractEvent
+- [x] Criar `entities/contract-event/model/constants.ts` → EVENT_TYPE_MAP, ACTION_EVENT_MAP
+- [x] Criar `entities/contract-event/index.ts` → barrel export
+- [x] Criar `entities/profile/model/types.ts` → UserRole, Profile
+- [x] Criar `entities/profile/model/constants.ts` → ROLE_LABELS, ROLE_VISUAL_MAP
+- [x] Criar `entities/profile/index.ts` → barrel export
+- [x] Criar `entities/wallet/model/types.ts` → WalletInfo, WalletNetwork, SUPPORTED_NETWORKS
+- [x] Criar `entities/wallet/index.ts` → barrel export
+- [x] Criar `entities/transaction/model/types.ts` → TransactionStatus, BlockchainTransaction
+- [x] Criar `entities/transaction/index.ts` → barrel export
+- [x] Atualizar `shared/types/api.ts` → ApiErrorCode extraído, PaginatedResponse adicionado
+- [x] Criar `shared/lib/formatters.ts` → formatCurrencyBRL, formatDateBR, shortenAddress, shortenHash, etc.
+- [x] Criar status oficiais em português (CRIADO, ENVIADO, ENTREGUE, VALIDADO, PAGAMENTO_AUTORIZADO, DISPUTA)
+- [x] Criar roles oficiais em português (GESTOR, FORNECEDOR, ENTREGADOR, FISCAL, AUDITOR)
+- [x] Criar event types oficiais (CONTRATO_CRIADO, ENVIO_CONFIRMADO, etc.)
+- [x] Criar status map visual (label, description, variant, progress)
+- [x] Criar role map visual (label, description, actions)
+- [x] Criar event type map visual (label, description, isCritical, isAlert)
+- [x] Atualizar app/page.tsx com seção de domínio (showcase mínimo)
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
+
+### Critérios de aceite
+
+- [x] ContractStatus com valores oficiais em português.
+- [x] UserRole com valores oficiais em português.
+- [x] ContractEventType definido.
+- [x] Contract, ContractEvent, Profile, WalletInfo, BlockchainTransaction definidos.
+- [x] ApiResponse, ApiError, ApiErrorCode, PaginatedResponse definidos.
+- [x] Maps e labels criados.
+- [x] Barrel exports em todos os index.ts.
+- [x] Formatters criados.
+- [x] Showcase atualizado sem virar dashboard.
+
+### Versionamento
+
+- [x] Fazer commit semântico do Bloco 4.
+- [ ] Fazer push da branch após validação.
 
 ### Status oficiais
 
