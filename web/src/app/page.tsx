@@ -1,4 +1,4 @@
-import { FileSearch, ShieldCheck, CheckCircle } from "lucide-react";
+import { FileSearch, ShieldCheck, CheckCircle, Database, Wifi, WifiOff } from "lucide-react";
 import { PermissionsShowcase } from "./permissions-showcase";
 import { ContractStatusBadge } from "@/entities/contract/ui/contract-status-badge";
 import { RoleBadge } from "@/entities/profile/ui/role-badge";
@@ -8,6 +8,9 @@ import { CONTRACT_STATUS_MAP } from "@/entities/contract";
 import { ROLE_LABELS } from "@/entities/profile";
 import { EVENT_TYPE_LABELS } from "@/entities/contract-event";
 import { formatCurrencyBRL, shortenAddress } from "@/shared/lib/formatters";
+import { env } from "@/shared/config/env";
+import { mockContracts } from "@/shared/mocks/contracts.mock";
+import { mockDashboardSummary } from "@/shared/mocks/dashboard.mock";
 
 import { Button } from "@/shared/ui/button";
 import { Badge } from "@/shared/ui/badge";
@@ -24,10 +27,12 @@ import { MotionContainer } from "@/shared/ui/motion-container";
 import { APP_NAME, APP_DESCRIPTION } from "@/shared/constants/theme";
 
 /**
- * Showcase temporário do Design System — Bloco 3
+ * Showcase temporário — Blocos 3–6
  * Esta página será substituída pelo dashboard real no Bloco 9.
  */
 export default function Home() {
+  const isMockMode = env.enableMocks;
+
   return (
     <main className="min-h-screen bg-background px-4 py-8 md:px-8">
       <div className="mx-auto max-w-4xl space-y-10">
@@ -37,8 +42,105 @@ export default function Home() {
           <PageHeader
             title={APP_NAME}
             description={APP_DESCRIPTION}
-            badge={<Badge variant="outline">Design System — Bloco 3</Badge>}
+            badge={<Badge variant="outline">Showcase — Blocos 3–6</Badge>}
           />
+        </MotionContainer>
+
+        <Separator />
+
+        {/* ── BLOCO 6 — API Client e Mocks ────────────────────────────────── */}
+        <MotionContainer delay={0.02}>
+          <SectionTitle
+            title="Bloco 6 — API Client e Mocks"
+            description="Camada de dados pronta para trocar mock por API real sem alterar componentes"
+          />
+
+          {/* Modo mock */}
+          <div className="mt-4 flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-3">
+            {isMockMode ? (
+              <WifiOff className="h-4 w-4 text-warning" />
+            ) : (
+              <Wifi className="h-4 w-4 text-success" />
+            )}
+            <span className="text-sm">
+              Modo:{" "}
+              <span
+                className={
+                  isMockMode ? "font-semibold text-warning" : "font-semibold text-success"
+                }
+              >
+                {isMockMode ? "MOCK ATIVO" : "API REAL"}
+              </span>
+            </span>
+            <Badge variant="outline" className="ml-auto font-mono text-xs">
+              NEXT_PUBLIC_ENABLE_MOCKS={String(isMockMode)}
+            </Badge>
+          </div>
+
+          {/* Dashboard Summary mockado */}
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+            <Card>
+              <CardHeader className="pb-1">
+                <CardTitle className="text-xs text-muted-foreground">Total</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold text-primary">{mockDashboardSummary.total}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-1">
+                <CardTitle className="text-xs text-muted-foreground">Em disputa</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold text-danger">{mockDashboardSummary.disputa}</p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-1">
+                <CardTitle className="text-xs text-muted-foreground">Pgto. autorizado</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold text-success">
+                  {mockDashboardSummary.pagamentoAutorizado}
+                </p>
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader className="pb-1">
+                <CardTitle className="text-xs text-muted-foreground">Criados</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-2xl font-bold text-muted-foreground">
+                  {mockDashboardSummary.criado}
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Lista de contratos mockados */}
+          <div className="mt-4 space-y-2">
+            <p className="text-sm text-muted-foreground">
+              <Database className="mr-1 inline h-3.5 w-3.5" />
+              {mockContracts.length} contratos mockados — cobrindo todos os status oficiais
+            </p>
+            {mockContracts.map((contract) => (
+              <div
+                key={contract.id}
+                className="flex items-center justify-between rounded-lg border border-border bg-card px-4 py-3"
+              >
+                <div className="flex flex-col">
+                  <span className="font-mono text-xs text-muted-foreground">
+                    {contract.contractNumber}
+                  </span>
+                  <span className="text-sm font-medium">{contract.publicAgency}</span>
+                  <span className="text-xs text-muted-foreground">
+                    {formatCurrencyBRL(contract.amount)}
+                  </span>
+                </div>
+                <ContractStatusBadge status={contract.status} />
+              </div>
+            ))}
+          </div>
         </MotionContainer>
 
         <Separator />
@@ -292,11 +394,11 @@ export default function Home() {
         <div className="pb-8 pt-4">
           <p className="flex items-center gap-2 text-xs text-muted-foreground">
             <CheckCircle className="h-3.5 w-3.5 text-success" />
-            Bloco 5 completo — regras visuais, PermissionGate e perfil simulado prontos
+            Bloco 6 completo — env config, HTTP client, services e mocks prontos
           </p>
           <p className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-            {Object.keys(EVENT_TYPE_LABELS).length} event types · backend valida de verdade
+            {Object.keys(EVENT_TYPE_LABELS).length} event types · {mockContracts.length} contratos mockados · backend valida de verdade
           </p>
         </div>
 

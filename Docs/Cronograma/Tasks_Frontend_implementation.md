@@ -576,27 +576,43 @@ Permitir que o frontend funcione antes do backend.
 
 ### Tasks
 
-- [ ] Criar `shared/api/httpClient.ts`.
-- [ ] Criar `shared/config/env.ts`.
-- [ ] Criar `shared/mocks/contracts.mock.ts`.
-- [ ] Criar `shared/mocks/contract-events.mock.ts`.
-- [ ] Criar `shared/mocks/profiles.mock.ts`.
-- [ ] Criar `shared/mocks/dashboard.mock.ts`.
-- [ ] Criar camada que alterna entre mock e API real.
-- [ ] Usar `NEXT_PUBLIC_ENABLE_MOCKS`.
-- [ ] Garantir que mocks sigam o contrato API.
-- [ ] Criar dados mockados completos para demo.
-- [ ] Criar pelo menos 5 contratos mockados.
-- [ ] Criar pelo menos 1 contrato em cada status principal.
-- [ ] Criar pelo menos 1 contrato em disputa.
-- [ ] Criar timeline completa para contrato demo.
+- [x] Criar `shared/api/http-client.ts` (wrapper fetch com GET, POST, PATCH, DELETE).
+- [x] Criar `shared/config/env.ts` (centraliza envs públicas, enableMocks como boolean).
+- [x] Criar `shared/mocks/contracts.mock.ts` (6 contratos — 1 por status oficial).
+- [x] Criar `shared/mocks/contract-events.mock.ts` (timelines coerentes por contrato).
+- [x] Criar `shared/mocks/profiles.mock.ts` (1 perfil por role).
+- [x] Criar `shared/mocks/dashboard.mock.ts` (DashboardSummary derivado dos mocks).
+- [x] Criar `shared/mocks/blockchain.mock.ts` (BlockchainStatus por contrato).
+- [x] Criar `shared/mocks/mock-errors.ts` (helpers para erros tipados).
+- [x] Criar `shared/mocks/index.ts` (barrel).
+- [x] Criar `shared/api/contracts-api.ts` (alterna mock/real via env.enableMocks).
+- [x] Criar `shared/api/dashboard-api.ts`.
+- [x] Criar `shared/api/blockchain-api.ts`.
+- [x] Criar `shared/api/index.ts` (barrel).
+- [x] Criar `shared/config/index.ts` (barrel).
+- [x] Criar `entities/contract/model/api-types.ts` (payload types).
+- [x] Criar camada que alterna entre mock e API real via NEXT_PUBLIC_ENABLE_MOCKS.
+- [x] Garantir que mocks sigam o contrato API (tipos e formato).
+- [x] Criar dados mockados completos para demo.
+- [x] Criar 6 contratos mockados (1 por status oficial).
+- [x] Criar contrato em disputa com timeline de fraude simulada.
+- [x] Criar timeline completa para contrato com PAGAMENTO_AUTORIZADO.
+- [x] Atualizar `app/page.tsx` com showcase do Bloco 6.
+- [x] Atualizar `web/README.md` com seção Mocks e API Client.
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
 
 ### Critérios de aceite
 
-- [ ] Com backend desligado, o frontend funciona.
-- [ ] Os mocks usam os mesmos tipos da API.
-- [ ] Alternar mock/API não exige mexer nos componentes.
-- [ ] Dados mockados contam uma história boa para apresentação.
+- [x] Com backend desligado, o frontend funciona.
+- [x] Os mocks usam os mesmos tipos da API.
+- [x] Alternar mock/API não exige mexer nos componentes.
+- [x] Dados mockados contam uma história boa para apresentação.
+
+### Versionamento
+
+- [ ] Fazer commit semântico do Bloco 6.
+- [ ] Fazer push da branch após validação.
 
 ---
 

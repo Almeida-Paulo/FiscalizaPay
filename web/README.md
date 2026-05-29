@@ -208,6 +208,52 @@ O perfil simulado (`entities/profile/model/store.ts`) existe apenas para demo fr
 
 ---
 
+## Mocks e API Client
+
+- `NEXT_PUBLIC_ENABLE_MOCKS=true` ativa dados mockados; `false` usa a API real
+- `shared/api/` concentra todos os services (contracts-api, dashboard-api, blockchain-api)
+- `shared/mocks/` concentra todos os dados mockados de demo
+- `shared/config/env.ts` centraliza a leitura das variáveis de ambiente públicas
+- Componentes **não** devem chamar `fetch` diretamente — sempre via services em `shared/api/`
+
+### Services disponíveis
+
+```ts
+// Contratos
+getContracts()
+getContractById(id)
+createContract(payload)
+updateContract(id, payload)
+deleteContract(id)
+getContractEvents(id)
+confirmShipment(id, payload?)
+confirmDelivery(id, payload?)
+validateReceipt(id, payload?)
+authorizePayment(id, payload?)
+openDispute(id, payload)
+simulateFraud(id, payload)
+
+// Dashboard
+getDashboardSummary()
+
+// Blockchain
+getBlockchainStatus(id)
+registerOnChain(id)
+```
+
+### Mocks disponíveis
+
+```txt
+shared/mocks/contracts.mock.ts       → 6 contratos (1 por status oficial)
+shared/mocks/contract-events.mock.ts → timelines coerentes por contrato
+shared/mocks/profiles.mock.ts        → 5 perfis (1 por role)
+shared/mocks/dashboard.mock.ts       → DashboardSummary derivado dos contratos
+shared/mocks/blockchain.mock.ts      → BlockchainStatus por contrato
+shared/mocks/mock-errors.ts          → helpers para simular erros tipados
+```
+
+---
+
 ## Próximo bloco
 
-**Bloco 6 — Mocks e API Client:** httpClient, env config, mocks de contratos, eventos, perfis e dashboard.
+**Bloco 7 — TanStack Query e hooks de dados:** useDashboardSummary, useContracts, useContractById, useContractEvents, useBlockchainStatus, mutations e invalidações.
