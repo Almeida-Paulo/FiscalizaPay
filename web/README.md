@@ -325,6 +325,7 @@ getPageMeta(pathname: string): { title: string; description: string }
 | `/dashboard` | Dashboard (Bloco 9 implementará métricas) |
 | `/contracts` | Listagem de contratos (Bloco 10) |
 | `/contracts/new` | Cadastro de contrato (Bloco 11) |
+| `/contracts/[id]` | Detalhe do contrato (Bloco 12) |
 | `/disputes` | Disputas (Bloco 11) |
 | `/audit` | Auditoria (Bloco 12) |
 
@@ -399,6 +400,38 @@ Após criação bem-sucedida: `toast.success` (via `useCreateContract`) + redire
 
 ---
 
+## Detalhe do contrato
+
+A página `/contracts/[id]` é implementada com a arquitetura:
+
+```txt
+app/contracts/[id]/page.tsx                              → Server Component (await params → passa id)
+app/contracts/[id]/_components/contract-detail-page.tsx  → Client Component (3 hooks + layout)
+app/contracts/[id]/_components/contract-overview-card.tsx    → Status, progresso, valor, prazo
+app/contracts/[id]/_components/contract-parties-card.tsx     → Gestor, Fornecedor, Fiscal, Logística
+app/contracts/[id]/_components/contract-hashes-card.tsx      → documentHash, blockchainContractId, transactionHash
+app/contracts/[id]/_components/contract-blockchain-card.tsx  → Status on-chain, explorer link
+app/contracts/[id]/_components/contract-next-action-card.tsx → Próxima ação por perfil (useProfileStore)
+app/contracts/[id]/_components/contract-events-preview.tsx   → Últimos 3 eventos
+app/contracts/[id]/_components/contract-dispute-alert.tsx    → Alerta de disputa
+```
+
+Hooks usados:
+- `useContractById(id)` — dados do contrato
+- `useContractEvents(id)` — eventos (loading skeleton isolado)
+- `useBlockchainStatus(id)` — status on-chain (loading skeleton isolado)
+
+Estados:
+- Loading: skeleton de toda a página
+- Error: ErrorState com botão voltar
+- Not found: EmptyState com botão voltar
+- Disputa: alerta de destaque vermelho
+
+Timeline completa será implementada no **Bloco 13**.
+Painel de ações será implementado no **Bloco 14**.
+
+---
+
 ## Próximo bloco
 
-**Bloco 12 — Detalhe do contrato:** página `/contracts/:id` com timeline de eventos, ações de status, integração blockchain.
+**Bloco 13 — Timeline auditável:** ContractTimeline, ContractEventCard, ícones por event type, status before/after, hashes, transações.

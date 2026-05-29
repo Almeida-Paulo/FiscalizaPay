@@ -910,30 +910,49 @@ Criar a tela mais importante da demo.
 
 ### Tasks
 
-- [ ] Criar `pages/contracts/[id]`.
-- [ ] Criar resumo principal do contrato.
-- [ ] Criar status atual em destaque.
-- [ ] Criar próxima ação sugerida.
-- [ ] Criar dados das partes envolvidas.
-- [ ] Criar seção de valor/prazo.
-- [ ] Criar painel de ações.
-- [ ] Criar timeline auditável.
-- [ ] Criar área de hashes.
-- [ ] Criar área de transactionHash.
-- [ ] Criar link para explorer.
-- [ ] Criar alerta se estiver em disputa.
-- [ ] Criar loading state.
-- [ ] Criar error state.
-- [ ] Criar not found state.
+- [x] Criar `app/contracts/[id]/page.tsx` (Server Component, await params, passa id para Client).
+- [x] Criar `app/contracts/[id]/_components/contract-detail-page.tsx` (Client Component, 3 hooks).
+- [x] Criar `ContractOverviewCard` — resumo principal, progresso visual, valor, prazo.
+- [x] Criar `ContractPartiesCard` — gestor, fornecedor, fiscal, logística com wallets.
+- [x] Criar `ContractHashesCard` — documentHash, blockchainContractId, transactionHash.
+- [x] Criar `ContractBlockchainCard` — status on-chain, explorer link, blockNumber, timestamp.
+- [x] Criar `ContractNextActionCard` — próxima ação por perfil via `getNextContractAction`.
+- [x] Criar `ContractEventsPreview` — últimos 3 eventos com CTA "Timeline completa no Bloco 13".
+- [x] Criar `ContractDisputeAlert` — alerta de disputa com pagamento bloqueado.
+- [x] Usar `useContractById(id)`.
+- [x] Usar `useContractEvents(id)`.
+- [x] Usar `useBlockchainStatus(id)`.
+- [x] Criar status atual em destaque no `PageHeader` (badge).
+- [x] Criar área de hashes com `CopyButton` e `shortenHash`.
+- [x] Criar link para explorer (`env.explorerUrl/tx/:hash`).
+- [x] Criar alerta se estiver em DISPUTA.
+- [x] Criar loading state (skeleton da página inteira).
+- [x] Criar error state (`ErrorState` com botão voltar).
+- [x] Criar not found state (`EmptyState` com botão voltar para /contracts).
+- [x] Atualizar `web/README.md` com seção "Detalhe do contrato".
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
+
+### Limites do bloco (intencional)
+
+- [ ] Timeline auditável completa → Bloco 13
+- [ ] Painel de ações final → Bloco 14
+- [ ] Modal de disputa → Bloco 14
+- [ ] Simulação de fraude → Bloco 14
 
 ### Critérios de aceite
 
-- [ ] Usuário entende rapidamente o status do contrato.
-- [ ] Usuário entende qual é a próxima etapa.
-- [ ] Ações são exibidas conforme status/perfil.
-- [ ] Timeline aparece na mesma tela.
-- [ ] Hash/tx hash ficam visíveis.
-- [ ] Tela é convincente para apresentação.
+- [x] Usuário entende rapidamente o status do contrato.
+- [x] Usuário entende qual é a próxima etapa (por perfil via `useProfileStore`).
+- [x] Ações são exibidas conforme status/perfil (próxima ação ou motivo de bloqueio).
+- [x] Eventos recentes aparecem na mesma tela.
+- [x] Hash/tx hash ficam visíveis com CopyButton.
+- [x] Tela é convincente para apresentação.
+
+### Versionamento
+
+- [x] Fazer commit semântico do Bloco 12.
+- [x] Fazer push da branch após validação.
 
 ---
 
