@@ -292,6 +292,49 @@ Todas as mutations:
 
 ---
 
+## Layout principal
+
+A estrutura visual é composta por três widgets em `src/widgets/`:
+
+```txt
+AppShell       → layout raiz (sidebar + header + conteúdo + mobile sheet)
+AppSidebar     → navegação lateral com active state e ícones
+AppHeader      → título da página, ProfileSwitcher, status da wallet, hamburger mobile
+```
+
+### Navegação
+
+```ts
+// shared/constants/navigation.ts
+NAVIGATION_ITEMS  → lista de { title, href, icon } para o sidebar
+```
+
+### Helper de página
+
+```ts
+// shared/lib/page-meta.ts
+getPageMeta(pathname: string): { title: string; description: string }
+// usado pelo AppHeader para exibir o título correto por rota
+```
+
+### Rotas disponíveis
+
+| Rota | Página |
+|---|---|
+| `/` | Landing (entrada da app) |
+| `/dashboard` | Dashboard (Bloco 9 implementará métricas) |
+| `/contracts` | Listagem de contratos (Bloco 10) |
+| `/contracts/new` | Novo contrato (Bloco 10) |
+| `/disputes` | Disputas (Bloco 11) |
+| `/audit` | Auditoria (Bloco 12) |
+
+### Responsividade
+
+- **Desktop (≥ md):** sidebar fixa à esquerda (240px), conteúdo ocupa o restante
+- **Mobile (< md):** sidebar oculta, acessível via Sheet (drawer) ativado pelo botão hamburger no header
+
+---
+
 ## Próximo bloco
 
-**Bloco 8 — Formulários e features de UI:** CreateContractForm, contract detail page, timeline de eventos, formulários de ação com React Hook Form + Zod.
+**Bloco 9 — Dashboard:** métricas reais via `useDashboardSummary`, contratos recentes, alertas de status.

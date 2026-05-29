@@ -689,36 +689,50 @@ Criar a estrutura visual base da aplicação.
 
 ### Tasks
 
-- [ ] Criar `widgets/app-sidebar`.
-- [ ] Criar `widgets/app-header`.
-- [ ] Criar navegação principal.
-- [ ] Criar área principal de conteúdo.
-- [ ] Criar menu mobile com Sheet.
-- [ ] Criar indicador de wallet no header.
-- [ ] Criar seletor visual de perfil mockado, se necessário para demo.
-- [ ] Criar breadcrumbs ou título contextual.
-- [ ] Criar layout responsivo.
-- [ ] Criar estados ativos de navegação.
+- [x] Criar `widgets/app-sidebar` (ICON_MAP, active state, footer).
+- [x] Criar `widgets/app-header` (título contextual, ProfileSwitcher compact, wallet status, hamburger mobile).
+- [x] Criar `widgets/app-shell` (sidebar + header + conteúdo + Sheet mobile).
+- [x] Criar `shared/constants/navigation.ts` (NAVIGATION_ITEMS).
+- [x] Criar `shared/lib/page-meta.ts` (getPageMeta).
+- [x] Criar navegação principal com active state por rota.
+- [x] Criar área principal de conteúdo (main overflow-y-auto).
+- [x] Criar menu mobile com Sheet (side="left", fecha ao clicar item).
+- [x] Criar indicador de wallet no header (wagmi useAccount, badge Conectado/Desconectado).
+- [x] Criar seletor visual de perfil (ProfileSwitcher compact no header).
+- [x] Criar título contextual via getPageMeta(pathname).
+- [x] Criar layout responsivo (sidebar hidden md:flex, Sheet no mobile).
+- [x] Criar estados ativos de navegação (dot indicator, bg-primary/10).
+- [x] Criar páginas placeholder: /dashboard, /contracts, /contracts/new, /disputes, /audit.
+- [x] Atualizar `app/layout.tsx` com AppShell e body h-full.
+- [x] Simplificar `app/page.tsx` para landing page com botões de acesso.
+- [x] Atualizar `web/README.md` com seção Layout principal.
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
 
 ### Rotas mínimas
 
 ```txt
-/
- /dashboard
- /contracts
- /contracts/new
- /contracts/[id]
- /disputes
- /audit
+/           → Landing page
+/dashboard  → Placeholder (Bloco 9)
+/contracts  → Placeholder (Bloco 10)
+/contracts/new → Placeholder (Bloco 10)
+/disputes   → Placeholder (Bloco 11)
+/audit      → Placeholder (Bloco 12)
 ```
 
 ### Critérios de aceite
 
-- [ ] Sidebar funciona no desktop.
-- [ ] Menu mobile funciona.
-- [ ] Header exibe contexto atual.
-- [ ] Wallet status aparece no layout.
-- [ ] Navegação é clara.
+- [x] Sidebar funciona no desktop.
+- [x] Menu mobile funciona (Sheet drawer).
+- [x] Header exibe título contextual por rota.
+- [x] Wallet status aparece no header.
+- [x] Navegação é clara com active state visual.
+- [x] ProfileSwitcher disponível no header.
+
+### Versionamento
+
+- [x] Fazer commit semântico do Bloco 8.
+- [x] Fazer push da branch após validação.
 
 ---
 
