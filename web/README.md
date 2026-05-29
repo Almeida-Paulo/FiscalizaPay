@@ -250,10 +250,48 @@ shared/mocks/profiles.mock.ts        → 5 perfis (1 por role)
 shared/mocks/dashboard.mock.ts       → DashboardSummary derivado dos contratos
 shared/mocks/blockchain.mock.ts      → BlockchainStatus por contrato
 shared/mocks/mock-errors.ts          → helpers para simular erros tipados
+shared/mocks/mock-store.ts           → estado em memória mutável (persiste entre queries)
 ```
+
+---
+
+## Data Fetching — TanStack Query
+
+Hooks em `entities/*/api/`. Todos os hooks são "use client" e usam `queryKeys` de `shared/api/query-keys.ts`.
+
+### Query hooks
+
+```ts
+useDashboardSummary()             // entities/contract/api/
+useContracts(status?)             // entities/contract/api/
+useContractById(contractId)       // entities/contract/api/
+useContractEvents(contractId)     // entities/contract-event/api/
+useBlockchainStatus(contractId)   // entities/transaction/api/
+```
+
+### Mutation hooks
+
+```ts
+// entities/contract/api/
+useCreateContract()
+useConfirmShipment()   // variables: { contractId, payload? }
+useConfirmDelivery()   // variables: { contractId, payload? }
+useValidateReceipt()   // variables: { contractId, payload? }
+useAuthorizePayment()  // variables: { contractId, payload? }
+useOpenDispute()       // variables: { contractId, payload }
+useSimulateFraud()     // variables: { contractId, payload }
+
+// entities/transaction/api/
+useRegisterOnChain()   // variables: contractId (string)
+```
+
+Todas as mutations:
+- Invalidam as queries afetadas após sucesso
+- Exibem `toast.success` em sucesso e `toast.error` em falha
+- Em mock mode, persistem o estado via `mockStore` — o re-fetch do TanStack Query mostra o dado atualizado
 
 ---
 
 ## Próximo bloco
 
-**Bloco 7 — TanStack Query e hooks de dados:** useDashboardSummary, useContracts, useContractById, useContractEvents, useBlockchainStatus, mutations e invalidações.
+**Bloco 8 — Formulários e features de UI:** CreateContractForm, contract detail page, timeline de eventos, formulários de ação com React Hook Form + Zod.

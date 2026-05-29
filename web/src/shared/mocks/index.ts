@@ -8,3 +8,4 @@ export {
   buildExplorerTxUrl,
 } from "./blockchain.mock";
 export { MockErrors } from "./mock-errors";
+export { mockStore } from "./mock-store";

@@ -1,5 +1,6 @@
 import { FileSearch, ShieldCheck, CheckCircle, Database, Wifi, WifiOff } from "lucide-react";
 import { PermissionsShowcase } from "./permissions-showcase";
+import { QueryShowcase } from "./query-showcase";
 import { ContractStatusBadge } from "@/entities/contract/ui/contract-status-badge";
 import { RoleBadge } from "@/entities/profile/ui/role-badge";
 import type { ContractStatus } from "@/entities/contract";
@@ -27,7 +28,7 @@ import { MotionContainer } from "@/shared/ui/motion-container";
 import { APP_NAME, APP_DESCRIPTION } from "@/shared/constants/theme";
 
 /**
- * Showcase temporário — Blocos 3–6
+ * Showcase temporário — Blocos 3–7
  * Esta página será substituída pelo dashboard real no Bloco 9.
  */
 export default function Home() {
@@ -42,8 +43,21 @@ export default function Home() {
           <PageHeader
             title={APP_NAME}
             description={APP_DESCRIPTION}
-            badge={<Badge variant="outline">Showcase — Blocos 3–6</Badge>}
+            badge={<Badge variant="outline">Showcase — Blocos 3–7</Badge>}
           />
+        </MotionContainer>
+
+        <Separator />
+
+        {/* ── BLOCO 7 — TanStack Query e Hooks de Dados ───────────────────── */}
+        <MotionContainer delay={0.01}>
+          <SectionTitle
+            title="Bloco 7 — TanStack Query e Hooks de Dados"
+            description="Hooks reativos com persistência em memória — mude o status e o dashboard atualiza"
+          />
+          <div className="mt-4">
+            <QueryShowcase />
+          </div>
         </MotionContainer>
 
         <Separator />
@@ -394,7 +408,7 @@ export default function Home() {
         <div className="pb-8 pt-4">
           <p className="flex items-center gap-2 text-xs text-muted-foreground">
             <CheckCircle className="h-3.5 w-3.5 text-success" />
-            Bloco 6 completo — env config, HTTP client, services e mocks prontos
+            Blocos 6–7 completos — API client, mocks, TanStack Query hooks e mutations prontos
           </p>
           <p className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
             <ShieldCheck className="h-3.5 w-3.5 text-primary" />

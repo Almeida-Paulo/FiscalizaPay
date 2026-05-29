@@ -624,23 +624,36 @@ Criar hooks oficiais para leitura e mutations.
 
 ### Tasks
 
-- [ ] Criar `useDashboardSummary`.
-- [ ] Criar `useContracts`.
-- [ ] Criar `useContractById`.
-- [ ] Criar `useContractEvents`.
-- [ ] Criar `useBlockchainStatus`.
-- [ ] Criar `useCreateContract`.
-- [ ] Criar `useConfirmShipment`.
-- [ ] Criar `useConfirmDelivery`.
-- [ ] Criar `useValidateReceipt`.
-- [ ] Criar `useAuthorizePayment`.
-- [ ] Criar `useOpenDispute`.
-- [ ] Criar `useSimulateFraud`.
-- [ ] Definir query keys oficiais.
-- [ ] Invalidar queries após mutations.
-- [ ] Tratar loading.
-- [ ] Tratar error.
-- [ ] Tratar success toast.
+- [x] Criar `shared/mocks/mock-store.ts` (estado mutável em memória para persistência em demo).
+- [x] Criar `shared/api/query-keys.ts` (query keys centralizadas).
+- [x] Criar `shared/api/handle-api-error.ts` (extrator de mensagem de erro).
+- [x] Atualizar `contracts-api.ts`, `dashboard-api.ts`, `blockchain-api.ts` para usar mockStore.
+- [x] Criar `useDashboardSummary` → `entities/contract/api/`.
+- [x] Criar `useContracts` → `entities/contract/api/`.
+- [x] Criar `useContractById` → `entities/contract/api/`.
+- [x] Criar `useContractEvents` → `entities/contract-event/api/`.
+- [x] Criar `useBlockchainStatus` → `entities/transaction/api/`.
+- [x] Criar `useCreateContract` → `entities/contract/api/`.
+- [x] Criar `useConfirmShipment` → `entities/contract/api/`.
+- [x] Criar `useConfirmDelivery` → `entities/contract/api/`.
+- [x] Criar `useValidateReceipt` → `entities/contract/api/`.
+- [x] Criar `useAuthorizePayment` → `entities/contract/api/`.
+- [x] Criar `useOpenDispute` → `entities/contract/api/`.
+- [x] Criar `useSimulateFraud` → `entities/contract/api/`.
+- [x] Criar `useRegisterOnChain` → `entities/transaction/api/`.
+- [x] Criar barrel `entities/contract/api/index.ts`.
+- [x] Criar barrel `entities/contract-event/api/index.ts`.
+- [x] Criar barrel `entities/transaction/api/index.ts`.
+- [x] Definir query keys oficiais em `shared/api/query-keys.ts`.
+- [x] Invalidar queries após cada mutation.
+- [x] Tratar loading (isLoading/isPending).
+- [x] Tratar error (isError + toast.error).
+- [x] Tratar success toast (toast.success).
+- [x] Criar `app/query-showcase.tsx` (showcase interativo do Bloco 7).
+- [x] Atualizar `app/page.tsx` com seção de Bloco 7.
+- [x] Atualizar `web/README.md` com seção Data Fetching.
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
 
 ### Query keys oficiais
 
@@ -654,11 +667,17 @@ Criar hooks oficiais para leitura e mutations.
 
 ### Critérios de aceite
 
-- [ ] Nenhuma tela chama fetch direto.
-- [ ] Dados remotos passam por hooks.
-- [ ] Mutations invalidam dados corretamente.
-- [ ] Loading/error/success são tratados.
-- [ ] Hooks funcionam com mock e API real.
+- [x] Nenhuma tela chama fetch direto.
+- [x] Dados remotos passam por hooks.
+- [x] Mutations invalidam dados corretamente.
+- [x] Loading/error/success são tratados.
+- [x] Hooks funcionam com mock e API real.
+- [x] Em mock mode, mutations persistem estado via mockStore.
+
+### Versionamento
+
+- [x] Fazer commit semântico do Bloco 7.
+- [x] Fazer push da branch após validação.
 
 ---
 

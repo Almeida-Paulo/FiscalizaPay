@@ -1,6 +1,9 @@
 export { httpClient, HttpClientError } from "./http-client";
 export type { ApiResponse, ApiError } from "./http-client";
 
+export { queryKeys } from "./query-keys";
+export { getApiErrorMessage } from "./handle-api-error";
+
 export {
   getContracts,
   getContractById,
