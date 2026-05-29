@@ -744,38 +744,54 @@ Criar a tela inicial do sistema.
 
 ### Tasks
 
-- [ ] Criar `pages/dashboard`.
-- [ ] Criar widget `dashboard-metrics`.
-- [ ] Criar cards de métrica.
-- [ ] Criar listagem de contratos recentes.
-- [ ] Criar indicador de progresso geral.
-- [ ] Criar cards por status.
-- [ ] Criar seção de alertas.
-- [ ] Criar link rápido para novo contrato.
-- [ ] Criar link para contratos em disputa.
-- [ ] Criar loading state.
-- [ ] Criar empty state.
-- [ ] Criar error state.
+- [x] Criar `app/dashboard/page.tsx` (Server Component composto por widgets).
+- [x] Criar `widgets/dashboard-metrics/ui/dashboard-metric-card.tsx` (card presentacional com loading skeleton).
+- [x] Criar `widgets/dashboard-metrics/ui/dashboard-metrics.tsx` (grid 2-3-4 colunas, `useDashboardSummary` + `useContracts`).
+- [x] Criar `widgets/dashboard-metrics/index.ts` (barrel).
+- [x] Criar `widgets/dashboard-status-overview/ui/dashboard-status-overview.tsx` (barras por status, `useDashboardSummary`).
+- [x] Criar `widgets/dashboard-status-overview/index.ts` (barrel).
+- [x] Criar `widgets/dashboard-recent-contracts/ui/dashboard-recent-contracts.tsx` (5 contratos recentes, `useContracts`, link `/contracts/:id`).
+- [x] Criar `widgets/dashboard-recent-contracts/index.ts` (barrel).
+- [x] Criar `widgets/dashboard-alerts/ui/dashboard-alerts.tsx` (disputas em destaque, CTA `/disputes`).
+- [x] Criar `widgets/dashboard-alerts/index.ts` (barrel).
+- [x] Criar cards de métrica (total, criado, enviado, entregue, validado, pgto. autorizado, disputa, valor total).
+- [x] Criar listagem de contratos recentes (5 mais recentes por updatedAt).
+- [x] Criar resumo por status com barra de progresso visual.
+- [x] Criar seção de alertas com estado positivo quando sem disputas.
+- [x] Criar link rápido para novo contrato (botão no PageHeader).
+- [x] Criar link para contratos em disputa (botão no DashboardAlerts).
+- [x] Criar loading state (skeleton por widget).
+- [x] Criar empty state (EmptyState em DashboardRecentContracts quando lista vazia).
+- [x] Criar error state (ErrorState/mensagem em cada widget).
+- [x] Atualizar `web/README.md` com seção Dashboard.
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
 
-### Métricas mínimas
+### Métricas implementadas
 
 ```txt
-Total de contratos
-Contratos criados
-Aguardando envio
-Aguardando entrega
-Aguardando fiscalização
-Pagamentos autorizados
-Contratos em disputa
+Total de contratos        → summary.total
+Criados                   → summary.criado
+Enviados                  → summary.enviado
+Entregues                 → summary.entregue
+Validados                 → summary.validado
+Pagamentos autorizados    → summary.pagamentoAutorizado
+Em disputa                → summary.disputa
+Valor total fiscalizado   → soma dos amounts via useContracts()
 ```
 
 ### Critérios de aceite
 
-- [ ] Dashboard funciona com mocks.
-- [ ] Cards possuem visual forte.
-- [ ] Métricas batem com dados mockados.
-- [ ] Usuário consegue navegar para contrato.
-- [ ] Dashboard fica bom para print/demo.
+- [x] Dashboard funciona com mocks.
+- [x] Cards possuem visual forte (variantes de cor por tipo).
+- [x] Métricas batem com dados mockados.
+- [x] Usuário consegue navegar para contrato (link em cada item recente).
+- [x] Dashboard fica bom para print/demo.
+
+### Versionamento
+
+- [x] Fazer commit semântico do Bloco 9.
+- [x] Fazer push da branch após validação.
 
 ---
 

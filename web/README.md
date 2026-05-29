@@ -335,6 +335,24 @@ getPageMeta(pathname: string): { title: string; description: string }
 
 ---
 
+## Dashboard
+
+O dashboard (`/dashboard`) é implementado com widgets independentes em `src/widgets/`:
+
+| Widget | Arquivo | Hooks usados |
+|---|---|---|
+| `DashboardMetrics` | `widgets/dashboard-metrics/` | `useDashboardSummary`, `useContracts` |
+| `DashboardMetricCard` | `widgets/dashboard-metrics/` | — (presentational) |
+| `DashboardStatusOverview` | `widgets/dashboard-status-overview/` | `useDashboardSummary` |
+| `DashboardRecentContracts` | `widgets/dashboard-recent-contracts/` | `useContracts` |
+| `DashboardAlerts` | `widgets/dashboard-alerts/` | `useContracts` |
+
+Métricas exibidas: total, criados, enviados, entregues, validados, pagamentos autorizados, em disputa, valor total fiscalizado.
+
+Cada widget é um Client Component com loading/error/empty state próprio. A página `/dashboard` é um Server Component que os compõe.
+
+---
+
 ## Próximo bloco
 
-**Bloco 9 — Dashboard:** métricas reais via `useDashboardSummary`, contratos recentes, alertas de status.
+**Bloco 10 — Listagem de contratos:** `useContracts(status?)` com filtros, `ContractCard`, busca, ordenação.
