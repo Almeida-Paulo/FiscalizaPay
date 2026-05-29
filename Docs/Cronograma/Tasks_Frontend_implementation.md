@@ -611,8 +611,8 @@ Permitir que o frontend funcione antes do backend.
 
 ### Versionamento
 
-- [ ] Fazer commit semântico do Bloco 6.
-- [ ] Fazer push da branch após validação.
+- [x] Fazer commit semântico do Bloco 6. (hash: 1921a57)
+- [x] Fazer push da branch após validação.
 
 ---
 
