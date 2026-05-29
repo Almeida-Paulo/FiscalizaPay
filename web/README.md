@@ -353,6 +353,28 @@ Cada widget é um Client Component com loading/error/empty state próprio. A pá
 
 ---
 
+## Listagem de contratos
+
+A página `/contracts` é implementada com a arquitetura:
+
+```txt
+app/contracts/page.tsx         → Server Component (delegação)
+pages/contracts/ui/contracts-page.tsx  → Client Component (estado + useContracts)
+widgets/contracts-filters/     → Filtros (busca, status, órgão, ordenação)
+widgets/contracts-list/        → Grade de ContractCard com estados de interface
+widgets/contracts-summary-bar/ → Contadores e valor total filtrado
+entities/contract/ui/contract-card.tsx    → Card de contrato (link para /contracts/:id)
+entities/contract/ui/contract-amount.tsx  → Exibição de valor monetário reutilizável
+```
+
+Filtros disponíveis:
+- Busca por `contractNumber`, `supplierName`, `publicAgency`, `object`
+- Filtro por status (CRIADO, ENVIADO, ENTREGUE, VALIDADO, PAGAMENTO_AUTORIZADO, DISPUTA)
+- Filtro por órgão público (derivado dinamicamente dos dados)
+- Ordenação: mais recentes, mais antigos, maior valor, menor valor
+
+---
+
 ## Próximo bloco
 
-**Bloco 10 — Listagem de contratos:** `useContracts(status?)` com filtros, `ContractCard`, busca, ordenação.
+**Bloco 11 — Cadastro de contrato:** `useCreateContract`, formulário com React Hook Form + Zod, redirecionamento após criação.

@@ -803,28 +803,40 @@ Criar tela para visualizar e filtrar contratos.
 
 ### Tasks
 
-- [ ] Criar `pages/contracts`.
-- [ ] Criar `entities/contract/ui/ContractCard`.
-- [ ] Criar `entities/contract/ui/ContractStatusBadge`.
-- [ ] Criar `entities/contract/ui/ContractAmount`.
-- [ ] Criar busca por número/fornecedor.
-- [ ] Criar filtro por status.
-- [ ] Criar filtro por órgão público.
-- [ ] Criar ordenação por atualização.
-- [ ] Criar botão para visualizar detalhe.
-- [ ] Criar botão para novo contrato.
-- [ ] Criar loading state.
-- [ ] Criar empty state.
-- [ ] Criar error state.
-- [ ] Criar versão responsiva.
+- [x] Criar `pages/contracts/ui/contracts-page.tsx` (Client Component com estado e `useContracts`).
+- [x] Criar `entities/contract/ui/contract-card.tsx` (card completo com link, status badge, valor, prazo).
+- [x] Criar `entities/contract/ui/contract-amount.tsx` (componente de valor monetário reutilizável).
+- [x] Criar `widgets/contracts-filters/` (busca, filtro status, filtro órgão, ordenação, limpar).
+- [x] Criar `widgets/contracts-list/` (grid de ContractCard, empty state geral e de filtro).
+- [x] Criar `widgets/contracts-summary-bar/` (total, disputas, autorizados, valor total).
+- [x] Atualizar `app/contracts/page.tsx` (Server Component → delega para ContractsPage).
+- [x] Criar busca por número/fornecedor/órgão/objeto.
+- [x] Criar filtro por status (CRIADO, ENVIADO, ENTREGUE, VALIDADO, PAGAMENTO_AUTORIZADO, DISPUTA).
+- [x] Criar filtro por órgão público (derivado dinamicamente dos dados).
+- [x] Criar ordenação: mais recentes, mais antigos, maior valor, menor valor.
+- [x] Criar botão para visualizar detalhe (link `/contracts/:id` em cada ContractCard).
+- [x] Criar botão para novo contrato (PageHeader + EmptyState).
+- [x] Criar loading state (skeleton em grade 1→2 colunas).
+- [x] Criar empty state geral (sem contratos + CTA novo contrato).
+- [x] Criar empty state de filtro (sem resultados + botão "Limpar filtros").
+- [x] Criar error state (ErrorState com mensagem amigável).
+- [x] Criar versão responsiva (filtros empilhados mobile, grid 1→2 colunas desktop).
+- [x] Atualizar `web/README.md` com seção Listagem de contratos.
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
 
 ### Critérios de aceite
 
-- [ ] Usuário consegue encontrar contratos.
-- [ ] Filtros funcionam com mocks.
-- [ ] Status aparece com badge.
-- [ ] Cards/tabela são responsivos.
-- [ ] Clique abre detalhe do contrato.
+- [x] Usuário consegue encontrar contratos (busca + filtros combinados).
+- [x] Filtros funcionam com mocks.
+- [x] Status aparece com `ContractStatusBadge` em cada card.
+- [x] Cards são responsivos (grid 1 col mobile → 2 col desktop).
+- [x] Clique em "Ver" abre `/contracts/:id` (detalhe implementado no Bloco 12).
+
+### Versionamento
+
+- [x] Fazer commit semântico do Bloco 10.
+- [x] Fazer push da branch após validação.
 
 ---
 
