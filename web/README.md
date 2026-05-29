@@ -324,7 +324,7 @@ getPageMeta(pathname: string): { title: string; description: string }
 | `/` | Landing (entrada da app) |
 | `/dashboard` | Dashboard (Bloco 9 implementará métricas) |
 | `/contracts` | Listagem de contratos (Bloco 10) |
-| `/contracts/new` | Novo contrato (Bloco 10) |
+| `/contracts/new` | Cadastro de contrato (Bloco 11) |
 | `/disputes` | Disputas (Bloco 11) |
 | `/audit` | Auditoria (Bloco 12) |
 
@@ -359,7 +359,7 @@ A página `/contracts` é implementada com a arquitetura:
 
 ```txt
 app/contracts/page.tsx         → Server Component (delegação)
-pages/contracts/ui/contracts-page.tsx  → Client Component (estado + useContracts)
+app/contracts/_components/contracts-page.tsx → Client Component (estado + useContracts)
 widgets/contracts-filters/     → Filtros (busca, status, órgão, ordenação)
 widgets/contracts-list/        → Grade de ContractCard com estados de interface
 widgets/contracts-summary-bar/ → Contadores e valor total filtrado
@@ -375,6 +375,30 @@ Filtros disponíveis:
 
 ---
 
+## Cadastro de contrato
+
+A página `/contracts/new` é implementada com a arquitetura:
+
+```txt
+app/contracts/new/page.tsx                        → Server Component (delegação)
+app/contracts/new/_components/create-contract-page.tsx → Client Component (layout + back button)
+features/create-contract/ui/create-contract-form.tsx   → Formulário RHF + Zod + useCreateContract
+features/create-contract/model/create-contract-schema.ts → Schema Zod com validações
+features/create-contract/index.ts                      → Barrel
+```
+
+Campos do formulário:
+- `contractNumber`, `publicAgency`, `amount`, `deadline`, `object` (obrigatórios)
+- `supplierName`, `supplierWallet` (opcional, regex `0x` + 40 hex chars)
+- `inspectorName`, `inspectorWallet` (opcional wallet)
+- `logisticsResponsible`, `logisticsWallet` (opcional wallet)
+- `managerName` (opcional), `managerWallet` (opcional wallet)
+- `documentHash` (opcional, mín. 16 chars se preenchido)
+
+Após criação bem-sucedida: `toast.success` (via `useCreateContract`) + redirect para `/contracts`.
+
+---
+
 ## Próximo bloco
 
-**Bloco 11 — Cadastro de contrato:** `useCreateContract`, formulário com React Hook Form + Zod, redirecionamento após criação.
+**Bloco 12 — Detalhe do contrato:** página `/contracts/:id` com timeline de eventos, ações de status, integração blockchain.

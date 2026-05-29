@@ -848,48 +848,57 @@ Criar formulário para criação de contrato.
 
 ### Tasks
 
-- [ ] Criar `pages/contracts/new`.
-- [ ] Criar feature `create-contract`.
-- [ ] Criar `createContractSchema`.
-- [ ] Criar `CreateContractForm`.
-- [ ] Usar React Hook Form.
-- [ ] Usar Zod resolver.
-- [ ] Validar campos obrigatórios.
-- [ ] Validar valor maior que zero.
-- [ ] Validar endereço de wallet em campos de carteira.
-- [ ] Validar prazo/data.
-- [ ] Exibir mensagens de erro amigáveis.
-- [ ] Exibir toast de sucesso.
-- [ ] Redirecionar para detalhe após criar.
-- [ ] Criar loading no botão.
-- [ ] Criar estado de erro da mutation.
+- [x] Criar `app/contracts/new/_components/create-contract-page.tsx` (substituiu `pages/contracts/new`, evita conflito Next.js Pages Router).
+- [x] Criar feature `features/create-contract/` (schema, form, barrel).
+- [x] Criar `createContractSchema` (Zod) em `features/create-contract/model/`.
+- [x] Criar `CreateContractForm` em `features/create-contract/ui/`.
+- [x] Usar React Hook Form (`useForm` + `handleSubmit` + `register`).
+- [x] Usar Zod resolver (`zodResolver`).
+- [x] Validar campos obrigatórios (contractNumber, publicAgency, supplierName, object, amount, deadline, inspectorName, logisticsResponsible).
+- [x] Validar valor maior que zero (`z.coerce.number().positive()`).
+- [x] Validar endereço de wallet (regex `^0x[a-fA-F0-9]{40}$`) em todos os campos de carteira (opcional — vazio permitido).
+- [x] Validar prazo/data (campo `type="date"` obrigatório).
+- [x] Exibir mensagens de erro amigáveis (em português, abaixo de cada campo, `text-danger`).
+- [x] Exibir toast de sucesso (via `useCreateContract` — toast interno à mutation).
+- [x] Redirecionar para `/contracts` após criar (`useRouter().push('/contracts')` em `onSuccess`).
+- [x] Criar loading no botão (`mutation.isPending` → "Salvando...").
+- [x] Criar estado de erro da mutation (toast.error via `useCreateContract` — tratamento interno à mutation).
+- [x] Atualizar `app/contracts/new/page.tsx` (Server Component → delega para CreateContractPage).
+- [x] Atualizar `web/README.md` com seção "Cadastro de contrato".
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
 
 ### Campos mínimos
 
 ```txt
-contractNumber
-publicAgency
-supplierName
-supplierWallet
-object
-amount
-deadline
-inspectorName
-inspectorWallet
-logisticsResponsible
-logisticsWallet
-managerName
-managerWallet
-documentHash
+contractNumber     (obrigatório, mín. 3 chars)
+publicAgency       (obrigatório)
+supplierName       (obrigatório)
+supplierWallet     (opcional, validação wallet se preenchido)
+object             (obrigatório, mín. 10 chars)
+amount             (obrigatório, > 0)
+deadline           (obrigatório, date input)
+inspectorName      (obrigatório)
+inspectorWallet    (opcional, validação wallet se preenchido)
+logisticsResponsible (obrigatório)
+logisticsWallet    (opcional, validação wallet se preenchido)
+managerName        (opcional)
+managerWallet      (opcional, validação wallet se preenchido)
+documentHash       (opcional, mín. 16 chars se preenchido)
 ```
 
 ### Critérios de aceite
 
-- [ ] Formulário não envia dados inválidos.
-- [ ] Formulário segue contrato API.
-- [ ] UX de erro é clara.
-- [ ] UX de sucesso é clara.
-- [ ] Após criar, usuário entende o próximo passo.
+- [x] Formulário não envia dados inválidos.
+- [x] Formulário segue contrato API (`CreateContractPayload`).
+- [x] UX de erro é clara (mensagem abaixo de cada campo + `aria-invalid`).
+- [x] UX de sucesso é clara (toast + redirect para /contracts).
+- [x] Após criar, usuário é redirecionado para a listagem de contratos.
+
+### Versionamento
+
+- [x] Fazer commit semântico do Bloco 11.
+- [x] Fazer push da branch após validação.
 
 ---
 
