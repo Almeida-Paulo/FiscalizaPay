@@ -548,6 +548,84 @@ Os componentes do Bloco 14 foram atualizados para usar os novos dialogs:
 
 ---
 
+## Wallet e perfil visual
+
+A camada visual de wallet e perfil foi implementada no **Bloco 16** com store simulado e componentes independentes da integração real.
+
+### Store de wallet (`entities/wallet/model/store.ts`)
+
+```ts
+// Demo visual — não é conexão real com MetaMask/Wagmi
+useWalletStore()  // address, chainId, networkName, isConnected, isCorrectNetwork
+                  // connectMockWallet() | disconnectWallet()
+```
+
+Simula endereço `0x8A4D35...F92B` na rede **Polygon Amoy** (Chain 80002). A integração real virá via `wagmi` + `RainbowKit` em versão futura — o store será sincronizado com `useAccount()` nessa etapa.
+
+### Componentes de wallet (`entities/wallet/ui/`)
+
+| Componente | Descrição |
+|---|---|
+| `NetworkBadge` | Badge visual: verde (rede correta), amarelo (rede incorreta), muted (não conectada) |
+| `WalletStatus` | Dot indicador + endereço encurtado + NetworkBadge — exibição compacta sem interação |
+| `WalletAccountCard` | Card completo: endereço copiável, rede, ChainID, link explorer, aviso demo |
+
+### Feature de conexão (`features/wallet-connect/`)
+
+```txt
+features/wallet-connect/ui/wallet-connect-button.tsx
+  → Se desconectada: botão "Conectar wallet (demo)"
+  → Se conectada: dropdown com endereço + WalletAccountCard + "Desconectar wallet"
+```
+
+### Componentes de perfil (`entities/profile/ui/`)
+
+| Componente | Descrição |
+|---|---|
+| `ProfileIdentityCard` | Avatar inicial + nome + RoleBadge + descrição da role + ProfileSwitcher integrado |
+| `ProfileSwitcher` | Select de perfil demo — sem alterações do Bloco 5 |
+| `RoleBadge` | Badge ciano com label da role — sem alterações |
+
+### AppHeader atualizado
+
+O `AppHeader` foi refatorado:
+
+```txt
+Antes: [wallet badge wagmi] [ProfileSwitcher compact]
+Depois: [WalletConnectButton] [Perfil dropdown → ProfileIdentityCard]
+```
+
+- `useAccount()` do wagmi removido do header — wallet agora usa `useWalletStore`
+- Wallet: dropdown com `WalletAccountCard` + ações de conectar/desconectar
+- Perfil: dropdown com `ProfileIdentityCard` (nome, role, seletor de demo)
+- Mobile: botão de wallet sem texto (só ícone), botão de perfil com ícone
+
+### Helpers (`entities/wallet/model/helpers.ts`)
+
+```ts
+isExpectedChain(chainId: number | null): boolean      // compara com OFFICIAL_CHAIN_ID (80002)
+getNetworkLabel(chainId: number | null): string        // "Polygon Amoy" | "Sepolia" | "Chain X"
+getExplorerAddressUrl(explorerUrl, address): string    // URL do explorer para o endereço
+```
+
+### Preparação para integração real
+
+A estrutura está pronta para substituir o mock por wagmi real:
+
+```ts
+// Futura integração — sem impacto nos componentes visuais:
+// const { address, isConnected, chain } = useAccount();
+// useEffect(() => {
+//   if (isConnected && address) {
+//     connectMockWallet(); // ou syncFromWagmi(address, chain.id)
+//   }
+// }, [address, isConnected, chain]);
+```
+
+Os componentes consomem o store — a troca de fonte (mock → wagmi) é local ao store, sem tocar em UI.
+
+---
+
 ## Próximo bloco
 
-**Bloco 16 — Wallet e perfil visual:** integração visual com carteira, endereço encurtado, rede atual, alerta de rede incorreta, perfil mockado via Zustand, seletor de perfil para demo.
+**Bloco 17 — Auditoria e tela de consulta:** tela `/audit` real com contratos que têm eventos críticos, filtros por status e tipo de evento, cards de auditoria, link para detalhe.

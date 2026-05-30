@@ -1,12 +1,15 @@
 "use client";
 
-import { Menu, Wifi, WifiOff } from "lucide-react";
-import { useAccount } from "wagmi";
+import { Menu, User } from "lucide-react";
 import { Button } from "@/shared/ui/button";
-import { ProfileSwitcher } from "@/entities/profile/ui/profile-switcher";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/shared/ui/dropdown-menu";
+import { ProfileIdentityCard } from "@/entities/profile/ui/profile-identity-card";
+import { WalletConnectButton } from "@/features/wallet-connect";
 import { getPageMeta } from "@/shared/lib/page-meta";
-import { shortenAddress } from "@/shared/lib/formatters";
-import { env } from "@/shared/config/env";
 import { cn } from "@/shared/lib/utils";
 
 interface AppHeaderProps {
@@ -16,10 +19,7 @@ interface AppHeaderProps {
 }
 
 export function AppHeader({ pathname, onMenuOpen, className }: AppHeaderProps) {
-  const { address, isConnected } = useAccount();
   const meta = getPageMeta(pathname);
-
-  const chainLabel = env.chainId === 80002 ? "Amoy" : `Chain ${env.chainId}`;
 
   return (
     <header
@@ -51,21 +51,26 @@ export function AppHeader({ pathname, onMenuOpen, className }: AppHeaderProps) {
 
       {/* Right-side controls */}
       <div className="flex shrink-0 items-center gap-2">
-        {/* Wallet status badge */}
-        <div className="hidden items-center gap-1.5 rounded-full border border-border bg-card px-3 py-1 text-xs sm:flex">
-          {isConnected ? (
-            <Wifi className="h-3 w-3 text-success" />
-          ) : (
-            <WifiOff className="h-3 w-3 text-muted-foreground" />
-          )}
-          <span className="text-muted-foreground">
-            {isConnected && address ? shortenAddress(address) : "Não conectada"}
-          </span>
-          <span className="text-[10px] text-muted-foreground/50">{chainLabel}</span>
-        </div>
+        {/* Wallet connect / status */}
+        <WalletConnectButton />
 
-        {/* Profile switcher */}
-        <ProfileSwitcher compact />
+        {/* Profile dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="h-7 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
+              aria-label="Perfil atual"
+            >
+              <User className="h-3.5 w-3.5 shrink-0" />
+              <span className="hidden sm:inline">Perfil</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-64 p-3">
+            <ProfileIdentityCard />
+          </DropdownMenuContent>
+        </DropdownMenu>
       </div>
     </header>
   );

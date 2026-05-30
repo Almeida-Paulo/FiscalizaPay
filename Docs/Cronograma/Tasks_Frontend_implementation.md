@@ -1098,7 +1098,7 @@ Criar cena de impacto para demo.
 
 ---
 
-## 22. Bloco 16 — Wallet e perfil visual
+## 22. Bloco 16 — Wallet e perfil visual ✅
 
 ### Objetivo
 
@@ -1106,38 +1106,38 @@ Criar integração visual com carteira e perfis.
 
 ### Tasks
 
-- [ ] Criar feature `connect-wallet`.
-- [ ] Criar `WalletConnectButton`.
-- [ ] Criar `WalletStatus`.
-- [ ] Exibir endereço curto.
-- [ ] Exibir rede atual.
-- [ ] Exibir alerta de rede incorreta.
-- [ ] Exibir link para explorer da carteira, se aplicável.
-- [ ] Criar perfil mockado via Zustand.
-- [ ] Criar seletor de perfil para demo.
-- [ ] Relacionar perfil visual com permissões.
-- [ ] Preparar integração futura com assinatura de mensagem.
-
-### Importante
-
-No MVP, autenticação Web3 real completa não é responsabilidade obrigatória do frontend.
-
-A prioridade é:
-
-```txt
-Conectar wallet visualmente
-Exibir endereço
-Permitir demo por perfil
-Preparar integração futura
-```
+- [x] Criar `entities/wallet/model/store.ts` — Zustand store com `connectMockWallet` / `disconnectWallet`.
+- [x] Criar `entities/wallet/model/helpers.ts` — `isExpectedChain`, `getNetworkLabel`, `getExplorerAddressUrl`.
+- [x] Criar `entities/wallet/ui/network-badge.tsx` — Badge verde/amarelo/muted por estado da rede.
+- [x] Criar `entities/wallet/ui/wallet-status.tsx` — Dot + endereço encurtado + NetworkBadge (compacto).
+- [x] Criar `entities/wallet/ui/wallet-account-card.tsx` — Endereço copiável, rede, link explorer, aviso demo.
+- [x] Criar `features/wallet-connect/ui/wallet-connect-button.tsx` — Botão connect/disconnect com dropdown.
+- [x] Criar `features/wallet-connect/index.ts` — Barrel.
+- [x] Criar `entities/profile/ui/profile-identity-card.tsx` — Avatar + nome + RoleBadge + ProfileSwitcher.
+- [x] Atualizar `entities/wallet/index.ts` — exportar novos componentes e helpers.
+- [x] Atualizar `entities/profile/index.ts` — exportar `RoleBadge` e `ProfileIdentityCard`.
+- [x] Atualizar `widgets/app-header/ui/app-header.tsx` — substituir badge simples por `WalletConnectButton` + dropdown de perfil com `ProfileIdentityCard`. Remover `useAccount` do wagmi.
+- [x] Exibir endereço curto (via `shortenAddress`).
+- [x] Exibir rede atual (via `NetworkBadge`).
+- [x] Exibir alerta de rede incorreta (NetworkBadge com `border-warning`).
+- [x] Exibir link para explorer da carteira (`getExplorerAddressUrl`).
+- [x] Criar perfil mockado via Zustand — já existia, `ProfileIdentityCard` o consome.
+- [x] Criar seletor de perfil para demo — `ProfileSwitcher` integrado ao `ProfileIdentityCard`.
+- [x] Relacionar perfil visual com permissões — `ProfileSwitcher` mantido, regras do Bloco 5 intactas.
+- [x] Preparar integração futura com wagmi/MetaMask — store isolado, substituição é local.
+- [x] Atualizar `web/README.md` — seção "Wallet e perfil visual".
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
+- [x] Fazer commit semântico do Bloco 16.
+- [x] Fazer push da branch após validação.
 
 ### Critérios de aceite
 
-- [ ] Wallet conecta visualmente.
-- [ ] Endereço aparece encurtado.
-- [ ] Perfil atual aparece na interface.
-- [ ] Botões mudam conforme perfil/status.
-- [ ] Não há dependência obrigatória de backend para demonstrar perfil.
+- [x] Wallet conecta visualmente — `connectMockWallet()` no store.
+- [x] Endereço aparece encurtado — `shortenAddress(address!)` no `WalletConnectButton`.
+- [x] Perfil atual aparece na interface — dropdown de perfil no header com `ProfileIdentityCard`.
+- [x] Botões mudam conforme perfil/status — `ProfileSwitcher` atualiza o store, regras visuais intactas.
+- [x] Não há dependência obrigatória de backend para demonstrar perfil.
 
 ---
 
