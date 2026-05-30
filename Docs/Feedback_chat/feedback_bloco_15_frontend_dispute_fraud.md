@@ -219,11 +219,12 @@ O import foi incluído no rascunho inicial mas o componente usa `CheckCircle2` n
 
 | Item | Valor |
 |---|---|
-| Commit Bloco 15 | pendente |
+| Commit Bloco 15 | `8867cba` |
 | Mensagem | `feat(frontend): implement dispute and fraud simulation flow` |
+| Push | ✅ sim |
 | Branch | `main` |
-| Arquivos criados | 12 |
-| Arquivos alterados | 5 |
+| Status git | `nothing to commit, working tree clean` |
+| Arquivos no commit | 18 alterados (12 criados, 6 modificados) — 1.075 inserções, 130 deleções |
 
 ---
 
