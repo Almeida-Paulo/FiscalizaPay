@@ -254,7 +254,7 @@ export async function getAuditEvents(): Promise<ApiResponse<AuditEventItem[]>> {
 
 | Item | Valor |
 |---|---|
-| Commit Bloco 17 | (a preencher após commit) |
+| Commit Bloco 17 | `60dfc68` |
 | Mensagem | `feat(frontend): implement audit search page` |
 | Push | ✅ sim |
 | Branch | `main` |
