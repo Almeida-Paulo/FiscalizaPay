@@ -16,7 +16,7 @@ import { ContractOverviewCard } from "./contract-overview-card";
 import { ContractPartiesCard } from "./contract-parties-card";
 import { ContractHashesCard } from "./contract-hashes-card";
 import { ContractBlockchainCard } from "./contract-blockchain-card";
-import { ContractNextActionCard } from "./contract-next-action-card";
+import { ContractActionPanel } from "@/features/contract-actions";
 import { ContractTimeline } from "./contract-timeline";
 
 interface ContractDetailPageProps {
@@ -122,7 +122,7 @@ export function ContractDetailPage({ id }: ContractDetailPageProps) {
         {/* Primary grid: overview + next action */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <ContractOverviewCard contract={contract} />
-          <ContractNextActionCard contract={contract} />
+          <ContractActionPanel contract={contract} blockchainStatus={blockchainStatus} />
         </div>
 
         {/* Secondary grid: parties + hashes + blockchain */}

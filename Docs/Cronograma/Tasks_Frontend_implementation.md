@@ -999,7 +999,7 @@ Criar componente visual de auditoria do contrato.
 
 ---
 
-## 20. Bloco 14 — Painel de ações do contrato
+## 20. Bloco 14 — Painel de ações do contrato ✅
 
 ### Objetivo
 
@@ -1007,29 +1007,48 @@ Criar ações de avanço de status.
 
 ### Tasks
 
-- [ ] Criar `widgets/contract-action-panel`.
-- [ ] Criar feature `confirm-shipment`.
-- [ ] Criar feature `confirm-delivery`.
-- [ ] Criar feature `validate-receipt`.
-- [ ] Criar feature `authorize-payment`.
-- [ ] Criar feature `open-dispute`.
-- [ ] Criar feature `simulate-fraud`.
-- [ ] Criar botões por ação.
-- [ ] Criar dialogs de confirmação.
-- [ ] Criar estados de loading nos botões.
-- [ ] Criar estados disabled com tooltip explicativo.
-- [ ] Criar toast de sucesso.
-- [ ] Criar toast de erro.
-- [ ] Invalidar queries após ação.
-- [ ] Atualizar timeline após ação.
+- [x] Criar `features/contract-actions/ui/contract-action-panel.tsx` — painel principal.
+- [x] Criar `features/contract-actions/ui/action-button.tsx` — botão reutilizável.
+- [x] Criar `features/contract-actions/ui/confirm-dialog.tsx` — dialog reutilizável.
+- [x] Criar feature `confirm-shipment-action` (FORNECEDOR + CRIADO).
+- [x] Criar feature `confirm-delivery-action` (ENTREGADOR + ENVIADO).
+- [x] Criar feature `validate-receipt-action` (FISCAL + ENTREGUE).
+- [x] Criar feature `authorize-payment-action` (GESTOR + VALIDADO) + confirmação crítica.
+- [x] Criar feature `open-dispute-action` + dialog com motivo obrigatório.
+- [x] Criar feature `simulate-fraud-action` + dialog com novo hash + motivo opcional.
+- [x] Criar feature `register-on-chain-action` + confirmação + badge se já registrado.
+- [x] Criar botões por ação via `ActionButton`.
+- [x] Criar dialogs de confirmação via `ConfirmDialog` (Dialog shadcn/ui).
+- [x] Criar estados de loading nos botões (isPending por mutation).
+- [x] Criar estados disabled com razão explicativa (`getBlockedActionReason`).
+- [x] Toast de sucesso e erro — via hooks de mutation (Bloco 7).
+- [x] Invalidar queries após ação — via hooks de mutation (Bloco 7).
+- [x] Timeline atualiza após ação — invalidação de contractEvents nas mutations.
+- [x] Adicionar `getCanonicalNextAction` e `CONTRACT_ACTION_LABELS` em `rules.ts`.
+- [x] Substituir `ContractNextActionCard` por `ContractActionPanel` em `contract-detail-page.tsx`.
+- [x] Deletar `contract-next-action-card.tsx`.
+- [x] Criar `features/contract-actions/index.ts` (barrel).
+- [x] Atualizar `web/README.md` — seção "Painel de ações do contrato".
+- [x] Fazer commit semântico do Bloco 14.
+- [x] Fazer push da branch após validação.
 
 ### Critérios de aceite
 
 - [ ] Botões não aparecem de forma aleatória.
 - [ ] Usuário entende por que uma ação está bloqueada.
 - [ ] Cada ação atualiza o status.
-- [ ] Cada ação cria/mostra evento.
-- [ ] A demo consegue seguir o fluxo completo.
+- [x] Botões não aparecem de forma aleatória — regras visuais via `getAvailableContractActions`.
+- [x] Usuário entende por que uma ação está bloqueada — `getBlockedActionReason` + `getCanonicalNextAction`.
+- [x] Cada ação atualiza o status — mutations invalidam `contract`, `contracts`, `contractEvents`, `dashboardSummary`.
+- [x] Cada ação cria/mostra evento — mutations do Bloco 7 criam eventos no mock store.
+- [x] A demo consegue seguir o fluxo completo — `ProfileSwitcher` no header para trocar perfil.
+
+### Limites intenciais
+
+- [ ] Fluxo completo de disputa/fraude → Bloco 15
+- [ ] Modal avançado de disputa → Bloco 15
+- [ ] Visual de comparação de hashes → Bloco 15
+- [ ] Tela dedicada de disputas → Bloco 15
 
 ---
 

@@ -64,6 +64,17 @@ export function canSimulateFraud(contract: Contract, profile: Profile): boolean 
   return ["GESTOR", "FISCAL"].includes(profile.role);
 }
 
+// ─── Labels de exibição para ações ───────────────────────────────────────────
+
+export const CONTRACT_ACTION_LABELS: Record<ContractAction, string> = {
+  CONFIRM_SHIPMENT: "Confirmar envio",
+  CONFIRM_DELIVERY: "Confirmar entrega",
+  VALIDATE_RECEIPT: "Validar recebimento",
+  AUTHORIZE_PAYMENT: "Autorizar pagamento",
+  OPEN_DISPUTE: "Abrir disputa",
+  SIMULATE_FRAUD: "Simular fraude",
+};
+
 // ─── Próxima ação e lista de ações disponíveis ────────────────────────────────
 
 export function getNextContractAction(
@@ -89,6 +100,16 @@ export function getAvailableContractActions(
   if (canOpenDispute(contract, profile)) actions.push("OPEN_DISPUTE");
   if (canSimulateFraud(contract, profile)) actions.push("SIMULATE_FRAUD");
   return actions;
+}
+
+export function getCanonicalNextAction(contract: Contract): ContractAction | null {
+  switch (contract.status) {
+    case "CRIADO": return "CONFIRM_SHIPMENT";
+    case "ENVIADO": return "CONFIRM_DELIVERY";
+    case "ENTREGUE": return "VALIDATE_RECEIPT";
+    case "VALIDADO": return "AUTHORIZE_PAYMENT";
+    default: return null;
+  }
 }
 
 // ─── Motivo de bloqueio de ação ───────────────────────────────────────────────

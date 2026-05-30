@@ -431,6 +431,37 @@ Painel de ações será implementado no **Bloco 14**.
 
 ---
 
+## Painel de ações do contrato
+
+A página `/contracts/[id]` exibe o `ContractActionPanel`, substituindo o `ContractNextActionCard` do Bloco 12.
+
+```txt
+features/contract-actions/ui/contract-action-panel.tsx    → Panel principal — usa regras visuais + perfil ativo
+features/contract-actions/ui/action-button.tsx            → Botão reutilizável com loading/disabled/reason
+features/contract-actions/ui/confirm-dialog.tsx           → Dialog de confirmação reutilizável
+features/contract-actions/ui/confirm-shipment-action.tsx  → Confirmar envio (FORNECEDOR + CRIADO)
+features/contract-actions/ui/confirm-delivery-action.tsx  → Confirmar entrega (ENTREGADOR + ENVIADO)
+features/contract-actions/ui/validate-receipt-action.tsx  → Validar recebimento (FISCAL + ENTREGUE)
+features/contract-actions/ui/authorize-payment-action.tsx → Autorizar pagamento (GESTOR + VALIDADO) — confirmação crítica
+features/contract-actions/ui/open-dispute-action.tsx      → Abrir disputa — dialog com motivo obrigatório
+features/contract-actions/ui/simulate-fraud-action.tsx    → Simular fraude — dialog com novo hash
+features/contract-actions/ui/register-on-chain-action.tsx → Registrar on-chain — confirmação + badge se já registrado
+```
+
+Regras visuais usadas (fonte: `entities/contract/model/rules.ts`):
+- `canConfirmShipment`, `canConfirmDelivery`, `canValidateReceipt`, `canAuthorizePayment`
+- `canOpenDispute`, `canSimulateFraud`
+- `getNextContractAction`, `getCanonicalNextAction`, `getBlockedActionReason`
+- `CONTRACT_ACTION_LABELS`
+
+Mutations usadas (fonte: Bloco 7 — TanStack Query):
+- `useConfirmShipment`, `useConfirmDelivery`, `useValidateReceipt`, `useAuthorizePayment`
+- `useOpenDispute`, `useSimulateFraud`, `useRegisterOnChain`
+
+**Importante:** As regras do frontend são apenas visuais. O backend continua sendo a fonte definitiva de validação e segurança. Disputa e fraude completas serão aprofundadas no Bloco 15.
+
+---
+
 ## Timeline auditável
 
 A page `/contracts/[id]` exibe a timeline completa via `ContractTimeline`, substituindo o preview de 3 eventos do Bloco 12.
