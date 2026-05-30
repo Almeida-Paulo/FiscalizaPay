@@ -253,9 +253,12 @@ Impacto na migração: **zero alterações nos componentes visuais**. Apenas o `
 
 | Item | Valor |
 |---|---|
-| Commit Bloco 16 | pendente |
+| Commit Bloco 16 | `f48baee` |
 | Mensagem | `feat(frontend): implement wallet and profile visuals` |
+| Push | ✅ sim |
 | Branch | `main` |
+| Status git | `nothing to commit, working tree clean` |
+| Arquivos no commit | 14 alterados (9 criados, 5 modificados) — 798 inserções, 53 deleções |
 
 ---
 
