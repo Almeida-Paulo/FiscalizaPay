@@ -1052,7 +1052,7 @@ Criar ações de avanço de status.
 
 ---
 
-## 21. Bloco 15 — Disputa e fraude simulada
+## 21. Bloco 15 — Disputa e fraude simulada ✅
 
 ### Objetivo
 
@@ -1060,27 +1060,41 @@ Criar cena de impacto para demo.
 
 ### Tasks
 
-- [ ] Criar modal de abertura de disputa.
-- [ ] Criar `openDisputeSchema`.
-- [ ] Criar campo de motivo.
-- [ ] Criar seleção de tipo de divergência.
-- [ ] Criar feature `simulate-fraud`.
-- [ ] Criar visual comparando hash original e hash alterado.
-- [ ] Criar alerta de hash incompatível.
-- [ ] Criar estado `DISPUTA`.
-- [ ] Bloquear visualmente autorização de pagamento.
-- [ ] Registrar/exibir evento `FRAUDE_SIMULADA`.
-- [ ] Registrar/exibir evento `DISPUTA_ABERTA`.
-- [ ] Criar animação/efeito visual de alerta.
-- [ ] Criar CTA para consultar timeline.
+- [x] Criar `features/open-dispute/model/open-dispute-schema.ts` — Zod schema (reason min 10, disputeType enum, notes opcional).
+- [x] Criar `features/open-dispute/ui/open-dispute-form.tsx` — RHF + Zod, Select tipo disputa, Textarea motivo, notas.
+- [x] Criar `features/open-dispute/ui/open-dispute-dialog.tsx` — Dialog wrapping o form, loading guard.
+- [x] Criar `features/open-dispute/index.ts` — barrel.
+- [x] Criar `features/simulate-fraud/model/simulate-fraud-schema.ts` — Zod schema (alteredDocumentHash min 16, fraudReason min 10, notes opcional) + `generateFakeHash`.
+- [x] Criar `features/simulate-fraud/ui/simulate-fraud-form.tsx` — comparação hash original vs alterado, botão "Gerar hash falso", alerta visual de divergência.
+- [x] Criar `features/simulate-fraud/ui/simulate-fraud-dialog.tsx` — Dialog wrapping o form, loading guard.
+- [x] Criar `features/simulate-fraud/index.ts` — barrel.
+- [x] Atualizar `features/contract-actions/ui/open-dispute-action.tsx` — usa `OpenDisputeDialog` (substituiu dialog inline).
+- [x] Atualizar `features/contract-actions/ui/simulate-fraud-action.tsx` — usa `SimulateFraudDialog` (substituiu dialog inline).
+- [x] Criar `app/disputes/_components/dispute-card.tsx` — card com contractNumber, órgão, fornecedor, valor, hash, link para detalhe.
+- [x] Criar `app/disputes/_components/disputes-summary.tsx` — 3 cards: total disputas, valor bloqueado, pagamentos bloqueados.
+- [x] Criar `app/disputes/_components/disputes-page.tsx` — Client Component com `useContracts("DISPUTA")`, summary + lista + loading/empty states.
+- [x] Substituir `app/disputes/page.tsx` — delega para `DisputesPage` (era placeholder "Disputas em breve").
+- [x] Atualizar `web/README.md` — seção "Disputa e fraude simulada".
+- [x] npm run lint → PASSOU
+- [x] npm run build → PASSOU
+
+### Tipos de disputa
+
+```ts
+"DOCUMENT_HASH_MISMATCH" | "DELIVERY_NOT_CONFIRMED" | "INSPECTION_REJECTED" | "PAYMENT_BLOCKED" | "OTHER"
+```
 
 ### Critérios de aceite
 
-- [ ] Usuário entende que houve divergência.
-- [ ] O impacto visual é forte.
-- [ ] Pagamento aparece bloqueado.
-- [ ] Timeline prova o ocorrido.
-- [ ] Cena serve para apresentação final.
+- [x] Usuário entende que houve divergência — comparação hash lado a lado + alerta visual vermelho.
+- [x] O impacto visual é forte — painel vermelho, badge "Em disputa", bloqueio de pagamento no `ContractActionPanel`.
+- [x] Pagamento aparece bloqueado — `ContractActionPanel` exibe "Pagamento bloqueado" em `DISPUTA`.
+- [x] Timeline prova o ocorrido — eventos `FRAUDE_SIMULADA` e `DISPUTA_ABERTA` na `ContractTimeline`.
+- [x] Cena serve para apresentação final — tela `/disputes` com resumo e lista de contratos em disputa.
+
+### Commit
+
+`feat(frontend): implement dispute and fraud simulation flow`
 
 ---
 

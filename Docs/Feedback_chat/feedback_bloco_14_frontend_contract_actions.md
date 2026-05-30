@@ -299,9 +299,9 @@ Todas as mutations já invalidam as queries necessárias e exibem toast.success/
 | Item | Valor |
 |---|---|
 | Pré-commit (Bloco 13) | `edab7bf` — `feat(frontend): implement auditable contract timeline` |
-| Commit Bloco 14 | ⏳ pendente após criação deste feedback |
-| Mensagem prevista | `feat(frontend): implement contract action panel` |
-| Push | ⏳ pendente |
+| Commit Bloco 14 | `f3eb72e` |
+| Mensagem | `feat(frontend): implement contract action panel` |
+| Push | ✅ sim |
 | Branch | `main` |
 | Arquivos previstos | ~15 (11 criados, 3 alterados, 1 removido) |
 

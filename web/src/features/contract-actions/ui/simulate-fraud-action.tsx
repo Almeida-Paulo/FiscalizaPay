@@ -7,12 +7,11 @@ import {
   canSimulateFraud,
   getBlockedActionReason,
 } from "@/entities/contract/model/rules";
-import { Input } from "@/shared/ui/input";
-import { Textarea } from "@/shared/ui/textarea";
+import { SimulateFraudDialog } from "@/features/simulate-fraud";
+import type { SimulateFraudValues } from "@/features/simulate-fraud";
 import type { Contract } from "@/entities/contract";
 import type { Profile } from "@/entities/profile";
 import { ActionButton } from "./action-button";
-import { ConfirmDialog } from "./confirm-dialog";
 
 interface SimulateFraudActionProps {
   contract: Contract;
@@ -21,30 +20,22 @@ interface SimulateFraudActionProps {
 
 export function SimulateFraudAction({ contract, profile }: SimulateFraudActionProps) {
   const [open, setOpen] = useState(false);
-  const [newHash, setNewHash] = useState("");
-  const [reason, setReason] = useState("");
   const { mutate, isPending } = useSimulateFraud();
   const can = canSimulateFraud(contract, profile);
   const disabledReason = can
     ? undefined
     : (getBlockedActionReason("SIMULATE_FRAUD", contract, profile) ?? undefined);
 
-  function handleOpenChange(v: boolean) {
-    if (!v) { setNewHash(""); setReason(""); }
-    setOpen(v);
-  }
-
-  function handleConfirm() {
-    if (!newHash.trim()) return;
+  function handleSubmit(values: SimulateFraudValues) {
     mutate(
       {
         contractId: contract.id,
         payload: {
-          newDocumentHash: newHash.trim(),
-          reason: reason.trim() || undefined,
+          newDocumentHash: values.alteredDocumentHash,
+          reason: values.fraudReason,
         },
       },
-      { onSuccess: () => { setOpen(false); setNewHash(""); setReason(""); } },
+      { onSuccess: () => setOpen(false) },
     );
   }
 
@@ -61,43 +52,13 @@ export function SimulateFraudAction({ contract, profile }: SimulateFraudActionPr
         variant="outline"
         className="border-danger/50 text-danger hover:bg-danger/10 hover:text-danger"
       />
-      <ConfirmDialog
+      <SimulateFraudDialog
         open={open}
-        onOpenChange={handleOpenChange}
-        title="Simular adulteração de documento"
-        description="Esta simulação substitui o hash do documento, permitindo testar a detecção de fraude. Se o hash divergir, uma disputa será aberta automaticamente."
-        onConfirm={handleConfirm}
+        onOpenChange={setOpen}
+        onSubmit={handleSubmit}
+        originalHash={contract.documentHash ?? ""}
         isLoading={isPending}
-        confirmLabel="Simular fraude"
-        confirmDisabled={!newHash.trim()}
-        destructive
-      >
-        <div className="space-y-3">
-          <div className="space-y-1.5">
-            <p className="text-sm font-medium text-foreground">Novo hash do documento *</p>
-            <Input
-              value={newHash}
-              onChange={(e) => setNewHash(e.target.value)}
-              placeholder="Hash adulterado para comparação..."
-              disabled={isPending}
-              className="font-mono text-xs"
-            />
-            {!newHash.trim() && (
-              <p className="text-xs text-muted-foreground">O hash do documento é obrigatório.</p>
-            )}
-          </div>
-          <div className="space-y-1.5">
-            <p className="text-sm font-medium text-foreground">Motivo (opcional)</p>
-            <Textarea
-              value={reason}
-              onChange={(e) => setReason(e.target.value)}
-              placeholder="Descreva o cenário de adulteração..."
-              rows={2}
-              disabled={isPending}
-            />
-          </div>
-        </div>
-      </ConfirmDialog>
+      />
     </>
   );
 }

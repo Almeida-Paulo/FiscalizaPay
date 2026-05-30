@@ -489,6 +489,65 @@ Painel de ações será implementado no **Bloco 14**.
 
 ---
 
+## Disputa e fraude simulada
+
+O fluxo completo de disputa e simulação de fraude é implementado no **Bloco 15** em duas features independentes.
+
+### `features/open-dispute/`
+
+```txt
+model/open-dispute-schema.ts  → Zod schema + DISPUTE_TYPES + DISPUTE_TYPE_LABELS + OpenDisputeValues
+ui/open-dispute-form.tsx      → RHF + Zod, Select tipo disputa (Controller), Textarea motivo + notas
+ui/open-dispute-dialog.tsx    → Dialog wrapping o form, loading guard no onOpenChange
+index.ts                      → Barrel
+```
+
+**Tipos de disputa disponíveis:**
+| Enum | Label |
+|---|---|
+| `DOCUMENT_HASH_MISMATCH` | Divergência de hash do documento |
+| `DELIVERY_NOT_CONFIRMED` | Entrega não confirmada |
+| `INSPECTION_REJECTED` | Inspeção rejeitada |
+| `PAYMENT_BLOCKED` | Pagamento bloqueado |
+| `OTHER` | Outro |
+
+### `features/simulate-fraud/`
+
+```txt
+model/simulate-fraud-schema.ts  → Zod schema + generateFakeHash + SimulateFraudValues
+ui/simulate-fraud-form.tsx      → Comparação hash original vs alterado, botão "Gerar hash falso", alerta de divergência
+ui/simulate-fraud-dialog.tsx    → Dialog wrapping o form, loading guard no onOpenChange
+index.ts                        → Barrel
+```
+
+**Comparação visual:** quando o hash alterado diverge do original, o painel da direita fica com borda `border-danger/50 bg-danger/5` e texto `text-danger`. Alerta de rodapé confirma que uma disputa será aberta ao confirmar.
+
+### `/disputes` — Página de disputas
+
+```txt
+app/disputes/page.tsx                           → Server Component (delegação)
+app/disputes/_components/disputes-page.tsx      → Client Component — useContracts("DISPUTA"), summary + lista
+app/disputes/_components/disputes-summary.tsx   → 3 cards: total disputas, valor bloqueado, pagamentos bloqueados
+app/disputes/_components/dispute-card.tsx       → Card: contractNumber, órgão, fornecedor, valor, hash, link detalhe
+```
+
+### Integração com `features/contract-actions/`
+
+Os componentes do Bloco 14 foram atualizados para usar os novos dialogs:
+- `open-dispute-action.tsx` → usa `OpenDisputeDialog` (antes: dialog inline com Textarea simples)
+- `simulate-fraud-action.tsx` → usa `SimulateFraudDialog` com `originalHash={contract.documentHash}` (antes: dialog inline sem comparação)
+
+### Regras visuais aplicadas
+
+| Status | `ContractActionPanel` exibe |
+|---|---|
+| `DISPUTA` | AlertTriangle vermelho + "Pagamento bloqueado" + `SimulateFraudAction` se `canSimulateFraud` |
+| Outro | Fluxo normal de próxima ação |
+
+**Importante:** a validação final de disputa é responsabilidade do backend. O frontend aplica regras visuais como camada de UX.
+
+---
+
 ## Próximo bloco
 
-**Bloco 14 — Painel de ações:** botões funcionais (confirmar envio/entrega, validar, autorizar, disputar, simular fraude), modal de disputa, simulação de fraude.
+**Bloco 16 — Wallet e perfil visual:** integração visual com carteira, endereço encurtado, rede atual, alerta de rede incorreta, perfil mockado via Zustand, seletor de perfil para demo.
