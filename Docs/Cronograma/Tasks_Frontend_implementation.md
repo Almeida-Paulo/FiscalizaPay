@@ -1145,26 +1145,39 @@ Criar integração visual com carteira e perfis.
 
 ### Objetivo
 
-Criar tela ou área para reforçar rastreabilidade.
+Implementar a tela real `/audit`: lista global de eventos auditáveis com busca, filtros, cards detalhados e sumário estatístico.
 
 ### Tasks
 
-- [ ] Criar `pages/audit`.
-- [ ] Exibir contratos com eventos críticos.
-- [ ] Exibir filtros por status.
-- [ ] Exibir filtros por evento.
-- [ ] Exibir hashes recentes.
-- [ ] Exibir tx hashes recentes.
-- [ ] Criar cards de auditoria.
-- [ ] Criar CTA para abrir detalhe do contrato.
-- [ ] Criar empty/loading/error states.
+- [x] Adicionar `getAllEvents()` ao `shared/mocks/mock-store.ts`
+- [x] Adicionar `getAuditEvents()` ao `shared/api/contracts-api.ts` (enriquece eventos com dados do contrato)
+- [x] Adicionar `AuditEventItem` type ao `contracts-api.ts` (`ContractEvent` + contractNumber + contractObject + contractStatus)
+- [x] Adicionar `queryKeys.auditEvents` ao `shared/api/query-keys.ts`
+- [x] Criar `app/audit/_components/use-audit-events.ts` — hook TanStack Query
+- [x] Criar `app/audit/_components/audit-event-card.tsx` — card individual com EventTypeIcon, StatusTransition, DocumentHashViewer, TransactionHashLink, RoleBadge, ContractStatusBadge, link para /contracts/[id]
+- [x] Criar `app/audit/_components/audit-event-list.tsx` — lista com loading/error/empty states
+- [x] Criar `app/audit/_components/audit-filters.tsx` — busca geral + tipo de evento + status do contrato + toggle disputas/fraudes + ordenação + botão limpar
+- [x] Criar `app/audit/_components/audit-summary.tsx` — 4 cards estatísticos (total, tx hash, doc hash, alertas)
+- [x] Criar `app/audit/_components/audit-page.tsx` — Client Component orquestrando tudo com filtros em estado local e filtragem em memória via useMemo
+- [x] Atualizar `app/audit/page.tsx` — substituir placeholder por `<AuditPage />`
+- [x] Atualizar `web/README.md` — seção "Auditoria e consulta"
+- [x] npm run lint → PASSOU (0 erros, 0 warnings)
+- [x] npm run build → PASSOU (9 rotas, TypeScript sem erros)
+- [x] Criar `Docs/Feedback_chat/feedback_bloco_17_frontend_audit_search.md`
+- [x] Commit e push
 
 ### Critérios de aceite
 
-- [ ] A tela reforça o valor de auditoria.
-- [ ] Auditor consegue consultar eventos.
-- [ ] Interface mostra rastreabilidade.
-- [ ] Tela pode ser usada na demo se houver tempo.
+- [x] A tela reforça o valor de auditoria.
+- [x] Auditor consegue consultar eventos de todos os contratos.
+- [x] Interface mostra rastreabilidade (documentHash + transactionHash).
+- [x] Busca funciona por contrato, responsável, wallet, hash.
+- [x] Filtros funcionam: tipo de evento, status do contrato, disputas/fraudes, ordenação.
+- [x] Cards de auditoria reutilizam componentes existentes da timeline.
+- [x] Links para `/contracts/[id]` funcionam em cada card.
+- [x] Loading/error/empty states presentes.
+- [x] Sumário estatístico com 4 métricas.
+- [x] Tela pode ser usada na demo.
 
 ---
 

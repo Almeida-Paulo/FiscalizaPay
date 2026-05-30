@@ -4,4 +4,5 @@ export const queryKeys = {
   contract: (contractId: string) => ["contract", contractId] as const,
   contractEvents: (contractId: string) => ["contract-events", contractId] as const,
   blockchainStatus: (contractId: string) => ["blockchain-status", contractId] as const,
+  auditEvents: ["audit-events"] as const,
 } as const;

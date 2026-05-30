@@ -626,6 +626,67 @@ Os componentes consomem o store — a troca de fonte (mock → wagmi) é local a
 
 ---
 
+## Auditoria e consulta
+
+A tela `/audit` (**Bloco 17**) exibe todos os eventos do sistema consolidados em uma única tela de consulta.
+
+### Arquitetura
+
+```txt
+app/audit/page.tsx                           → Server Component (delegação)
+app/audit/_components/audit-page.tsx         → Client Component — orquestra tudo
+app/audit/_components/audit-filters.tsx      → Busca + filtros + ordenação
+app/audit/_components/audit-summary.tsx      → 4 cards estatísticos
+app/audit/_components/audit-event-list.tsx   → Lista com loading/error/empty states
+app/audit/_components/audit-event-card.tsx   → Card individual de evento
+app/audit/_components/use-audit-events.ts    → Hook TanStack Query
+```
+
+### Hook — `useAuditEvents`
+
+```ts
+// Retorna todos os eventos de todos os contratos, enriquecidos com dados do contrato
+useAuditEvents() → useQuery<AuditEventItem[]>
+
+type AuditEventItem = ContractEvent & {
+  contractNumber: string;
+  contractObject: string;
+  contractStatus: ContractStatus;
+}
+```
+
+A lógica de enriquecimento fica em `getAuditEvents()` no `shared/api/contracts-api.ts` — em modo mock, usa `mockStore.getAllEvents()` e junta com `getContracts()`.
+
+### Filtros disponíveis
+
+| Filtro | Tipo | Opções |
+|---|---|---|
+| Busca geral | texto | contractNumber, contractObject, responsibleName, responsibleWallet, transactionHash, documentHash |
+| Tipo de evento | select | Todos os 8 tipos de `ContractEventType` |
+| Status do contrato | select | Todos os 6 status de `ContractStatus` |
+| Disputas e fraudes | toggle | DISPUTA_ABERTA + FRAUDE_SIMULADA |
+| Ordenação | select | Mais recente / Mais antigo |
+
+### Sumário estatístico
+
+| Card | Métrica |
+|---|---|
+| Total de eventos | count total |
+| Com tx blockchain | eventos com `transactionHash` |
+| Com hash de documento | eventos com `documentHash` |
+| Disputas e fraudes | eventos com `EVENT_TYPE_IS_ALERT = true` |
+
+### Componentes reutilizados no `AuditEventCard`
+
+- `EventTypeIcon` — ícone do tipo de evento
+- `StatusTransition` — de/para status do contrato
+- `DocumentHashViewer` — hash do documento com CopyButton
+- `TransactionHashLink` — link para o block explorer
+- `RoleBadge` — role do responsável
+- `ContractStatusBadge` — status atual do contrato
+
+---
+
 ## Próximo bloco
 
-**Bloco 17 — Auditoria e tela de consulta:** tela `/audit` real com contratos que têm eventos críticos, filtros por status e tipo de evento, cards de auditoria, link para detalhe.
+**Bloco 18 — Responsividade e polish visual:** revisão desktop/mobile, ajuste de espaçamentos e contraste.

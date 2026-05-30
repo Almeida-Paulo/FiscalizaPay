@@ -20,6 +20,8 @@ export const mockStore = {
   getEventsByContractId: (contractId: string): ContractEvent[] =>
     _events.filter((e) => e.contractId === contractId),
 
+  getAllEvents: (): ContractEvent[] => [..._events],
+
   getBlockchainStatus: (contractId: string): BlockchainStatus | undefined =>
     _blockchainStatuses.find((s) => s.contractId === contractId),
 
