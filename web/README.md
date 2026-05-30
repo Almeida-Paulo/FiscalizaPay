@@ -427,11 +427,37 @@ Estados:
 - Not found: EmptyState com botão voltar
 - Disputa: alerta de destaque vermelho
 
-Timeline completa será implementada no **Bloco 13**.
+Painel de ações será implementado no **Bloco 14**.
+
+---
+
+## Timeline auditável
+
+A page `/contracts/[id]` exibe a timeline completa via `ContractTimeline`, substituindo o preview de 3 eventos do Bloco 12.
+
+```txt
+app/contracts/[id]/_components/contract-timeline.tsx       → Client Component (Framer Motion + sorting asc)
+entities/contract-event/ui/contract-event-card.tsx         → Card de evento: ícone, label, descrição, status transition, responsible, hashes
+entities/contract-event/ui/event-type-icon.tsx             → Ícone Lucide por ContractEventType
+entities/contract-event/ui/status-transition.tsx           → statusBefore → statusAfter visual
+entities/contract-event/ui/document-hash-viewer.tsx        → documentHash com shortenHash + CopyButton
+entities/transaction/ui/transaction-hash-link.tsx          → transactionHash com explorer link + CopyButton
+```
+
+Eventos ordenados do mais antigo ao mais recente (ordem cronológica). Cada `ContractEventCard` exibe:
+- Ícone colorido por `isAlert`/`isCritical` (danger/success/primary)
+- Label + timestamp (`formatDateTimeBR`)
+- Descrição completa
+- `StatusTransition` (statusBefore → statusAfter, quando presentes)
+- `responsibleName` + `RoleBadge` (quando presente)
+- `DocumentHashViewer` e/ou `TransactionHashLink` (quando presentes)
+
+Conector vertical (`w-px bg-border`) liga os eventos na linha do tempo, sem conector após o último.
+
 Painel de ações será implementado no **Bloco 14**.
 
 ---
 
 ## Próximo bloco
 
-**Bloco 13 — Timeline auditável:** ContractTimeline, ContractEventCard, ícones por event type, status before/after, hashes, transações.
+**Bloco 14 — Painel de ações:** botões funcionais (confirmar envio/entrega, validar, autorizar, disputar, simular fraude), modal de disputa, simulação de fraude.

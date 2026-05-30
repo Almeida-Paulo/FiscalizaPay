@@ -17,7 +17,7 @@ import { ContractPartiesCard } from "./contract-parties-card";
 import { ContractHashesCard } from "./contract-hashes-card";
 import { ContractBlockchainCard } from "./contract-blockchain-card";
 import { ContractNextActionCard } from "./contract-next-action-card";
-import { ContractEventsPreview } from "./contract-events-preview";
+import { ContractTimeline } from "./contract-timeline";
 
 interface ContractDetailPageProps {
   id: string;
@@ -138,8 +138,8 @@ export function ContractDetailPage({ id }: ContractDetailPageProps) {
           />
         </div>
 
-        {/* Events preview */}
-        <ContractEventsPreview events={events} isLoading={eventsLoading} />
+        {/* Auditable timeline */}
+        <ContractTimeline events={events} isLoading={eventsLoading} />
       </div>
     </div>
   );

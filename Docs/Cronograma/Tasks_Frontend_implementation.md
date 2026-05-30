@@ -956,7 +956,7 @@ Criar a tela mais importante da demo.
 
 ---
 
-## 19. Bloco 13 — Timeline auditável
+## 19. Bloco 13 — Timeline auditável ✅
 
 ### Objetivo
 
@@ -964,29 +964,38 @@ Criar componente visual de auditoria do contrato.
 
 ### Tasks
 
-- [ ] Criar `widgets/contract-timeline`.
-- [ ] Criar `entities/contract-event/ui/ContractEventCard`.
-- [ ] Criar ícones por event type.
-- [ ] Criar label por event type.
-- [ ] Criar status before/after.
-- [ ] Exibir responsável.
-- [ ] Exibir role.
-- [ ] Exibir data/hora.
-- [ ] Exibir documentHash.
-- [ ] Exibir transactionHash.
-- [ ] Criar `TransactionHashLink`.
-- [ ] Criar `DocumentHashViewer`.
-- [ ] Criar estado vazio.
-- [ ] Criar animação de entrada.
-- [ ] Destacar evento atual/concluído.
+- [x] Criar `ContractTimeline` em `app/contracts/[id]/_components/` (Client Component, Framer Motion).
+- [x] Criar `entities/contract-event/ui/ContractEventCard` — card completo de evento.
+- [x] Criar `entities/contract-event/ui/EventTypeIcon` — ícone Lucide por ContractEventType.
+- [x] Criar label por event type (via `EVENT_TYPE_MAP`).
+- [x] Criar `entities/contract-event/ui/StatusTransition` — statusBefore → statusAfter.
+- [x] Exibir responsável (`responsibleName`).
+- [x] Exibir role (`RoleBadge`).
+- [x] Exibir data/hora (`formatDateTimeBR`).
+- [x] Criar `entities/contract-event/ui/DocumentHashViewer` — documentHash + CopyButton.
+- [x] Exibir transactionHash via `TransactionHashLink`.
+- [x] Criar `entities/transaction/ui/TransactionHashLink` — explorer link + CopyButton.
+- [x] Criar estado vazio (EmptyState "Nenhum evento registrado").
+- [x] Criar animação de entrada (Framer Motion, stagger 0.06s).
+- [x] Substituir `ContractEventsPreview` por `ContractTimeline` em `contract-detail-page.tsx`.
 
 ### Critérios de aceite
 
-- [ ] Cada evento é compreensível.
-- [ ] Hash é legível e copiável.
-- [ ] Tx hash possui link quando possível.
-- [ ] Timeline reforça a ideia de auditoria.
-- [ ] Timeline é visualmente forte.
+- [x] Cada evento é compreensível — label + descrição + timestamp + responsável.
+- [x] Hash é legível e copiável — `shortenHash(val, 6)` + `CopyButton`.
+- [x] Tx hash possui link quando possível — `env.explorerUrl/tx/:hash` com ExternalLink.
+- [x] Timeline reforça a ideia de auditoria — ordem cronológica, conector vertical, ícones por tipo.
+- [x] Timeline é visualmente forte — Framer Motion stagger, ícones coloridos, RoleBadge ciano.
+
+### Limites intenciais
+
+- [ ] Painel de ações final → Bloco 14
+- [ ] Modal de disputa → Bloco 14
+- [ ] Simulação de fraude → Bloco 14
+
+### Commit
+
+`feat(frontend): implement auditable contract timeline` — commit pendente após validação.
 
 ---
 
