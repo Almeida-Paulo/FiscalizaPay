@@ -46,9 +46,10 @@ export function DashboardAlerts() {
         {!isLoading && !isError && disputes.length > 0 && (
           <>
             {disputes.map((contract) => (
-              <div
+              <Link
                 key={contract.id}
-                className="rounded-lg border border-danger/20 bg-danger/5 px-4 py-3"
+                href={`/contracts/${contract.id}`}
+                className="block rounded-lg border border-danger/20 bg-danger/5 px-4 py-3 transition-colors hover:border-danger/40 hover:bg-danger/10"
               >
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0 flex-1">
@@ -65,8 +66,9 @@ export function DashboardAlerts() {
                       Atualizado em {formatDateBR(contract.updatedAt)}
                     </p>
                   </div>
+                  <ArrowRight className="mt-0.5 h-3.5 w-3.5 shrink-0 text-muted-foreground" />
                 </div>
-              </div>
+              </Link>
             ))}
 
             <Button asChild variant="outline" size="sm" className="mt-1 w-full gap-1.5 text-xs">

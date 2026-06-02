@@ -15,11 +15,11 @@ export default function HomePage() {
       <p className="mt-4 max-w-md text-base text-muted-foreground">
         {APP_DESCRIPTION}
       </p>
-      <div className="mt-8 flex gap-3">
-        <Button asChild size="lg">
+      <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-center">
+        <Button asChild size="lg" className="w-full sm:w-auto">
           <Link href="/dashboard">Acessar Dashboard</Link>
         </Button>
-        <Button asChild variant="outline" size="lg">
+        <Button asChild variant="outline" size="lg" className="w-full sm:w-auto">
           <Link href="/contracts">Ver contratos</Link>
         </Button>
       </div>

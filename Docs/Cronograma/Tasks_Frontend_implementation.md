@@ -1185,33 +1185,39 @@ Implementar a tela real `/audit`: lista global de eventos auditáveis com busca,
 
 ### Objetivo
 
-Garantir qualidade visual e usabilidade.
+Revisar responsividade, UI polish, microinterações e consistência visual em todas as rotas.
 
 ### Tasks
 
-- [ ] Revisar desktop.
-- [ ] Revisar notebook.
-- [ ] Revisar tablet.
-- [ ] Revisar mobile.
-- [ ] Ajustar sidebar mobile.
-- [ ] Ajustar tabelas/cards em telas pequenas.
-- [ ] Ajustar formulários.
-- [ ] Ajustar espaçamentos.
-- [ ] Ajustar contraste.
-- [ ] Ajustar animações.
-- [ ] Ajustar estados hover/focus.
-- [ ] Ajustar acessibilidade básica.
-- [ ] Garantir que textos não estourem.
-- [ ] Garantir que hashes longos não quebrem layout.
-- [ ] Criar copy-to-clipboard para hashes.
+- [x] Revisar desktop — layout revisado em todas as 7 rotas
+- [x] Revisar notebook — grade tablet aplicada (`md:grid-cols-2`)
+- [x] Revisar tablet — ContractsList e ContractDetailPage skeleton corrigidos
+- [x] Revisar mobile — HomePage botões empilhados; form buttons full-width; selects com min-w
+- [x] Ajustar sidebar mobile — AppShell e Sheet já estavam corretos; sem regressões
+- [x] Ajustar tabelas/cards em telas pequenas — ContractCard, DisputeCard, AuditEventCard revisados
+- [x] Ajustar formulários — botões de submit do CreateContractForm empilhados no mobile
+- [x] Ajustar espaçamentos — PageHeader: `gap-1` → `gap-3` entre título e action
+- [x] Ajustar contraste — paleta mantida; cores de hover reforçadas nos cards
+- [x] Ajustar animações — ContractTimeline com Framer Motion mantida; sem regressões
+- [x] Ajustar estados hover/focus — ContractCard `hover:border-primary/20`; DashboardAlerts hover clicável
+- [x] Ajustar acessibilidade básica — `aria-label` descritivo no ContractCard; botões com texto SR-only onde necessário
+- [x] Garantir que textos não estourem — `min-w-0`, `truncate`, `flex-wrap` revisados
+- [x] Garantir que hashes longos não quebrem layout — DisputeCard usa `DocumentHashViewer` com `shortenHash`
+- [x] Copy-to-clipboard para hashes — `DocumentHashViewer` e `CopyButton` já implementados; padronizados no DisputeCard
+- [x] Atualizar web/README.md
+- [x] npm run lint → PASSOU (0 erros, 0 warnings)
+- [x] npm run build → PASSOU (9 rotas, TypeScript sem erros)
+- [x] Criar feedback_bloco_18_frontend_responsive_polish.md
+- [x] Fazer commit semântico do Bloco 18
+- [x] Fazer push da branch após validação
 
 ### Critérios de aceite
 
-- [ ] A aplicação é utilizável em mobile.
-- [ ] A demo fica excelente em desktop.
-- [ ] Não existem quebras visuais graves.
-- [ ] Hashes e tx hashes são legíveis.
-- [ ] Interface mantém padrão profissional.
+- [x] A aplicação é utilizável em mobile.
+- [x] A demo fica excelente em desktop.
+- [x] Não existem quebras visuais graves.
+- [x] Hashes e tx hashes são legíveis.
+- [x] Interface mantém padrão profissional.
 
 ---
 

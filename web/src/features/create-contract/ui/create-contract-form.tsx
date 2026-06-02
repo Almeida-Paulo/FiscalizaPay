@@ -338,16 +338,17 @@ export function CreateContractForm() {
       </Card>
 
       {/* Actions */}
-      <div className="flex items-center justify-end gap-3">
+      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
         <Button
           type="button"
           variant="outline"
           onClick={() => router.push("/contracts")}
           disabled={isPending}
+          className="w-full sm:w-auto"
         >
           Cancelar
         </Button>
-        <Button type="submit" disabled={isPending}>
+        <Button type="submit" disabled={isPending} className="w-full sm:w-auto">
           {isPending ? "Salvando..." : "Criar contrato"}
         </Button>
       </div>

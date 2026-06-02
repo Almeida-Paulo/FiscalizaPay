@@ -3,6 +3,7 @@ import { AlertTriangle, ArrowRight, Building2, Package } from "lucide-react";
 import { Card, CardContent } from "@/shared/ui/card";
 import { Badge } from "@/shared/ui/badge";
 import { Button } from "@/shared/ui/button";
+import { DocumentHashViewer } from "@/entities/contract-event/ui/document-hash-viewer";
 import type { Contract } from "@/entities/contract";
 import { formatCurrencyBRL } from "@/shared/lib/formatters";
 
@@ -54,10 +55,8 @@ export function DisputeCard({ contract }: DisputeCardProps) {
               </div>
               {contract.documentHash && (
                 <div className="mt-2 rounded-md bg-muted/30 px-2 py-1.5">
-                  <p className="text-xs text-muted-foreground mb-0.5">Hash do documento</p>
-                  <p className="font-mono text-xs text-foreground/70 break-all">
-                    {contract.documentHash}
-                  </p>
+                  <p className="mb-1 text-xs text-muted-foreground">Hash do documento</p>
+                  <DocumentHashViewer hash={contract.documentHash} />
                 </div>
               )}
             </div>
@@ -66,11 +65,11 @@ export function DisputeCard({ contract }: DisputeCardProps) {
             asChild
             variant="ghost"
             size="sm"
-            className="shrink-0 text-muted-foreground hover:text-foreground"
+            className="shrink-0 gap-1.5 text-xs text-muted-foreground hover:text-foreground"
           >
             <Link href={`/contracts/${contract.id}`}>
+              <span className="hidden sm:inline">Ver contrato</span>
               <ArrowRight className="h-4 w-4" />
-              <span className="sr-only">Ver contrato {contract.contractNumber}</span>
             </Link>
           </Button>
         </div>

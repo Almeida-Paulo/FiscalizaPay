@@ -72,7 +72,7 @@ export function AuditFilters({ filters, onChange, resultCount, totalCount }: Aud
           value={filters.eventType}
           onValueChange={(v) => set({ eventType: v as ContractEventType | "all" })}
         >
-          <SelectTrigger size="sm" className="h-8 w-auto text-xs">
+          <SelectTrigger size="sm" className="h-8 min-w-[160px] text-xs">
             <SelectValue placeholder="Tipo de evento" />
           </SelectTrigger>
           <SelectContent>
@@ -90,7 +90,7 @@ export function AuditFilters({ filters, onChange, resultCount, totalCount }: Aud
           value={filters.contractStatus}
           onValueChange={(v) => set({ contractStatus: v as ContractStatus | "all" })}
         >
-          <SelectTrigger size="sm" className="h-8 w-auto text-xs">
+          <SelectTrigger size="sm" className="h-8 min-w-[150px] text-xs">
             <SelectValue placeholder="Status do contrato" />
           </SelectTrigger>
           <SelectContent>
@@ -108,7 +108,7 @@ export function AuditFilters({ filters, onChange, resultCount, totalCount }: Aud
           value={filters.orderBy}
           onValueChange={(v) => set({ orderBy: v as "newest" | "oldest" })}
         >
-          <SelectTrigger size="sm" className="h-8 w-auto text-xs">
+          <SelectTrigger size="sm" className="h-8 min-w-[130px] text-xs">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>

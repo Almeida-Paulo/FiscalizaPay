@@ -26,7 +26,7 @@ export function ContractsList({
 }: ContractsListProps) {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
           <Card key={i} className="gap-0 py-0">
             <div className="px-5 pt-5">
@@ -82,7 +82,7 @@ export function ContractsList({
   }
 
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
       {contracts.map((contract) => (
         <ContractCard key={contract.id} contract={contract} />
       ))}

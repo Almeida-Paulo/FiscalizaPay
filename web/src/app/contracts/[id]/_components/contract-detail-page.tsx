@@ -59,7 +59,7 @@ export function ContractDetailPage({ id }: ContractDetailPageProps) {
             <Skeleton className="h-64 rounded-xl" />
             <Skeleton className="h-40 rounded-xl" />
           </div>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             <Skeleton className="h-48 rounded-xl" />
             <Skeleton className="h-48 rounded-xl" />
             <Skeleton className="h-48 rounded-xl" />

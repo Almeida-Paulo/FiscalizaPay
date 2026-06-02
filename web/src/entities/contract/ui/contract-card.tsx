@@ -19,8 +19,8 @@ export function ContractCard({ contract, className }: ContractCardProps) {
   return (
     <Card
       className={cn(
-        "gap-0 py-0 transition-shadow hover:shadow-md",
-        isDispute && "border-danger/30",
+        "gap-0 py-0 transition-all hover:shadow-md",
+        isDispute ? "border-danger/30 hover:border-danger/50" : "hover:border-primary/20",
         className,
       )}
     >
@@ -68,9 +68,16 @@ export function ContractCard({ contract, className }: ContractCardProps) {
             <span className="text-xs">Prazo: {formatDateBR(contract.deadline)}</span>
           </div>
         </div>
-        <Button asChild variant="ghost" size="sm" className="h-7 shrink-0 gap-1 text-xs">
+        <Button
+          asChild
+          variant="ghost"
+          size="sm"
+          className="h-7 shrink-0 gap-1 text-xs"
+          aria-label={`Ver detalhes do contrato ${contract.contractNumber}`}
+        >
           <Link href={`/contracts/${contract.id}`}>
-            Ver <ArrowRight className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Detalhes</span>
+            <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         </Button>
       </div>

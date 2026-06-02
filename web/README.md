@@ -687,6 +687,37 @@ A lógica de enriquecimento fica em `getAuditEvents()` no `shared/api/contracts-
 
 ---
 
+## Responsividade e polish visual
+
+O **Bloco 18** realizou uma revisão visual e responsiva em todo o frontend.
+
+### Melhorias aplicadas
+
+| Arquivo | Melhoria |
+|---|---|
+| `shared/ui/page-header.tsx` | Título menor em mobile (`text-xl sm:text-2xl`), `gap-3` entre título e action, `min-w-0` para truncamento seguro, `flex-wrap` no título com badge |
+| `widgets/contracts-list` | Grid tablet: `lg:grid-cols-2` → `md:grid-cols-2` — contratos em 2 colunas a partir de 768px |
+| `entities/contract/ui/contract-card` | `transition-all` + `hover:border-primary/20` (normal) / `hover:border-danger/50` (disputa) — feedback de hover; botão "Ver" → "Detalhes" com `aria-label` descritivo |
+| `app/contracts/[id]/_components/contract-detail-page` | Skeleton da grade secundária: `md:grid-cols-3` → `md:grid-cols-2 lg:grid-cols-3` — consistente com layout carregado |
+| `app/disputes/_components/dispute-card` | Hash do documento via `DocumentHashViewer` (consistente com timeline); botão com texto "Ver contrato" visível no desktop |
+| `app/audit/_components/audit-event-card` | Ícone `ExternalLink` → `ArrowUpRight` para link interno ao contrato |
+| `app/audit/_components/audit-filters` | Selects com `min-w-[130px–160px]` para não ficarem estreitos no mobile com `flex-wrap` |
+| `features/create-contract/ui/create-contract-form` | Botões de submit: `flex-col-reverse sm:flex-row sm:justify-end` — full-width em mobile, alinhados à direita em desktop |
+| `app/page.tsx` | Botões landing: `flex-col sm:flex-row` — empilhados em mobile pequeno |
+| `widgets/dashboard-alerts` | Cada alerta de disputa agora é um link clicável para `/contracts/[id]` com hover `border-danger/40` |
+
+### Responsividade por rota
+
+- `/` — botões empilhados em mobile 360px
+- `/dashboard` — alertas clicáveis, grade de métricas intacta
+- `/contracts` — grade tablet 2 colunas, cards com hover melhorado
+- `/contracts/new` — botões de formulário full-width em mobile
+- `/contracts/[id]` — skeleton consistente com layout real
+- `/disputes` — hash encurtado com CopyButton, botão com label visível
+- `/audit` — selects com largura mínima, ícone de link corrigido
+
+---
+
 ## Próximo bloco
 
-**Bloco 18 — Responsividade e polish visual:** revisão desktop/mobile, ajuste de espaçamentos e contraste.
+**Bloco 19 — Integração com API real:** troca gradual de mocks por endpoints reais quando o backend estiver disponível.

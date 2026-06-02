@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ExternalLink } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { Card } from "@/shared/ui/card";
 import { cn } from "@/shared/lib/utils";
 import { formatDateTimeBR } from "@/shared/lib/formatters";
@@ -58,7 +58,7 @@ export function AuditEventCard({ event }: AuditEventCardProps) {
               className="flex items-center gap-1 text-xs text-primary hover:underline"
             >
               <span className="font-mono">{event.contractNumber}</span>
-              <ExternalLink className="h-3 w-3 shrink-0" />
+              <ArrowUpRight className="h-3 w-3 shrink-0" />
             </Link>
             <span className="hidden text-xs text-muted-foreground sm:inline">
               {event.contractObject}
