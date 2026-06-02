@@ -203,7 +203,7 @@ Docs/Cronograma/Tasks_Frontend_implementation.md
 
 | Item | Valor |
 |---|---|
-| Commit Bloco 18 | (a preencher após commit) |
+| Commit Bloco 18 | `d783974` |
 | Mensagem | `feat(frontend): polish responsive user interface` |
 | Push | ✅ sim |
 | Branch | `main` |
