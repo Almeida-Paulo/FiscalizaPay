@@ -5,7 +5,7 @@ import type { DashboardSummary } from "@/entities/contract";
 import { mockStore } from "@/shared/mocks/mock-store";
 
 export async function getDashboardSummary(): Promise<ApiResponse<DashboardSummary>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     return { data: mockStore.getDashboardSummary() };
   }
   return httpClient.get<DashboardSummary>("/dashboard/summary");

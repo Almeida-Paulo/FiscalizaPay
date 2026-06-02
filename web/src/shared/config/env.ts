@@ -1,8 +1,15 @@
 export const env = {
-  apiUrl: process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:3001",
+  // NEXT_PUBLIC_API_BASE_URL takes precedence; NEXT_PUBLIC_API_URL kept for backward compat
+  apiBaseUrl:
+    process.env.NEXT_PUBLIC_API_BASE_URL ??
+    process.env.NEXT_PUBLIC_API_URL ??
+    "http://localhost:3001",
   chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID ?? 80002),
   contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? "",
-  enableMocks: process.env.NEXT_PUBLIC_ENABLE_MOCKS !== "false",
+  // Either USE_MOCKS or ENABLE_MOCKS must be "false" to disable mocks; default is true
+  useMocks:
+    process.env.NEXT_PUBLIC_USE_MOCKS !== "false" &&
+    process.env.NEXT_PUBLIC_ENABLE_MOCKS !== "false",
   explorerUrl:
     process.env.NEXT_PUBLIC_EXPLORER_URL ?? "https://amoy.polygonscan.com",
   walletConnectProjectId:

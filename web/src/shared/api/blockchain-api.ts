@@ -18,7 +18,7 @@ type RegisterOnChainResult = {
 export async function getBlockchainStatus(
   contractId: string,
 ): Promise<ApiResponse<BlockchainStatus>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const status = mockStore.getBlockchainStatus(contractId);
     if (!status) MockErrors.notFound("Status blockchain");
     return { data: status! };
@@ -29,7 +29,7 @@ export async function getBlockchainStatus(
 export async function registerOnChain(
   contractId: string,
 ): Promise<ApiResponse<RegisterOnChainResult>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const now = new Date().toISOString();
     const txHash = `0xmock_onchain_${Date.now().toString(16)}`;
     const blockNumber = 12350000 + Math.floor(Math.random() * 1000);

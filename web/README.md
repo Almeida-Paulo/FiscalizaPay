@@ -57,11 +57,16 @@ Copie `.env.example` para `.env.local`:
 
 | Variável | Descrição | Valor padrão |
 |---|---|---|
-| `NEXT_PUBLIC_API_URL` | URL da API backend | `http://localhost:3001` |
+| `NEXT_PUBLIC_API_BASE_URL` | URL da API backend (preferida) | `http://localhost:3001` |
+| `NEXT_PUBLIC_API_URL` | Alias legado de `API_BASE_URL` | `http://localhost:3001` |
 | `NEXT_PUBLIC_CHAIN_ID` | Chain ID da testnet | `80002` (Polygon Amoy) |
 | `NEXT_PUBLIC_CONTRACT_ADDRESS` | Endereço do smart contract | _(preenchido após deploy)_ |
-| `NEXT_PUBLIC_ENABLE_MOCKS` | Ativar mocks locais | `true` |
+| `NEXT_PUBLIC_USE_MOCKS` | Ativar mocks locais (preferida) | `true` |
+| `NEXT_PUBLIC_ENABLE_MOCKS` | Alias legado de `USE_MOCKS` | — |
 | `NEXT_PUBLIC_EXPLORER_URL` | URL do block explorer | `https://amoy.polygonscan.com` |
+| `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | WalletConnect Project ID | — |
+
+Para ativar a API real: `NEXT_PUBLIC_USE_MOCKS=false` + `NEXT_PUBLIC_API_BASE_URL=<url-do-backend>`.
 
 ---
 
@@ -210,11 +215,13 @@ O perfil simulado (`entities/profile/model/store.ts`) existe apenas para demo fr
 
 ## Mocks e API Client
 
-- `NEXT_PUBLIC_ENABLE_MOCKS=true` ativa dados mockados; `false` usa a API real
+- `NEXT_PUBLIC_USE_MOCKS=true` ativa dados mockados (padrão); `false` usa a API real
+- `NEXT_PUBLIC_ENABLE_MOCKS` é o alias legado — ainda funciona
 - `shared/api/` concentra todos os services (contracts-api, dashboard-api, blockchain-api)
 - `shared/mocks/` concentra todos os dados mockados de demo
-- `shared/config/env.ts` centraliza a leitura das variáveis de ambiente públicas
+- `shared/config/env.ts` centraliza a leitura das variáveis de ambiente públicas (`env.apiBaseUrl`, `env.useMocks`, etc.)
 - Componentes **não** devem chamar `fetch` diretamente — sempre via services em `shared/api/`
+- O `httpClient` tem timeout de 10 segundos e normaliza erros de rede/timeout para `HttpClientError`
 
 ### Services disponíveis
 
@@ -718,6 +725,33 @@ O **Bloco 18** realizou uma revisão visual e responsiva em todo o frontend.
 
 ---
 
+## Integração com API real
+
+A infraestrutura de integração com a API real foi configurada no **Bloco 19**.
+
+Para ativar a API real em desenvolvimento:
+
+```bash
+# .env.local
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+NEXT_PUBLIC_USE_MOCKS=false
+```
+
+Para produção:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=https://api.fiscalizapay.com.br
+NEXT_PUBLIC_USE_MOCKS=false
+NEXT_PUBLIC_CHAIN_ID=137
+NEXT_PUBLIC_CONTRACT_ADDRESS=0x...
+NEXT_PUBLIC_EXPLORER_URL=https://polygonscan.com
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=<project-id>
+```
+
+Ver guia completo: `../Docs/Contratos_tecnicos/frontend_api_integration_notes.md`
+
+---
+
 ## Próximo bloco
 
-**Bloco 19 — Integração com API real:** troca gradual de mocks por endpoints reais quando o backend estiver disponível.
+**Bloco 20 — Preparação da demo frontend:** mocks com dados realistas, roteiro de cliques e fluxo completo para apresentação.

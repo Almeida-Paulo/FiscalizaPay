@@ -66,7 +66,7 @@ function persistAction(
 // ── GET /contracts ──────────────────────────────────────────────────────────
 
 export async function getContracts(): Promise<ApiResponse<Contract[]>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     return { data: mockStore.getContracts() };
   }
   return httpClient.get<Contract[]>("/contracts");
@@ -75,7 +75,7 @@ export async function getContracts(): Promise<ApiResponse<Contract[]>> {
 // ── GET /contracts/:id ──────────────────────────────────────────────────────
 
 export async function getContractById(contractId: string): Promise<ApiResponse<Contract>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const contract = mockStore.getContractById(contractId);
     if (!contract) MockErrors.notFound("Contrato");
     return { data: contract! };
@@ -88,7 +88,7 @@ export async function getContractById(contractId: string): Promise<ApiResponse<C
 export async function createContract(
   payload: CreateContractPayload,
 ): Promise<ApiResponse<Contract>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const now = new Date().toISOString();
     const newContract: Contract = {
       id: `mock-contract-${Date.now()}`,
@@ -119,7 +119,7 @@ export async function updateContract(
   contractId: string,
   payload: UpdateContractPayload,
 ): Promise<ApiResponse<Contract>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const contract = mockStore.getContractById(contractId);
     if (!contract) MockErrors.notFound("Contrato");
     if (contract!.status !== "CRIADO") {
@@ -134,7 +134,7 @@ export async function updateContract(
 // ── DELETE /contracts/:id ───────────────────────────────────────────────────
 
 export async function deleteContract(contractId: string): Promise<ApiResponse<null>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const contract = mockStore.getContractById(contractId);
     if (!contract) MockErrors.notFound("Contrato");
     if (contract!.status !== "CRIADO") {
@@ -155,7 +155,7 @@ export type AuditEventItem = ContractEvent & {
 };
 
 export async function getAuditEvents(): Promise<ApiResponse<AuditEventItem[]>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const contracts = mockStore.getContracts();
     const contractMap = new Map(contracts.map((c) => [c.id, c]));
     const events = mockStore.getAllEvents();
@@ -180,7 +180,7 @@ export async function getAuditEvents(): Promise<ApiResponse<AuditEventItem[]>> {
 export async function getContractEvents(
   contractId: string,
 ): Promise<ApiResponse<ContractEvent[]>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     return { data: mockStore.getEventsByContractId(contractId) };
   }
   return httpClient.get<ContractEvent[]>(`/contracts/${contractId}/events`);
@@ -192,7 +192,7 @@ export async function confirmShipment(
   contractId: string,
   payload?: ContractActionPayload,
 ): Promise<ApiResponse<ActionResult>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const contract = mockStore.getContractById(contractId);
     if (!contract) MockErrors.notFound("Contrato");
     if (contract!.status !== "CRIADO") {
@@ -217,7 +217,7 @@ export async function confirmDelivery(
   contractId: string,
   payload?: ContractActionPayload,
 ): Promise<ApiResponse<ActionResult>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const contract = mockStore.getContractById(contractId);
     if (!contract) MockErrors.notFound("Contrato");
     if (contract!.status !== "ENVIADO") {
@@ -242,7 +242,7 @@ export async function validateReceipt(
   contractId: string,
   payload?: ContractActionPayload,
 ): Promise<ApiResponse<ActionResult>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const contract = mockStore.getContractById(contractId);
     if (!contract) MockErrors.notFound("Contrato");
     if (contract!.status !== "ENTREGUE") {
@@ -267,7 +267,7 @@ export async function authorizePayment(
   contractId: string,
   payload?: ContractActionPayload,
 ): Promise<ApiResponse<ActionResult>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const contract = mockStore.getContractById(contractId);
     if (!contract) MockErrors.notFound("Contrato");
     if (contract!.status !== "VALIDADO") {
@@ -292,7 +292,7 @@ export async function openDispute(
   contractId: string,
   payload: OpenDisputePayload,
 ): Promise<ApiResponse<ActionResult>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const contract = mockStore.getContractById(contractId);
     if (!contract) MockErrors.notFound("Contrato");
     if (contract!.status === "PAGAMENTO_AUTORIZADO") {
@@ -323,7 +323,7 @@ export async function simulateFraud(
   contractId: string,
   payload: SimulateFraudPayload,
 ): Promise<ApiResponse<SimulateFraudResult>> {
-  if (env.enableMocks) {
+  if (env.useMocks) {
     const contract = mockStore.getContractById(contractId);
     if (!contract) MockErrors.notFound("Contrato");
     if (!payload.newDocumentHash) {

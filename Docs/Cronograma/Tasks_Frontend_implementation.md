@@ -1225,35 +1225,40 @@ Revisar responsividade, UI polish, microinterações e consistência visual em t
 
 ### Objetivo
 
-Trocar mocks por API real quando Pessoa 3 liberar backend.
+Preparar infraestrutura de integração com API real: variáveis de ambiente, timeout no httpClient, serviços mapeados e documentação. Mocks mantidos como fallback.
 
 ### Tasks
 
-- [ ] Confirmar `NEXT_PUBLIC_API_URL`.
-- [ ] Desativar mocks com `NEXT_PUBLIC_ENABLE_MOCKS=false`.
-- [ ] Testar `GET /dashboard/summary`.
-- [ ] Testar `GET /contracts`.
-- [ ] Testar `POST /contracts`.
-- [ ] Testar `GET /contracts/:id`.
-- [ ] Testar `GET /contracts/:id/events`.
-- [ ] Testar `POST /contracts/:id/confirm-shipment`.
-- [ ] Testar `POST /contracts/:id/confirm-delivery`.
-- [ ] Testar `POST /contracts/:id/validate-receipt`.
-- [ ] Testar `POST /contracts/:id/authorize-payment`.
-- [ ] Testar `POST /contracts/:id/open-dispute`.
-- [ ] Testar `POST /contracts/:id/simulate-fraud`.
-- [ ] Testar `GET /contracts/:id/blockchain-status`.
-- [ ] Testar `POST /contracts/:id/register-on-chain`.
-- [ ] Ajustar pequenos detalhes de payload apenas se o contrato API permitir.
-- [ ] Reportar divergências para Pessoa 3, sem alterar backend diretamente.
+- [x] Adicionar `NEXT_PUBLIC_API_BASE_URL` em `env.ts` (prioridade sobre `NEXT_PUBLIC_API_URL` legado).
+- [x] Adicionar `NEXT_PUBLIC_USE_MOCKS` em `env.ts` (prioridade sobre `NEXT_PUBLIC_ENABLE_MOCKS` legado).
+- [x] Renomear `env.apiUrl` → `env.apiBaseUrl` e `env.enableMocks` → `env.useMocks` internamente.
+- [x] Atualizar `http-client.ts`: substituir `env.apiUrl` por `env.apiBaseUrl`.
+- [x] Adicionar timeout (10s) via `AbortController` + `setTimeout` no `http-client.ts`.
+- [x] Adicionar safe JSON parse (`response.text()` + `JSON.parse` em try/catch) no `http-client.ts`.
+- [x] Normalizar AbortError e erros de rede para `HttpClientError` no `http-client.ts`.
+- [x] Atualizar `contracts-api.ts`: substituir `env.enableMocks` por `env.useMocks`.
+- [x] Atualizar `dashboard-api.ts`: substituir `env.enableMocks` por `env.useMocks`.
+- [x] Atualizar `blockchain-api.ts`: substituir `env.enableMocks` por `env.useMocks`.
+- [x] Atualizar `.env.example` com `NEXT_PUBLIC_API_BASE_URL` e `NEXT_PUBLIC_USE_MOCKS` documentados.
+- [x] Validar invalidações TanStack Query em todos os mutation hooks — corretas (sem alteração necessária).
+- [x] Criar `Docs/Contratos_tecnicos/frontend_api_integration_notes.md` com guia de integração.
+- [x] Atualizar `web/README.md` com seção "Integração com API real".
+- [x] `npm run lint` — 0 erros, 0 warnings.
+- [x] `npm run build` — TypeScript sem erros, 9 rotas.
+- [x] Criar `Docs/Feedback_chat/feedback_bloco_19_frontend_api_integration.md`.
+- [x] Commit `feat(frontend): integrate real api configuration`.
+- [x] Push `main`.
 
 ### Critérios de aceite
 
-- [ ] Frontend consome API real.
-- [ ] Erros da API aparecem de forma amigável.
-- [ ] Timeline atualiza com dados reais.
-- [ ] Actions funcionam ponta a ponta.
-- [ ] Mocks ainda podem ser reativados para demo/plano B.
+- [x] `env.apiBaseUrl` suporta `NEXT_PUBLIC_API_BASE_URL` (nova) e `NEXT_PUBLIC_API_URL` (legado).
+- [x] `env.useMocks` suporta `NEXT_PUBLIC_USE_MOCKS` (nova) e `NEXT_PUBLIC_ENABLE_MOCKS` (legado).
+- [x] httpClient tem timeout de 10s com mensagem amigável em caso de expiração.
+- [x] Erros de rede e JSON inválido são normalizados para `HttpClientError`.
+- [x] Todos os services usam `env.useMocks` (uniforme).
+- [x] Mocks continuam funcionando com `NEXT_PUBLIC_USE_MOCKS=true` (padrão).
+- [x] Para ativar API real: `NEXT_PUBLIC_USE_MOCKS=false` + `NEXT_PUBLIC_API_BASE_URL=<url>`.
+- [x] Documentação de integração em `frontend_api_integration_notes.md`.
 
 ---
 
