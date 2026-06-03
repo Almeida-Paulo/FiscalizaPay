@@ -15,7 +15,7 @@ export function AppShell({ children }: AppShellProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   return (
-    <div className="flex h-full w-full overflow-hidden">
+    <div className="flex h-screen w-full overflow-hidden">
       {/* Desktop sidebar — hidden on mobile */}
       <AppSidebar pathname={pathname} className="hidden md:flex" />
 
