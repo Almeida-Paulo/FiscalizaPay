@@ -725,6 +725,61 @@ O **Bloco 18** realizou uma revisão visual e responsiva em todo o frontend.
 
 ---
 
+## Demo MVP
+
+O FiscalizaPay tem um MVP completo e demonstrável com dados mock realistas.
+
+### Objetivo do produto
+
+Plataforma de rastreabilidade de contratos públicos com blockchain — cada etapa do contrato (criação, envio, entrega, validação, pagamento) gera um registro imutável na Polygon Amoy. Adulterações de documentos são detectadas automaticamente por hash divergente.
+
+### Fluxo recomendado para demo
+
+```
+Landing (/)
+  ↓
+Dashboard (/dashboard)        — métricas, alertas, 6 contratos monitorados
+  ↓
+CT-2026-006 (/contracts/mock-contract-6)   — fraude detectada, hash divergente, R$ 2.34M bloqueados
+  ↓
+CT-2026-005 (/contracts/mock-contract-5)   — fluxo completo R$ 12.75M, 6 eventos blockchain
+  ↓
+Auditoria (/audit)            — visão consolidada, filtro "Disputas e fraudes"
+  ↓
+Simulação ao vivo             — CT-2026-004 (VALIDADO) → perfil AUDITOR → "Simular Fraude"
+```
+
+### Dados mock disponíveis
+
+| Contrato | Órgão | Valor | Status |
+|---|---|---|---|
+| CT-2026-001 | Prefeitura SP — Computadores | R$ 480K | CRIADO |
+| CT-2026-002 | SES-RJ — Ultrassom | R$ 1.25M | ENVIADO |
+| CT-2026-003 | MEC/FNDE — Livros didáticos | R$ 375K | ENTREGUE |
+| CT-2026-004 | ANVISA — Insumos lab | R$ 892K | VALIDADO |
+| CT-2026-005 | DNIT — Recape BR-101 | R$ 12.75M | PAGAMENTO_AUTORIZADO |
+| CT-2026-006 | PBH — Limpeza pública | R$ 2.34M | **DISPUTA** (fraude) |
+
+### Modo mock (padrão)
+
+```bash
+# .env.local — padrão, nenhuma alteração necessária
+NEXT_PUBLIC_USE_MOCKS=true
+```
+
+Todos os dados, ações e eventos funcionam sem backend. Estado reseta com F5.
+
+### Documentação da demo
+
+- `Docs/Demo/demo_flow.md` — roteiro passo a passo (o que dizer + o que clicar)
+- `Docs/Demo/demo_execution_guide.md` — como rodar, variáveis, troubleshooting
+- `Docs/Demo/storytelling_demo.md` — narrativa do problema e solução
+- `Docs/Demo/executive_pitch.md` — pitch em 30s, 1min, 3min e 5min
+- `Docs/Demo/demo_dataset.md` — dados detalhados de cada contrato mock
+- `Docs/Demo/mvp_readiness_report.md` — avaliação de prontidão (7.9/10)
+
+---
+
 ## Integração com API real
 
 A infraestrutura de integração com a API real foi configurada no **Bloco 19**.
