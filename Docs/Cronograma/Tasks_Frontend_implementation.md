@@ -551,7 +551,7 @@ Criar regras visuais para habilitar/desabilitar ações no frontend.
 ### Versionamento
 
 - [x] Fazer commit semântico do Bloco 5.
-- [ ] Fazer push da branch após validação.
+- [x] Fazer push da branch após validação.
 
 ### Observação importante
 
