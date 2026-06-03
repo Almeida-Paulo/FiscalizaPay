@@ -30,10 +30,9 @@ npm install
 
 # 2. Configurar variáveis de ambiente
 cp .env.example .env.local
-# Edite .env.local com seus valores
 
 # 3. Rodar em desenvolvimento
-npm run dev
+npm run developer
 ```
 
 Acesse: http://localhost:3000
@@ -43,10 +42,12 @@ Acesse: http://localhost:3000
 ## Scripts disponíveis
 
 ```bash
-npm run dev      # Servidor de desenvolvimento
-npm run build    # Build de produção
-npm run start    # Servidor de produção
-npm run lint     # Linter ESLint
+npm run developer   # Servidor de desenvolvimento local (next dev)
+npm run production  # Build de produção (next build) — mesmo que a Vercel executa
+npm run dev         # Alias de developer
+npm run build       # Alias de production
+npm run start       # Servidor de produção (após build)
+npm run lint        # Linter ESLint
 ```
 
 ---
@@ -777,6 +778,47 @@ Todos os dados, ações e eventos funcionam sem backend. Estado reseta com F5.
 - `Docs/Demo/executive_pitch.md` — pitch em 30s, 1min, 3min e 5min
 - `Docs/Demo/demo_dataset.md` — dados detalhados de cada contrato mock
 - `Docs/Demo/mvp_readiness_report.md` — avaliação de prontidão (7.9/10)
+
+---
+
+## Deploy Vercel
+
+### Configuração do projeto na Vercel
+
+| Campo | Valor |
+|---|---|
+| **Framework Preset** | Next.js (detectado automaticamente) |
+| **Root Directory** | `web` |
+| **Build Command** | `npm run production` |
+| **Output Directory** | `.next` |
+| **Install Command** | `npm install` |
+| **Node.js Version** | 18.x ou 20.x |
+
+### Variáveis de ambiente na Vercel (modo demo)
+
+```env
+NEXT_PUBLIC_USE_MOCKS=true
+NEXT_PUBLIC_CHAIN_ID=80002
+NEXT_PUBLIC_EXPLORER_URL=https://amoy.polygonscan.com
+NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+```
+
+Com `NEXT_PUBLIC_USE_MOCKS=true`, o deploy funciona sem backend — todos os dados virão dos mocks.
+
+### Modo API real (quando backend disponível)
+
+```env
+NEXT_PUBLIC_USE_MOCKS=false
+NEXT_PUBLIC_API_BASE_URL=https://api.fiscalizapay.com.br
+NEXT_PUBLIC_CHAIN_ID=137
+NEXT_PUBLIC_EXPLORER_URL=https://polygonscan.com
+NEXT_PUBLIC_CONTRACT_ADDRESS=0x...
+NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=<project-id>
+```
+
+### `vercel.json`
+
+Não necessário — a Vercel detecta Next.js automaticamente. Consulte o guia completo em `Docs/Deploy/vercel_deploy_guide.md`.
 
 ---
 

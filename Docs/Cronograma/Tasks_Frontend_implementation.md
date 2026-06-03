@@ -1296,7 +1296,40 @@ Preparar experiência de demonstração profissional: documentação completa, s
 
 ---
 
-## 27. Checklist resumido por prioridade
+## 27. Bloco 21 — Deploy Vercel e preparação production
+
+### Objetivo
+
+Preparar o frontend para deploy na Vercel com scripts padronizados, documentação de deploy e validação de build de produção.
+
+### Tasks
+
+- [x] Adicionar script `developer` (`next dev`) ao `package.json`.
+- [x] Adicionar script `production` (`next build`) ao `package.json`.
+- [x] Manter scripts existentes (`dev`, `build`, `start`, `lint`) sem quebra.
+- [x] Validar que `.env.example` contém todas as variáveis necessárias para a Vercel.
+- [x] Criar `Docs/Deploy/vercel_deploy_guide.md` com guia completo de deploy.
+- [x] Atualizar `web/README.md` com seção "Deploy Vercel".
+- [x] Confirmar que `vercel.json` não é necessário (Vercel detecta Next.js automaticamente).
+- [x] Executar `npm run lint` — 0 erros, 0 warnings.
+- [x] Executar `npm run production` — build passou, 9 rotas, TypeScript sem erros.
+- [x] Criar `Docs/Feedback_chat/feedback_bloco_21_frontend_vercel_production.md`.
+- [x] Commit `chore(frontend): prepare vercel production deploy`.
+- [x] Push `main`.
+
+### Critérios de aceite
+
+- [x] `npm run developer` existe e funciona.
+- [x] `npm run production` existe e funciona.
+- [x] `npm run build` e `npm run lint` continuam funcionando.
+- [x] `.env.example` com todas as variáveis Vercel documentadas.
+- [x] Guia de deploy Vercel criado com checklist e tabela de variáveis.
+- [x] README atualizado com configuração da Vercel.
+- [x] Backend e smart contract não alterados.
+
+---
+
+## 28. Checklist resumido por prioridade
 
 ## Prioridade P0 — Fundação obrigatória
 
