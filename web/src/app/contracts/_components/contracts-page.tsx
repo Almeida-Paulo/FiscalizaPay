@@ -9,6 +9,8 @@ import { useContracts } from "@/entities/contract/api/use-contracts";
 import { ContractsFilters, type StatusFilter, type SortOrder } from "@/widgets/contracts-filters";
 import { ContractsList } from "@/widgets/contracts-list";
 import { ContractsSummaryBar } from "@/widgets/contracts-summary-bar";
+import { useProfileStore } from "@/entities/profile/model/store";
+import { canCreateContract } from "@/entities/contract/model/rules";
 
 const DEFAULT_SORT: SortOrder = "updatedAt_desc";
 
@@ -30,6 +32,8 @@ function sortContracts(contracts: ReturnType<typeof useContracts>["data"], order
 
 export function ContractsPage() {
   const { data: contracts, isLoading, isError } = useContracts();
+  const currentProfile = useProfileStore((s) => s.currentProfile);
+  const canCreate = canCreateContract(currentProfile);
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");
@@ -80,9 +84,11 @@ export function ContractsPage() {
         title="Contratos"
         description="Acompanhe contratos públicos e o status de execução"
         action={
+          canCreate ? (
           <Button asChild size="sm">
             <Link href="/contracts/new">Novo contrato</Link>
           </Button>
+          ) : undefined
         }
       />
 
@@ -121,6 +127,7 @@ export function ContractsPage() {
             isLoading={isLoading}
             isFiltered={hasActiveFilters}
             onClearFilters={handleClear}
+            canCreateContract={canCreate}
           />
         </div>
       )}

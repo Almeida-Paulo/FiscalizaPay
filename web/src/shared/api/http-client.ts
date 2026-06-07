@@ -71,7 +71,8 @@ async function request<T>(
     }
 
     if (!response.ok) {
-      throw new HttpClientError(json as ApiError);
+      const apiError = json as ApiError;
+      throw new HttpClientError({ ...apiError, statusCode: response.status });
     }
 
     return json as ApiResponse<T>;

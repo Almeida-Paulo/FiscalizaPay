@@ -11,11 +11,11 @@ export const ROLE_LABELS: Record<UserRole, string> = {
 
 /** Descrição das responsabilidades de cada role */
 export const ROLE_DESCRIPTIONS: Record<UserRole, string> = {
-  GESTOR: "Cria contratos e autoriza pagamentos",
+  GESTOR: "Cria contratos, autoriza pagamentos e aciona disputas",
   FORNECEDOR: "Confirma envio ou execução do serviço",
   ENTREGADOR: "Confirma entrega no local correto",
-  FISCAL: "Valida conformidade da entrega",
-  AUDITOR: "Consulta timeline e verifica integridade",
+  FISCAL: "Valida conformidade, abre disputa e simula fraude",
+  AUDITOR: "Audita integridade, abre disputa e simula fraude",
 };
 
 /** Ações principais permitidas por role */
@@ -24,6 +24,8 @@ export const ROLE_ACTIONS: Record<UserRole, string[]> = {
     "Criar contrato",
     "Autorizar pagamento",
     "Abrir disputa",
+    "Simular fraude",
+    "Registrar on-chain",
     "Visualizar dashboard",
   ],
   FORNECEDOR: [
@@ -32,16 +34,19 @@ export const ROLE_ACTIONS: Record<UserRole, string[]> = {
   ],
   ENTREGADOR: [
     "Confirmar entrega",
-    "Informar divergência",
+    "Visualizar contratos vinculados",
   ],
   FISCAL: [
     "Validar recebimento",
     "Abrir disputa",
+    "Simular fraude",
     "Conferir nota fiscal",
   ],
   AUDITOR: [
     "Visualizar timeline",
     "Consultar hashes",
+    "Abrir disputa",
+    "Simular fraude",
     "Verificar integridade",
   ],
 };

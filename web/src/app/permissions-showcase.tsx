@@ -171,7 +171,7 @@ export function PermissionsShowcase() {
                 <XCircle className="h-4 w-4 text-muted-foreground" />
               )}
               <span className="text-xs text-muted-foreground">
-                {canDispute ? "Disponível" : "Apenas GESTOR/FISCAL/FORNECEDOR/ENTREGADOR"}
+                {canDispute ? "Disponível" : "Apenas GESTOR/FISCAL/AUDITOR"}
               </span>
             </div>
           </div>

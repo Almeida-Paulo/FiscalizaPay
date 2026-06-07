@@ -8,12 +8,16 @@ import { Skeleton } from "@/shared/ui/skeleton";
 import { EmptyState } from "@/shared/ui/empty-state";
 import { ContractStatusBadge } from "@/entities/contract/ui/contract-status-badge";
 import { useContracts } from "@/entities/contract/api/use-contracts";
+import { useProfileStore } from "@/entities/profile/model/store";
+import { canCreateContract } from "@/entities/contract/model/rules";
 import { formatCurrencyBRL, formatDateBR } from "@/shared/lib/formatters";
 
 const MAX_ITEMS = 5;
 
 export function DashboardRecentContracts() {
   const { data: contracts, isLoading, isError } = useContracts();
+  const currentProfile = useProfileStore((s) => s.currentProfile);
+  const canCreate = canCreateContract(currentProfile);
 
   const recent = contracts
     ? [...contracts]
@@ -61,9 +65,11 @@ export function DashboardRecentContracts() {
             title="Nenhum contrato cadastrado"
             description="Crie o primeiro contrato para começar a fiscalizar."
             action={
+              canCreate ? (
               <Button asChild size="sm">
                 <Link href="/contracts/new">Novo contrato</Link>
               </Button>
+              ) : undefined
             }
           />
         )}

@@ -24,7 +24,8 @@ export type ContractAction =
   | "VALIDATE_RECEIPT"
   | "AUTHORIZE_PAYMENT"
   | "OPEN_DISPUTE"
-  | "SIMULATE_FRAUD";
+  | "SIMULATE_FRAUD"
+  | "REGISTER_ON_CHAIN";
 
 const ACTION_LABELS: Record<ContractAction, string> = {
   CONFIRM_SHIPMENT: "confirmar o envio",
@@ -33,6 +34,7 @@ const ACTION_LABELS: Record<ContractAction, string> = {
   AUTHORIZE_PAYMENT: "autorizar o pagamento",
   OPEN_DISPUTE: "abrir disputa",
   SIMULATE_FRAUD: "simular fraude",
+  REGISTER_ON_CHAIN: "registrar on-chain",
 };
 
 // ─── Regras de permissão visual por ação ─────────────────────────────────────
@@ -53,15 +55,23 @@ export function canAuthorizePayment(contract: Contract, profile: Profile): boole
   return contract.status === "VALIDADO" && profile.role === "GESTOR";
 }
 
+export function canCreateContract(profile: Profile): boolean {
+  return profile.role === "GESTOR";
+}
+
 export function canOpenDispute(contract: Contract, profile: Profile): boolean {
-  if (contract.status === "PAGAMENTO_AUTORIZADO") return false;
-  return ["GESTOR", "FISCAL", "FORNECEDOR", "ENTREGADOR"].includes(profile.role);
+  if (["PAGAMENTO_AUTORIZADO", "DISPUTA"].includes(contract.status)) return false;
+  return ["GESTOR", "FISCAL", "AUDITOR"].includes(profile.role);
 }
 
 export function canSimulateFraud(contract: Contract, profile: Profile): boolean {
   if (!contract.documentHash) return false;
-  if (contract.status === "PAGAMENTO_AUTORIZADO") return false;
-  return ["GESTOR", "FISCAL"].includes(profile.role);
+  if (["PAGAMENTO_AUTORIZADO", "DISPUTA"].includes(contract.status)) return false;
+  return ["GESTOR", "FISCAL", "AUDITOR"].includes(profile.role);
+}
+
+export function canRegisterOnChain(_: Contract, profile: Profile): boolean {
+  return profile.role === "GESTOR";
 }
 
 // ─── Labels de exibição para ações ───────────────────────────────────────────
@@ -73,6 +83,7 @@ export const CONTRACT_ACTION_LABELS: Record<ContractAction, string> = {
   AUTHORIZE_PAYMENT: "Autorizar pagamento",
   OPEN_DISPUTE: "Abrir disputa",
   SIMULATE_FRAUD: "Simular fraude",
+  REGISTER_ON_CHAIN: "Registrar on-chain",
 };
 
 // ─── Próxima ação e lista de ações disponíveis ────────────────────────────────
@@ -99,6 +110,7 @@ export function getAvailableContractActions(
   if (canAuthorizePayment(contract, profile)) actions.push("AUTHORIZE_PAYMENT");
   if (canOpenDispute(contract, profile)) actions.push("OPEN_DISPUTE");
   if (canSimulateFraud(contract, profile)) actions.push("SIMULATE_FRAUD");
+  if (canRegisterOnChain(contract, profile)) actions.push("REGISTER_ON_CHAIN");
   return actions;
 }
 
@@ -157,17 +169,26 @@ export function getBlockedActionReason(
     case "OPEN_DISPUTE":
       if (contract.status === "PAGAMENTO_AUTORIZADO")
         return "O pagamento já foi autorizado e não pode mais ser disputado.";
-      if (profile.role === "AUDITOR")
-        return "O auditor pode apenas visualizar; não pode abrir disputas.";
+      if (contract.status === "DISPUTA")
+        return "O contrato já está em disputa.";
+      if (!["GESTOR", "FISCAL", "AUDITOR"].includes(profile.role))
+        return "Apenas gestor, fiscal ou auditor podem abrir disputa.";
       break;
 
     case "SIMULATE_FRAUD":
       if (contract.status === "PAGAMENTO_AUTORIZADO")
         return "O pagamento já foi autorizado; não é possível simular fraude.";
+      if (contract.status === "DISPUTA")
+        return "O contrato já está em disputa.";
       if (!contract.documentHash)
         return "O contrato não possui documento registrado para comparação.";
-      if (!["GESTOR", "FISCAL"].includes(profile.role))
-        return "Apenas o gestor ou o fiscal podem simular fraude.";
+      if (!["GESTOR", "FISCAL", "AUDITOR"].includes(profile.role))
+        return "Apenas gestor, fiscal ou auditor podem simular fraude.";
+      break;
+
+    case "REGISTER_ON_CHAIN":
+      if (profile.role !== "GESTOR")
+        return "Apenas o gestor pode registrar o contrato on-chain.";
       break;
   }
 

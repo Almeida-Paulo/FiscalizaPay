@@ -14,6 +14,7 @@ interface ContractsListProps {
   isLoading: boolean;
   isFiltered: boolean;
   onClearFilters: () => void;
+  canCreateContract?: boolean;
 }
 
 const SKELETON_COUNT = 4;
@@ -23,6 +24,7 @@ export function ContractsList({
   isLoading,
   isFiltered,
   onClearFilters,
+  canCreateContract = false,
 }: ContractsListProps) {
   if (isLoading) {
     return (
@@ -73,9 +75,11 @@ export function ContractsList({
         title="Nenhum contrato cadastrado"
         description="Crie o primeiro contrato para iniciar a fiscalização."
         action={
+          canCreateContract ? (
           <Button asChild size="sm">
             <Link href="/contracts/new">Novo contrato</Link>
           </Button>
+          ) : undefined
         }
       />
     );

@@ -17,6 +17,7 @@ export type ApiErrorCode =
 export interface ApiError {
   message: string;
   code: ApiErrorCode;
+  statusCode?: number;
   details?: unknown;
 }
 

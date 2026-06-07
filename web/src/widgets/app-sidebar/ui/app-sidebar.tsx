@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { NAVIGATION_ITEMS } from "@/shared/constants/navigation";
 import { cn } from "@/shared/lib/utils";
+import { useProfileStore } from "@/entities/profile/model/store";
+import { canCreateContract } from "@/entities/contract/model/rules";
 
 const ICON_MAP: Record<string, LucideIcon> = {
   LayoutDashboard,
@@ -27,6 +29,11 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ pathname, onItemClick, className }: AppSidebarProps) {
+  const currentProfile = useProfileStore((s) => s.currentProfile);
+  const items = NAVIGATION_ITEMS.filter(
+    (item) => item.href !== "/contracts/new" || canCreateContract(currentProfile),
+  );
+
   return (
     <aside
       className={cn(
@@ -49,7 +56,7 @@ export function AppSidebar({ pathname, onItemClick, className }: AppSidebarProps
       {/* Navigation */}
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <ul className="space-y-0.5">
-          {NAVIGATION_ITEMS.map((item) => {
+          {items.map((item) => {
             const Icon = ICON_MAP[item.icon];
             const isActive =
               item.href === "/contracts/new"

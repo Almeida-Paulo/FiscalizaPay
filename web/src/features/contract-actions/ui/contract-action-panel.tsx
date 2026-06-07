@@ -11,6 +11,7 @@ import {
   getBlockedActionReason,
   canOpenDispute,
   canSimulateFraud,
+  canRegisterOnChain,
   CONTRACT_ACTION_LABELS,
 } from "@/entities/contract/model/rules";
 import type { Contract, BlockchainStatus } from "@/entities/contract";
@@ -37,11 +38,13 @@ export function ContractActionPanel({
   const canonicalNext = getCanonicalNextAction(contract);
   const canDoDispute = canOpenDispute(contract, currentProfile);
   const canDoFraud = canSimulateFraud(contract, currentProfile);
+  const canDoRegisterOnChain = canRegisterOnChain(contract, currentProfile);
   const hasSecondaryActions = canDoDispute || canDoFraud;
 
   const isCompleted = contract.status === "PAGAMENTO_AUTORIZADO";
   const isDisputed = contract.status === "DISPUTA";
-  const showRegisterOnChain = !isCompleted && !blockchainStatus?.registeredOnChain;
+  const showRegisterOnChain =
+    !isCompleted && !blockchainStatus?.registeredOnChain && canDoRegisterOnChain;
 
   return (
     <Card>
