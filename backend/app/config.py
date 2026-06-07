@@ -17,8 +17,8 @@ class Settings(BaseSettings):
     jwt_expires_minutes: int = 60
     jwt_algorithm: str = "HS256"
 
-    cors_origins: str = "http://localhost:3000"
-    allowed_hosts: str = "localhost,127.0.0.1"
+    cors_origins: str = "http://localhost:3000,http://127.0.0.1:3000"
+    allowed_hosts: str = "localhost,127.0.0.1,0.0.0.0"
 
     auth_nonce_expires_minutes: int = 10
     chain_id: int = 80002

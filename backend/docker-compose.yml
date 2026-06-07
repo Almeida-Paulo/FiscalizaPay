@@ -25,10 +25,10 @@ services:
       db:
         condition: service_healthy
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:${PORT:-8000}:${PORT:-8000}"
     command: >
       sh -c "alembic upgrade head &&
-             gunicorn app.main:app -k uvicorn.workers.UvicornWorker -w 2 -b 0.0.0.0:8000"
+             gunicorn app.main:app -k uvicorn.workers.UvicornWorker -w 2 -b 0.0.0.0:${PORT:-8000}"
 
 volumes:
   fiscalizapay_postgres_data:

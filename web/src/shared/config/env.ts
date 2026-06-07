@@ -3,7 +3,7 @@ export const env = {
   apiBaseUrl:
     process.env.NEXT_PUBLIC_API_BASE_URL ??
     process.env.NEXT_PUBLIC_API_URL ??
-    "http://localhost:3001",
+    "http://127.0.0.1:8000",
   chainId: Number(process.env.NEXT_PUBLIC_CHAIN_ID ?? 80002),
   contractAddress: process.env.NEXT_PUBLIC_CONTRACT_ADDRESS ?? "",
   // Either USE_MOCKS or ENABLE_MOCKS must be "false" to disable mocks; default is true

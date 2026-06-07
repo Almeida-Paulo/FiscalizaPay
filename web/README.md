@@ -58,8 +58,8 @@ Copie `.env.example` para `.env.local`:
 
 | Variável | Descrição | Valor padrão |
 |---|---|---|
-| `NEXT_PUBLIC_API_BASE_URL` | URL da API backend (preferida) | `http://localhost:3001` |
-| `NEXT_PUBLIC_API_URL` | Alias legado de `API_BASE_URL` | `http://localhost:3001` |
+| `NEXT_PUBLIC_API_BASE_URL` | URL da API backend (preferida) | `http://127.0.0.1:8000` |
+| `NEXT_PUBLIC_API_URL` | Alias legado de `API_BASE_URL` | `http://127.0.0.1:8000` |
 | `NEXT_PUBLIC_CHAIN_ID` | Chain ID da testnet | `80002` (Polygon Amoy) |
 | `NEXT_PUBLIC_CONTRACT_ADDRESS` | Endereço do smart contract | _(preenchido após deploy)_ |
 | `NEXT_PUBLIC_USE_MOCKS` | Ativar mocks locais (preferida) | `true` |
@@ -800,7 +800,7 @@ Todos os dados, ações e eventos funcionam sem backend. Estado reseta com F5.
 NEXT_PUBLIC_USE_MOCKS=true
 NEXT_PUBLIC_CHAIN_ID=80002
 NEXT_PUBLIC_EXPLORER_URL=https://amoy.polygonscan.com
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 ```
 
 Com `NEXT_PUBLIC_USE_MOCKS=true`, o deploy funciona sem backend — todos os dados virão dos mocks.
@@ -830,7 +830,7 @@ Para ativar a API real em desenvolvimento:
 
 ```bash
 # .env.local
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 NEXT_PUBLIC_USE_MOCKS=false
 ```
 
