@@ -67,13 +67,24 @@ GET /audit/events # requer JWT
 cp .env.example .env
 ```
 
+No Windows PowerShell:
+
+```powershell
+Copy-Item .env.example .env
+```
+
 2. Edite `.env` e troque pelo menos:
 
 ```env
-JWT_SECRET=uma_chave_grande_e_aleatoria
-CORS_ORIGINS=http://localhost:3000
+PORT=8000
+DATABASE_URL=postgresql+psycopg://fiscalizapay:fiscalizapay_dev_password@db:5432/fiscalizapay
+JWT_SECRET=gere_uma_chave_grande_com_pelo_menos_32_caracteres
+CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
 ALLOWED_HOSTS=localhost,127.0.0.1
+BLOCKCHAIN_ENABLED=false
 ```
+
+Para rodar a API fora do Docker, troque o host do banco em `DATABASE_URL` de `db` para `localhost`.
 
 3. Suba banco e API:
 
