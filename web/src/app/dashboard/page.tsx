@@ -7,12 +7,12 @@ import { DashboardMetrics } from "@/widgets/dashboard-metrics";
 import { DashboardStatusOverview } from "@/widgets/dashboard-status-overview";
 import { DashboardRecentContracts } from "@/widgets/dashboard-recent-contracts";
 import { DashboardAlerts } from "@/widgets/dashboard-alerts";
-import { useProfileStore } from "@/entities/profile/model/store";
+import { useCurrentProfile } from "@/entities/profile/model/use-current-profile";
 import { canCreateContract } from "@/entities/contract/model/rules";
 
 export default function DashboardPage() {
-  const currentProfile = useProfileStore((s) => s.currentProfile);
-  const canCreate = canCreateContract(currentProfile);
+  const { profile } = useCurrentProfile();
+  const canCreate = profile ? canCreateContract(profile) : false;
 
   return (
     <div className="px-4 py-6 md:px-6 md:py-8">

@@ -11,7 +11,7 @@ import {
 } from "lucide-react";
 import { NAVIGATION_ITEMS } from "@/shared/constants/navigation";
 import { cn } from "@/shared/lib/utils";
-import { useProfileStore } from "@/entities/profile/model/store";
+import { useCurrentProfile } from "@/entities/profile/model/use-current-profile";
 import { canCreateContract } from "@/entities/contract/model/rules";
 
 const ICON_MAP: Record<string, LucideIcon> = {
@@ -29,9 +29,10 @@ interface AppSidebarProps {
 }
 
 export function AppSidebar({ pathname, onItemClick, className }: AppSidebarProps) {
-  const currentProfile = useProfileStore((s) => s.currentProfile);
+  const { profile } = useCurrentProfile();
+  const canCreate = profile ? canCreateContract(profile) : false;
   const items = NAVIGATION_ITEMS.filter(
-    (item) => item.href !== "/contracts/new" || canCreateContract(currentProfile),
+    (item) => item.href !== "/contracts/new" || canCreate,
   );
 
   return (

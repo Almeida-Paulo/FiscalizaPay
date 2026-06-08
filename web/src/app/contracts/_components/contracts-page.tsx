@@ -9,7 +9,7 @@ import { useContracts } from "@/entities/contract/api/use-contracts";
 import { ContractsFilters, type StatusFilter, type SortOrder } from "@/widgets/contracts-filters";
 import { ContractsList } from "@/widgets/contracts-list";
 import { ContractsSummaryBar } from "@/widgets/contracts-summary-bar";
-import { useProfileStore } from "@/entities/profile/model/store";
+import { useCurrentProfile } from "@/entities/profile/model/use-current-profile";
 import { canCreateContract } from "@/entities/contract/model/rules";
 
 const DEFAULT_SORT: SortOrder = "updatedAt_desc";
@@ -32,8 +32,8 @@ function sortContracts(contracts: ReturnType<typeof useContracts>["data"], order
 
 export function ContractsPage() {
   const { data: contracts, isLoading, isError } = useContracts();
-  const currentProfile = useProfileStore((s) => s.currentProfile);
-  const canCreate = canCreateContract(currentProfile);
+  const { profile } = useCurrentProfile();
+  const canCreate = profile ? canCreateContract(profile) : false;
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("ALL");

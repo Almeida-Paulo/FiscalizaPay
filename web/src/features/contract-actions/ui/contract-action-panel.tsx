@@ -1,10 +1,10 @@
 "use client";
 
-import { CheckCircle2, AlertTriangle, Zap, Lock } from "lucide-react";
+import { CheckCircle2, AlertTriangle, Zap, Lock, Loader2, Wallet } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Separator } from "@/shared/ui/separator";
 import { RoleBadge } from "@/entities/profile/ui/role-badge";
-import { useProfileStore } from "@/entities/profile/model/store";
+import { useCurrentProfile } from "@/entities/profile/model/use-current-profile";
 import {
   getNextContractAction,
   getCanonicalNextAction,
@@ -32,7 +32,58 @@ export function ContractActionPanel({
   contract,
   blockchainStatus,
 }: ContractActionPanelProps) {
-  const currentProfile = useProfileStore((s) => s.currentProfile);
+  const { profile, isMockMode, isAuthenticated, isLoading, error } = useCurrentProfile();
+
+  if (!isMockMode) {
+    if (isLoading) {
+      return (
+        <Card>
+          <CardContent className="flex items-center gap-2 py-8 text-sm text-muted-foreground">
+            <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
+            Carregando perfil autenticado...
+          </CardContent>
+        </Card>
+      );
+    }
+
+    if (error) {
+      return (
+        <Card>
+          <CardContent className="flex items-start gap-3 py-6">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-danger/10">
+              <AlertTriangle className="h-5 w-5 text-danger" />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-danger">Erro ao carregar perfil</p>
+              <p className="mt-0.5 text-sm text-muted-foreground">{error}</p>
+            </div>
+          </CardContent>
+        </Card>
+      );
+    }
+
+    if (!isAuthenticated || !profile) {
+      return (
+        <Card>
+          <CardContent className="flex flex-col items-center gap-2 py-8 text-center">
+            <Wallet className="h-7 w-7 text-muted-foreground/40" />
+            <p className="text-sm font-medium text-foreground">
+              Conecte sua wallet para continuar
+            </p>
+            <p className="text-xs text-muted-foreground">
+              Faça login com sua wallet para visualizar as ações disponíveis para este contrato.
+            </p>
+          </CardContent>
+        </Card>
+      );
+    }
+  }
+
+  if (!profile) {
+    return null;
+  }
+
+  const currentProfile = profile;
 
   const nextAction = getNextContractAction(contract, currentProfile);
   const canonicalNext = getCanonicalNextAction(contract);
@@ -144,7 +195,9 @@ export function ContractActionPanel({
                     </p>
                   )}
                   <p className="mt-1.5 text-xs text-muted-foreground">
-                    Troque o perfil ativo no header para simular outras permissões.
+                    {isMockMode
+                      ? "Troque o perfil ativo no header para simular outras permissões."
+                      : "As ações disponíveis dependem da role autenticada do seu perfil."}
                   </p>
                 </div>
               </div>

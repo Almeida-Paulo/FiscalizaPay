@@ -11,6 +11,7 @@ import {
 } from "@/shared/ui/select";
 import { RoleBadge } from "./role-badge";
 import { cn } from "@/shared/lib/utils";
+import { env } from "@/shared/config/env";
 
 interface ProfileSwitcherProps {
   className?: string;
@@ -22,9 +23,17 @@ interface ProfileSwitcherProps {
  * Seletor de perfil para demo do frontend.
  * Permite simular diferentes perfis de usuário durante desenvolvimento.
  * NÃO é autenticação real — apenas para demonstração visual.
+ *
+ * Disponível apenas em mock mode (NEXT_PUBLIC_USE_MOCKS=true). Em modo API
+ * real a role vem do backend/JWT e não pode ser simulada pela UI, então o
+ * switcher não é renderizado.
  */
 export function ProfileSwitcher({ className, compact = false }: ProfileSwitcherProps) {
   const { currentProfile, demoProfiles, setCurrentProfile } = useProfileStore();
+
+  if (!env.useMocks) {
+    return null;
+  }
 
   function handleChange(role: string) {
     const profile = demoProfiles.find((p) => p.role === role);

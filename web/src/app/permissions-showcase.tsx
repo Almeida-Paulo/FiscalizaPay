@@ -4,6 +4,8 @@ import { useProfileStore } from "@/entities/profile/model/store";
 import { ProfileSwitcher } from "@/entities/profile/ui/profile-switcher";
 import { ContractStatusBadge } from "@/entities/contract/ui/contract-status-badge";
 import { PermissionGate } from "@/shared/ui/permission-gate";
+import { EmptyState } from "@/shared/ui/empty-state";
+import { env } from "@/shared/config/env";
 import {
   canConfirmShipment,
   canConfirmDelivery,
@@ -17,7 +19,7 @@ import { Button } from "@/shared/ui/button";
 import { Badge } from "@/shared/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { SectionTitle } from "@/shared/ui/section-title";
-import { CheckCircle, XCircle } from "lucide-react";
+import { CheckCircle, XCircle, ShieldAlert } from "lucide-react";
 
 /** Contrato fake mínimo para showcase das regras visuais — não é mock real */
 const SHOWCASE_CONTRACT: Contract = {
@@ -38,6 +40,19 @@ const SHOWCASE_CONTRACT: Contract = {
 
 export function PermissionsShowcase() {
   const { currentProfile } = useProfileStore();
+
+  // Showcase de regras visuais via troca de perfil demo — disponível apenas
+  // em mock mode. Em modo API real a role vem do backend/JWT e não pode ser
+  // simulada, então este componente não deve ser exibido.
+  if (!env.useMocks) {
+    return (
+      <EmptyState
+        icon={<ShieldAlert className="h-6 w-6" />}
+        title="Disponível apenas em modo demo"
+        description="Esta vitrine simula permissões trocando o perfil demo. Em modo API real (NEXT_PUBLIC_USE_MOCKS=false), a role vem do backend/JWT autenticado e não pode ser simulada pela UI."
+      />
+    );
+  }
 
   const availableActions = getAvailableContractActions(SHOWCASE_CONTRACT, currentProfile);
   const canShip = canConfirmShipment(SHOWCASE_CONTRACT, currentProfile);
