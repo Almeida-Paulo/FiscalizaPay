@@ -59,20 +59,29 @@ export function WalletSignatureButton() {
 
   if (!isConnected) {
     return (
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={() => void connectWallet().catch(() => undefined)}
-        disabled={isConnecting}
-        className="h-7 gap-1.5 border-primary/30 text-xs text-primary hover:border-primary/60 hover:bg-primary/10 hover:text-primary"
-      >
-        {isConnecting ? (
-          <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
-        ) : (
-          <Plug className="h-3.5 w-3.5 shrink-0" />
+      <div className="relative">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => void connectWallet().catch(() => undefined)}
+          disabled={isConnecting}
+          className="h-7 gap-1.5 border-primary/30 text-xs text-primary hover:border-primary/60 hover:bg-primary/10 hover:text-primary"
+        >
+          {isConnecting ? (
+            <Loader2 className="h-3.5 w-3.5 shrink-0 animate-spin" />
+          ) : (
+            <Plug className="h-3.5 w-3.5 shrink-0" />
+          )}
+          <span className="hidden sm:inline">Conectar wallet</span>
+        </Button>
+
+        {error && (
+          <div className="absolute right-0 top-full z-50 mt-2 flex w-64 items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-2.5 py-2 text-[11px] leading-relaxed text-destructive shadow-lg">
+            <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0" />
+            <p>{error}</p>
+          </div>
         )}
-        <span className="hidden sm:inline">Conectar wallet</span>
-      </Button>
+      </div>
     );
   }
 
