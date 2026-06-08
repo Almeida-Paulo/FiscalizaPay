@@ -2,6 +2,7 @@
 
 import { Web3Provider } from "./web3-provider";
 import { ToastProvider } from "./toast-provider";
+import { AuthSessionHydrator } from "@/entities/auth/ui/auth-session-hydrator";
 import { TooltipProvider } from "@/shared/ui/tooltip";
 
 /**
@@ -26,9 +27,11 @@ interface RootProvidersProps {
 export function RootProviders({ children }: RootProvidersProps) {
   return (
     <Web3Provider>
-      <TooltipProvider delayDuration={300}>
-        {children}
-      </TooltipProvider>
+      <AuthSessionHydrator>
+        <TooltipProvider delayDuration={300}>
+          {children}
+        </TooltipProvider>
+      </AuthSessionHydrator>
       <ToastProvider />
     </Web3Provider>
   );

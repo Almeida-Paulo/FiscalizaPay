@@ -4,8 +4,10 @@ import { useCallback, useMemo, useState } from "react";
 import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
 import type { Connector } from "wagmi";
 
+import { useAuthStore } from "@/entities/auth/model/store";
 import {
   getAuthNonce,
+  toAuthSession,
   type AuthNonceData,
   verifyWalletSignature,
   type VerifyWalletSignatureData,
@@ -262,6 +264,7 @@ export function useWalletNonceSignature() {
         }
 
         setVerifyData(nextVerifyData);
+        useAuthStore.getState().setSession(toAuthSession(nextVerifyData));
         return nextVerifyData;
       } catch (verifyError) {
         const message = mapVerifyError(verifyError);
@@ -286,6 +289,7 @@ export function useWalletNonceSignature() {
 
   const disconnectWallet = useCallback(() => {
     disconnect();
+    useAuthStore.getState().clearSession();
     resetSignature();
   }, [disconnect, resetSignature]);
 
