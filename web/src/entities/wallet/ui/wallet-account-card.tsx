@@ -64,7 +64,7 @@ export function WalletAccountCard() {
           className="flex items-center gap-1.5 text-xs text-primary hover:underline"
         >
           <ExternalLink className="h-3 w-3 shrink-0" />
-          Ver no PolygonScan Amoy
+          Ver no Etherscan Sepolia
         </a>
       )}
 

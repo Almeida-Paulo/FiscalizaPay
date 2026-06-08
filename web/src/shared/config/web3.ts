@@ -5,8 +5,8 @@ import { polygonAmoy, sepolia } from "viem/chains";
 /**
  * Wagmi v2 config via createConfig.
  *
- * Chain principal: Polygon Amoy (testnet oficial do MVP, chain ID 80002)
- * Chain fallback:  Sepolia (testnet Ethereum, chain ID 11155111)
+ * Chain principal: Sepolia (testnet Ethereum, chain ID 11155111)
+ * Chain fallback:  Polygon Amoy (testnet Polygon, chain ID 80002)
  *
  * Connectors:
  * - injected: MetaMask e outras carteiras browser extension (sempre ativo)
@@ -24,7 +24,7 @@ import { polygonAmoy, sepolia } from "viem/chains";
 const projectId = process.env.NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID;
 
 export const wagmiConfig = createConfig({
-  chains: [polygonAmoy, sepolia],
+  chains: [sepolia, polygonAmoy],
   connectors: [
     injected(),
     ...(projectId ? [walletConnect({ projectId })] : []),

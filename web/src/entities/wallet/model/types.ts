@@ -17,16 +17,16 @@ export interface WalletInfo {
 /** Redes suportadas pelo projeto */
 export const SUPPORTED_NETWORKS: WalletNetwork[] = [
   {
-    chainId: 80002,
-    name: "Polygon Amoy",
-    explorerUrl: "https://amoy.polygonscan.com",
-  },
-  {
     chainId: 11155111,
     name: "Sepolia",
     explorerUrl: "https://sepolia.etherscan.io",
   },
+  {
+    chainId: 80002,
+    name: "Polygon Amoy",
+    explorerUrl: "https://amoy.polygonscan.com",
+  },
 ];
 
 /** Chain ID oficial do MVP */
-export const OFFICIAL_CHAIN_ID = 80002;
+export const OFFICIAL_CHAIN_ID = 11155111;

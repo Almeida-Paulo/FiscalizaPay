@@ -8,7 +8,7 @@ import { env } from "@/shared/config/env";
 const MOCK_WALLET = {
   address: "0x8888888888888888888888888888888888888888",
   chainId: OFFICIAL_CHAIN_ID,
-  networkName: "Polygon Amoy",
+  networkName: "Sepolia",
 } as const;
 
 interface WalletState {

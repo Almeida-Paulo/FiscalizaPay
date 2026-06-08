@@ -32,6 +32,13 @@ export default defineConfig({
       type: "edr-simulated",
       chainType: "l1",
     },
+    sepolia: {
+      type: "http",
+      chainType: "l1",
+      url: configVariable("SEPOLIA_RPC_URL"),
+      accounts: [configVariable("DEPLOYER_PRIVATE_KEY")],
+      chainId: 11155111,
+    },
     amoy: {
       type: "http",
       chainType: "l1",

@@ -2,11 +2,12 @@
   "name": "fiscalizapay-contracts",
   "private": true,
   "version": "1.0.0",
-  "description": "Smart contracts do FiscalizaPay (registro on-chain de hashes de contratos de fiscalizacao) - Polygon Amoy",
+  "description": "Smart contracts do FiscalizaPay (registro on-chain de hashes de contratos de fiscalizacao) - Sepolia / Polygon Amoy",
   "type": "module",
   "scripts": {
     "compile": "hardhat compile",
     "test": "hardhat test",
+    "deploy:sepolia": "hardhat ignition deploy ignition/modules/FiscalizaPayRegistry.ts --network sepolia",
     "deploy:amoy": "hardhat ignition deploy ignition/modules/FiscalizaPayRegistry.ts --network amoy"
   },
   "license": "UNLICENSED",
