@@ -39,20 +39,37 @@ const ACTION_LABELS: Record<ContractAction, string> = {
 
 // ─── Regras de permissão visual por ação ─────────────────────────────────────
 
+/**
+ * Espelha `require_party_wallet` do backend: a checagem só se aplica quando o
+ * contrato tem uma wallet registrada para aquele papel; sem wallet vinculada,
+ * qualquer perfil com o papel correto pode agir. Comparação case-insensitive.
+ */
+function hasRequiredWallet(
+  requiredWallet: string | undefined,
+  currentWallet: string | null | undefined,
+): boolean {
+  if (!requiredWallet) return true;
+  return !!currentWallet && currentWallet.toLowerCase() === requiredWallet.toLowerCase();
+}
+
 export function canConfirmShipment(contract: Contract, profile: Profile): boolean {
-  return contract.status === "CRIADO" && profile.role === "FORNECEDOR";
+  if (contract.status !== "CRIADO" || profile.role !== "FORNECEDOR") return false;
+  return hasRequiredWallet(contract.supplierWallet, profile.walletAddress);
 }
 
 export function canConfirmDelivery(contract: Contract, profile: Profile): boolean {
-  return contract.status === "ENVIADO" && profile.role === "ENTREGADOR";
+  if (contract.status !== "ENVIADO" || profile.role !== "ENTREGADOR") return false;
+  return hasRequiredWallet(contract.logisticsWallet, profile.walletAddress);
 }
 
 export function canValidateReceipt(contract: Contract, profile: Profile): boolean {
-  return contract.status === "ENTREGUE" && profile.role === "FISCAL";
+  if (contract.status !== "ENTREGUE" || profile.role !== "FISCAL") return false;
+  return hasRequiredWallet(contract.inspectorWallet, profile.walletAddress);
 }
 
 export function canAuthorizePayment(contract: Contract, profile: Profile): boolean {
-  return contract.status === "VALIDADO" && profile.role === "GESTOR";
+  if (contract.status !== "VALIDADO" || profile.role !== "GESTOR") return false;
+  return hasRequiredWallet(contract.managerWallet, profile.walletAddress);
 }
 
 export function canCreateContract(profile: Profile): boolean {
@@ -143,6 +160,8 @@ export function getBlockedActionReason(
         return "Apenas o fornecedor pode confirmar o envio.";
       if (contract.status !== "CRIADO")
         return "Esta ação só fica disponível quando o contrato está criado.";
+      if (!hasRequiredWallet(contract.supplierWallet, profile.walletAddress))
+        return "Esta ação exige a wallet de fornecedor vinculada a este contrato.";
       break;
 
     case "CONFIRM_DELIVERY":
@@ -150,6 +169,8 @@ export function getBlockedActionReason(
         return "Apenas o entregador pode confirmar a entrega.";
       if (contract.status !== "ENVIADO")
         return "Esta ação só fica disponível após o fornecedor confirmar o envio.";
+      if (!hasRequiredWallet(contract.logisticsWallet, profile.walletAddress))
+        return "Esta ação exige a wallet de logística vinculada a este contrato.";
       break;
 
     case "VALIDATE_RECEIPT":
@@ -157,6 +178,8 @@ export function getBlockedActionReason(
         return "Apenas o fiscal pode validar o recebimento.";
       if (contract.status !== "ENTREGUE")
         return "Esta ação só fica disponível após a confirmação de entrega.";
+      if (!hasRequiredWallet(contract.inspectorWallet, profile.walletAddress))
+        return "Esta ação exige a wallet de fiscal vinculada a este contrato.";
       break;
 
     case "AUTHORIZE_PAYMENT":
@@ -164,6 +187,8 @@ export function getBlockedActionReason(
         return "Apenas o gestor responsável pode autorizar o pagamento.";
       if (contract.status !== "VALIDADO")
         return "O pagamento só pode ser autorizado após a validação do fiscal.";
+      if (!hasRequiredWallet(contract.managerWallet, profile.walletAddress))
+        return "Esta ação exige a wallet de gestor vinculada a este contrato.";
       break;
 
     case "OPEN_DISPUTE":
