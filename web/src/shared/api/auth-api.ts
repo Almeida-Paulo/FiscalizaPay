@@ -99,7 +99,11 @@ export function verifyWalletSignature(
   });
 }
 
-export function getCurrentProfile(accessToken: string): Promise<AuthMeResponse> {
+export function getCurrentProfile(accessToken?: string): Promise<AuthMeResponse> {
+  if (!accessToken) {
+    return httpClient.get<AuthProfile>("/auth/me");
+  }
+
   const token = requireText(accessToken, "accessToken");
 
   return httpClient.get<AuthProfile>("/auth/me", {
