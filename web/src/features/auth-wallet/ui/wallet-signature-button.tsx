@@ -4,6 +4,7 @@ import {
   AlertCircle,
   CheckCircle2,
   ChevronDown,
+  KeyRound,
   Loader2,
   LogOut,
   PenLine,
@@ -33,18 +34,25 @@ export function WalletSignatureButton() {
     isConnecting,
     isRequestingNonce,
     isSigning,
+    isVerifying,
     nonceData,
     signature,
+    verifyData,
     error,
+    verifyError,
     connectWallet,
     disconnectWallet,
-    signNonceMessage,
+    signAndVerifyNonceMessage,
   } = useWalletNonceSignature();
 
   const statusLabel = isRequestingNonce
     ? "Solicitando nonce"
     : isSigning
       ? "Assinando"
+      : isVerifying
+        ? "Validando"
+        : verifyData
+          ? "Autenticada"
       : signature
         ? "Assinada"
         : "Wallet real";
@@ -111,7 +119,7 @@ export function WalletSignatureButton() {
 
           <Button
             size="sm"
-            onClick={() => void signNonceMessage().catch(() => undefined)}
+            onClick={() => void signAndVerifyNonceMessage().catch(() => undefined)}
             disabled={isBusy || !isCorrectNetwork}
             className="w-full justify-center gap-2"
           >
@@ -120,7 +128,7 @@ export function WalletSignatureButton() {
             ) : (
               <PenLine className="h-3.5 w-3.5" />
             )}
-            Assinar mensagem
+            Assinar e validar
           </Button>
 
           {nonceData && (
@@ -147,10 +155,27 @@ export function WalletSignatureButton() {
             </div>
           )}
 
-          {error && (
+          {verifyData && (
+            <div className="flex items-start gap-2 rounded-md border border-success/30 bg-success/10 px-2.5 py-2">
+              <KeyRound className="mt-0.5 h-3.5 w-3.5 shrink-0 text-success" />
+              <div className="min-w-0">
+                <p className="text-xs font-medium text-success">JWT recebido</p>
+                <p className="truncate text-[11px] text-success/80">
+                  {verifyData.profile.name} ({verifyData.profile.role})
+                </p>
+                <p className="text-[11px] text-success/80">
+                  Expira em {verifyData.expiresAt}
+                </p>
+              </div>
+            </div>
+          )}
+
+          {(error || verifyError) && (
             <div className="flex items-start gap-2 rounded-md border border-destructive/30 bg-destructive/10 px-2.5 py-2">
               <AlertCircle className="mt-0.5 h-3.5 w-3.5 shrink-0 text-destructive" />
-              <p className="text-[11px] leading-relaxed text-destructive">{error}</p>
+              <p className="text-[11px] leading-relaxed text-destructive">
+                {verifyError ?? error}
+              </p>
             </div>
           )}
         </div>

@@ -7,8 +7,10 @@ import type { Connector } from "wagmi";
 import {
   getAuthNonce,
   type AuthNonceData,
+  verifyWalletSignature,
+  type VerifyWalletSignatureData,
 } from "@/shared/api/auth-api";
-import { getApiErrorMessage } from "@/shared/api";
+import { getApiErrorMessage, HttpClientError } from "@/shared/api";
 import { env } from "@/shared/config/env";
 
 type ConnectedWallet = {
@@ -22,6 +24,10 @@ export type WalletNonceSignatureResult = {
   message: string;
   expiresAt: string;
   signature: string;
+};
+
+export type WalletVerifyResult = WalletNonceSignatureResult & {
+  auth: VerifyWalletSignatureData;
 };
 
 function hasInjectedWallet(): boolean {
@@ -53,6 +59,30 @@ function mapWalletError(
   return getApiErrorMessage(error) || fallback;
 }
 
+function mapVerifyError(error: unknown): string {
+  if (error instanceof HttpClientError) {
+    const message = error.apiError.message.toLowerCase();
+
+    if (error.apiError.statusCode === 400 || error.apiError.statusCode === 422) {
+      return error.apiError.message || "Payload de autenticacao invalido.";
+    }
+    if (error.apiError.statusCode === 401 && message.includes("nonce expir")) {
+      return "Nonce expirado. Solicite uma nova assinatura.";
+    }
+    if (error.apiError.statusCode === 401 && message.includes("nonce")) {
+      return "Nonce invalido ou ja utilizado. Solicite uma nova assinatura.";
+    }
+    if (error.apiError.statusCode === 401 && message.includes("assin")) {
+      return "Assinatura invalida. Tente novamente.";
+    }
+    if (error.apiError.statusCode === 403 && message.includes("wallet autenticada")) {
+      return "Carteira autenticada, mas sem perfil cadastrado.";
+    }
+  }
+
+  return getApiErrorMessage(error) || "Nao foi possivel validar a assinatura.";
+}
+
 export function useWalletNonceSignature() {
   const { address, chainId, isConnected } = useAccount();
   const { connectAsync, connectors, isPending: isConnecting } = useConnect();
@@ -61,8 +91,11 @@ export function useWalletNonceSignature() {
 
   const [nonceData, setNonceData] = useState<AuthNonceData | null>(null);
   const [signature, setSignature] = useState<string | null>(null);
+  const [verifyData, setVerifyData] = useState<VerifyWalletSignatureData | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [verifyError, setVerifyError] = useState<string | null>(null);
   const [isRequestingNonce, setIsRequestingNonce] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
 
   const expectedChainId = env.chainId || 80002;
   const selectedConnector = useMemo(
@@ -75,12 +108,14 @@ export function useWalletNonceSignature() {
 
   const walletAddress = address ?? null;
   const isCorrectNetwork = !chainId || chainId === expectedChainId;
-  const isBusy = isConnecting || isRequestingNonce || isSigning;
+  const isBusy = isConnecting || isRequestingNonce || isSigning || isVerifying;
 
   const resetSignature = useCallback(() => {
     setNonceData(null);
     setSignature(null);
+    setVerifyData(null);
     setError(null);
+    setVerifyError(null);
   }, []);
 
   const connectWallet = useCallback(async (): Promise<ConnectedWallet> => {
@@ -123,7 +158,9 @@ export function useWalletNonceSignature() {
 
   const signNonceMessage = useCallback(async (): Promise<WalletNonceSignatureResult> => {
     setError(null);
+    setVerifyError(null);
     setSignature(null);
+    setVerifyData(null);
     setNonceData(null);
 
     if (env.useMocks) {
@@ -206,6 +243,47 @@ export function useWalletNonceSignature() {
     walletAddress,
   ]);
 
+  const verifySignedNonce = useCallback(
+    async (signed: WalletNonceSignatureResult): Promise<VerifyWalletSignatureData> => {
+      setVerifyError(null);
+      setVerifyData(null);
+      setIsVerifying(true);
+
+      try {
+        const verifyResponse = await verifyWalletSignature({
+          walletAddress: signed.walletAddress,
+          nonce: signed.nonce,
+          signature: signed.signature,
+        });
+
+        const nextVerifyData = verifyResponse.data;
+        if (!nextVerifyData?.accessToken) {
+          throw new Error("Sessao nao foi iniciada porque o token nao foi retornado.");
+        }
+
+        setVerifyData(nextVerifyData);
+        return nextVerifyData;
+      } catch (verifyError) {
+        const message = mapVerifyError(verifyError);
+        setVerifyError(message);
+        throw verifyError;
+      } finally {
+        setIsVerifying(false);
+      }
+    },
+    [],
+  );
+
+  const signAndVerifyNonceMessage = useCallback(async (): Promise<WalletVerifyResult> => {
+    const signed = await signNonceMessage();
+    const auth = await verifySignedNonce(signed);
+
+    return {
+      ...signed,
+      auth,
+    };
+  }, [signNonceMessage, verifySignedNonce]);
+
   const disconnectWallet = useCallback(() => {
     disconnect();
     resetSignature();
@@ -220,14 +298,19 @@ export function useWalletNonceSignature() {
     isConnecting,
     isRequestingNonce,
     isSigning,
+    isVerifying,
     isBusy,
     nonceData,
     signature,
+    verifyData,
     error,
+    verifyError,
     selectedConnector,
     connectWallet,
     disconnectWallet,
     resetSignature,
     signNonceMessage,
+    verifySignedNonce,
+    signAndVerifyNonceMessage,
   };
 }
