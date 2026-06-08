@@ -5,15 +5,24 @@ import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
 import { Skeleton } from "@/shared/ui/skeleton";
 import { EmptyState } from "@/shared/ui/empty-state";
+import { ErrorState } from "@/shared/ui/error-state";
 import { ContractEventCard } from "@/entities/contract-event/ui/contract-event-card";
 import type { ContractEvent } from "@/entities/contract-event";
+import { getApiErrorMessage } from "@/shared/api/handle-api-error";
 
 interface ContractTimelineProps {
   events?: ContractEvent[];
   isLoading: boolean;
+  isError?: boolean;
+  error?: unknown;
 }
 
-export function ContractTimeline({ events, isLoading }: ContractTimelineProps) {
+export function ContractTimeline({
+  events,
+  isLoading,
+  isError = false,
+  error,
+}: ContractTimelineProps) {
   const sorted = events
     ? [...events].sort(
         (a, b) =>
@@ -47,6 +56,11 @@ export function ContractTimeline({ events, isLoading }: ContractTimelineProps) {
               </div>
             ))}
           </div>
+        ) : isError ? (
+          <ErrorState
+            description={getApiErrorMessage(error)}
+            className="py-8"
+          />
         ) : sorted.length === 0 ? (
           <EmptyState
             icon={<Clock className="h-5 w-5" />}

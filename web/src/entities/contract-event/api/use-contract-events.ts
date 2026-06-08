@@ -1,6 +1,6 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { getContractEvents } from "@/shared/api/contracts-api";
+import { getContractEvents } from "@/shared/api/events-api";
 import { queryKeys } from "@/shared/api/query-keys";
 
 export function useContractEvents(contractId: string) {

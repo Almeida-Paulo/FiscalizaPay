@@ -27,7 +27,6 @@ export {
   createContract,
   updateContract,
   deleteContract,
-  getContractEvents,
   confirmShipment,
   confirmDelivery,
   validateReceipt,
@@ -35,6 +34,10 @@ export {
   openDispute,
   simulateFraud,
 } from "./contracts-api";
+
+export { getContractEvents } from "./events-api";
+export { getAuditEvents } from "./audit-api";
+export type { AuditEventItem } from "./audit-api";
 
 export { getDashboardSummary } from "./dashboard-api";
 

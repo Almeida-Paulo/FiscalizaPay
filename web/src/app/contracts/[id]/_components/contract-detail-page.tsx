@@ -37,7 +37,12 @@ export function ContractDetailPage({ id }: ContractDetailPageProps) {
     contractFetchError instanceof HttpClientError &&
     contractFetchError.apiError.code === "NOT_FOUND";
 
-  const { data: events, isLoading: eventsLoading } = useContractEvents(id);
+  const {
+    data: events,
+    isLoading: eventsLoading,
+    isError: eventsError,
+    error: eventsFetchError,
+  } = useContractEvents(id);
 
   const { data: blockchainStatus, isLoading: blockchainLoading } =
     useBlockchainStatus(id);
@@ -150,7 +155,12 @@ export function ContractDetailPage({ id }: ContractDetailPageProps) {
         </div>
 
         {/* Auditable timeline */}
-        <ContractTimeline events={events} isLoading={eventsLoading} />
+        <ContractTimeline
+          events={events}
+          isLoading={eventsLoading}
+          isError={eventsError}
+          error={eventsFetchError}
+        />
       </div>
     </div>
   );

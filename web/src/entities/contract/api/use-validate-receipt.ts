@@ -17,6 +17,7 @@ export function useValidateReceipt() {
       queryClient.invalidateQueries({ queryKey: queryKeys.contract(contractId) });
       queryClient.invalidateQueries({ queryKey: queryKeys.contracts });
       queryClient.invalidateQueries({ queryKey: queryKeys.contractEvents(contractId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.auditEvents });
       queryClient.invalidateQueries({ queryKey: queryKeys.dashboardSummary });
       toast.success("Recebimento validado com sucesso.");
     },

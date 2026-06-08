@@ -14,7 +14,10 @@ export function getApiErrorMessage(error: unknown): string {
       if (error.apiError.message.toLowerCase().includes("wallet autenticada")) {
         return "Carteira autenticada, mas sem perfil cadastrado.";
       }
-      return "Voce nao tem permissao para executar esta acao.";
+      return "Voce nao tem permissao para acessar este recurso.";
+    }
+    if (error.apiError.statusCode === 404) {
+      return error.apiError.message || "Recurso nao encontrado.";
     }
     if (error.apiError.statusCode && error.apiError.statusCode >= 500) {
       return "Erro interno no servidor. Tente novamente em instantes.";

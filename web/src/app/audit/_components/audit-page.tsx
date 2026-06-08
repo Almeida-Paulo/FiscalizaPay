@@ -56,7 +56,7 @@ function applyFilters(events: AuditEventItem[], filters: AuditFiltersState): Aud
 
 export function AuditPage() {
   const [filters, setFilters] = useState<AuditFiltersState>(DEFAULT_FILTERS);
-  const { data: allEvents, isLoading, isError } = useAuditEvents();
+  const { data: allEvents, isLoading, isError, error } = useAuditEvents();
 
   const filteredEvents = useMemo(
     () => applyFilters(allEvents ?? [], filters),
@@ -89,6 +89,7 @@ export function AuditPage() {
           events={filteredEvents}
           isLoading={isLoading}
           isError={isError}
+          error={error}
           totalCount={allEvents?.length ?? 0}
         />
       </div>

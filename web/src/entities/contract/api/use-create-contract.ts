@@ -13,6 +13,7 @@ export function useCreateContract() {
     mutationFn: (payload: CreateContractPayload) => createContract(payload),
     onSuccess: (response) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.contracts });
+      queryClient.invalidateQueries({ queryKey: queryKeys.auditEvents });
       queryClient.invalidateQueries({ queryKey: queryKeys.dashboardSummary });
       toast.success(response.message ?? "Contrato criado com sucesso.");
     },

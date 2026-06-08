@@ -4,15 +4,23 @@ import { EmptyState } from "@/shared/ui/empty-state";
 import { ErrorState } from "@/shared/ui/error-state";
 import { AuditEventCard } from "./audit-event-card";
 import type { AuditEventItem } from "./use-audit-events";
+import { getApiErrorMessage } from "@/shared/api/handle-api-error";
 
 interface AuditEventListProps {
   events: AuditEventItem[] | undefined;
   isLoading: boolean;
   isError: boolean;
+  error?: unknown;
   totalCount: number;
 }
 
-export function AuditEventList({ events, isLoading, isError, totalCount }: AuditEventListProps) {
+export function AuditEventList({
+  events,
+  isLoading,
+  isError,
+  error,
+  totalCount,
+}: AuditEventListProps) {
   if (isLoading) {
     return (
       <div className="space-y-3">
@@ -24,7 +32,7 @@ export function AuditEventList({ events, isLoading, isError, totalCount }: Audit
   }
 
   if (isError) {
-    return <ErrorState description="Não foi possível carregar os eventos de auditoria." />;
+    return <ErrorState description={getApiErrorMessage(error)} />;
   }
 
   if (!events || events.length === 0) {

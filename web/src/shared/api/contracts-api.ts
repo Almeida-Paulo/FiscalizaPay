@@ -146,46 +146,6 @@ export async function deleteContract(contractId: string): Promise<ApiResponse<nu
   return httpClient.delete<null>(`/contracts/${contractId}`);
 }
 
-// ── GET /audit/events ──────────────────────────────────────────────────────
-
-export type AuditEventItem = ContractEvent & {
-  contractNumber: string;
-  contractObject: string;
-  contractStatus: Contract["status"];
-};
-
-export async function getAuditEvents(): Promise<ApiResponse<AuditEventItem[]>> {
-  if (env.useMocks) {
-    const contracts = mockStore.getContracts();
-    const contractMap = new Map(contracts.map((c) => [c.id, c]));
-    const events = mockStore.getAllEvents();
-    const enriched: AuditEventItem[] = events
-      .map((e) => {
-        const contract = contractMap.get(e.contractId);
-        return {
-          ...e,
-          contractNumber: contract?.contractNumber ?? e.contractId,
-          contractObject: contract?.object ?? "",
-          contractStatus: contract?.status ?? ("CRIADO" as Contract["status"]),
-        };
-      })
-      .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    return { data: enriched };
-  }
-  return httpClient.get<AuditEventItem[]>("/audit/events");
-}
-
-// ── GET /contracts/:id/events ───────────────────────────────────────────────
-
-export async function getContractEvents(
-  contractId: string,
-): Promise<ApiResponse<ContractEvent[]>> {
-  if (env.useMocks) {
-    return { data: mockStore.getEventsByContractId(contractId) };
-  }
-  return httpClient.get<ContractEvent[]>(`/contracts/${contractId}/events`);
-}
-
 // ── POST /contracts/:id/confirm-shipment ────────────────────────────────────
 
 export async function confirmShipment(

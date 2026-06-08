@@ -1,9 +1,9 @@
 "use client";
 import { useQuery } from "@tanstack/react-query";
-import { getAuditEvents } from "@/shared/api/contracts-api";
+import { getAuditEvents } from "@/shared/api/audit-api";
 import { queryKeys } from "@/shared/api/query-keys";
 
-export { type AuditEventItem } from "@/shared/api/contracts-api";
+export { type AuditEventItem } from "@/shared/api/audit-api";
 
 export function useAuditEvents() {
   return useQuery({

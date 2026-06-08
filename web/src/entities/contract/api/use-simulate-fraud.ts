@@ -17,6 +17,7 @@ export function useSimulateFraud() {
       queryClient.invalidateQueries({ queryKey: queryKeys.contract(contractId) });
       queryClient.invalidateQueries({ queryKey: queryKeys.contracts });
       queryClient.invalidateQueries({ queryKey: queryKeys.contractEvents(contractId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.auditEvents });
       queryClient.invalidateQueries({ queryKey: queryKeys.dashboardSummary });
       const msg =
         response.message ??
