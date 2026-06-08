@@ -185,6 +185,8 @@ class BlockchainStatusOut(BaseModel):
     blockNumber: int | None = None
     blockchainTimestamp: str | None = None
     registeredOnChain: bool
+    blockchainAvailable: bool = False
+    unavailableReason: str | None = None
 
 
 class SimulateFraudResultOut(BaseModel):

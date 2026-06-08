@@ -138,7 +138,11 @@ export function ContractDetailPage({ id }: ContractDetailPageProps) {
         {/* Primary grid: overview + next action */}
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
           <ContractOverviewCard contract={contract} />
-          <ContractActionPanel contract={contract} blockchainStatus={blockchainStatus} />
+          <ContractActionPanel
+            contract={contract}
+            blockchainStatus={blockchainStatus}
+            isBlockchainStatusLoading={blockchainLoading}
+          />
         </div>
 
         {/* Secondary grid: parties + hashes + blockchain */}

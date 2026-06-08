@@ -4,6 +4,12 @@ const FALLBACK_MESSAGE = "Nao foi possivel concluir a operacao. Tente novamente.
 
 export function getApiErrorMessage(error: unknown): string {
   if (error instanceof HttpClientError) {
+    if (
+      error.apiError.code === "BLOCKCHAIN_UNAVAILABLE" ||
+      error.apiError.code === "BLOCKCHAIN_ERROR"
+    ) {
+      return "Registro em blockchain indisponivel neste ambiente.";
+    }
     if (error.apiError.statusCode === 400 || error.apiError.statusCode === 422) {
       return error.apiError.message || "Dados invalidos. Revise as informacoes enviadas.";
     }
@@ -18,6 +24,9 @@ export function getApiErrorMessage(error: unknown): string {
     }
     if (error.apiError.statusCode === 404) {
       return error.apiError.message || "Recurso nao encontrado.";
+    }
+    if (error.apiError.statusCode === 501 || error.apiError.statusCode === 503) {
+      return "Recurso indisponivel neste ambiente.";
     }
     if (error.apiError.statusCode && error.apiError.statusCode >= 500) {
       return "Erro interno no servidor. Tente novamente em instantes.";

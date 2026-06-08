@@ -52,4 +52,6 @@ export interface BlockchainStatus {
   blockNumber?: number;
   blockchainTimestamp?: string;
   registeredOnChain: boolean;
+  blockchainAvailable?: boolean;
+  unavailableReason?: string;
 }

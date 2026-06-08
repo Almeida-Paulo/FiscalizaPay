@@ -8,6 +8,7 @@ from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
+from app.config import get_settings
 from app.errors import api_error
 from app.models import Contract, ContractEvent, ContractEventType, ContractStatus, Dispute, Profile, UserRole
 from app.schemas import (
@@ -39,6 +40,13 @@ ACTION_ROLES = {
     "simulate_fraud": {UserRole.GESTOR.value, UserRole.FISCAL.value, UserRole.AUDITOR.value},
     "register_on_chain": {UserRole.GESTOR.value},
 }
+
+BLOCKCHAIN_UNAVAILABLE_MESSAGE = "Registro em blockchain indisponivel neste ambiente."
+
+
+def is_blockchain_available() -> bool:
+    settings = get_settings()
+    return settings.blockchain_enabled and bool(settings.contract_address.strip())
 
 
 def parse_dt(value: str | None, field_name: str) -> datetime | None:
@@ -414,21 +422,32 @@ def dashboard_summary(db: Session) -> DashboardSummaryOut:
 
 
 def blockchain_status(contract: Contract) -> BlockchainStatusOut:
+    blockchain_available = is_blockchain_available()
     return BlockchainStatusOut(
         contractId=str(contract.id),
         status=contract.status,
         documentHash=contract.document_hash,
         registeredOnChain=False,
+        blockchainAvailable=blockchain_available,
+        unavailableReason=None if blockchain_available else BLOCKCHAIN_UNAVAILABLE_MESSAGE,
     )
 
 
 def register_on_chain(_: Session, contract: Contract, profile: Profile) -> None:
     require_role(profile, "register_on_chain")
     require_party_wallet(contract, profile, "manager_wallet")
+
+    if not is_blockchain_available():
+        raise api_error(
+            503,
+            "BLOCKCHAIN_UNAVAILABLE",
+            BLOCKCHAIN_UNAVAILABLE_MESSAGE,
+        )
+
     raise api_error(
-        502,
+        501,
         "BLOCKCHAIN_ERROR",
-        "Smart contract ainda não configurado. Registro on-chain será habilitado na próxima etapa.",
+        "Registro on-chain ainda nao implementado.",
     )
 
 

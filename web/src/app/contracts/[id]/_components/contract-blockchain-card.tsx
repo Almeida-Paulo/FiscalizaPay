@@ -1,9 +1,8 @@
-import { ExternalLink, CheckCircle2, XCircle, Loader2 } from "lucide-react";
+import { CheckCircle2, XCircle, Clock3, Wrench } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/shared/ui/card";
-import { CopyButton } from "@/shared/ui/copy-button";
 import { Skeleton } from "@/shared/ui/skeleton";
-import { shortenHash, formatDateTimeBR } from "@/shared/lib/formatters";
-import { env } from "@/shared/config/env";
+import { formatDateTimeBR } from "@/shared/lib/formatters";
+import { TransactionHashLink } from "@/entities/transaction";
 import type { BlockchainStatus } from "@/entities/contract/model/types";
 
 interface ContractBlockchainCardProps {
@@ -15,6 +14,10 @@ export function ContractBlockchainCard({
   blockchainStatus,
   isLoading,
 }: ContractBlockchainCardProps) {
+  const unavailableReason =
+    blockchainStatus?.unavailableReason ??
+    "Registro em blockchain indisponivel neste ambiente.";
+
   return (
     <Card>
       <CardHeader>
@@ -30,7 +33,17 @@ export function ContractBlockchainCard({
         ) : !blockchainStatus ? (
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             <XCircle className="h-4 w-4 shrink-0 text-muted-foreground" />
-            <span>Não foi possível obter o status on-chain.</span>
+            <span>Nao foi possivel obter o status blockchain.</span>
+          </div>
+        ) : blockchainStatus.blockchainAvailable === false ? (
+          <div className="space-y-2">
+            <div className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
+              <Wrench className="h-4 w-4 shrink-0" />
+              <span>Recurso blockchain em preparacao</span>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              {unavailableReason} O fluxo principal do contrato permanece disponivel.
+            </p>
           </div>
         ) : blockchainStatus.registeredOnChain ? (
           <div className="space-y-3">
@@ -43,23 +56,8 @@ export function ContractBlockchainCard({
 
             {blockchainStatus.transactionHash && (
               <div>
-                <p className="mb-0.5 text-xs text-muted-foreground">Hash da transação</p>
-                <div className="flex items-center gap-1.5">
-                  <span className="font-mono text-xs text-foreground">
-                    {shortenHash(blockchainStatus.transactionHash, 8)}
-                  </span>
-                  <CopyButton value={blockchainStatus.transactionHash} />
-                  <a
-                    href={`${env.explorerUrl}/tx/${blockchainStatus.transactionHash}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-0.5 rounded text-xs text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                    aria-label="Ver no explorador"
-                  >
-                    <ExternalLink className="h-3 w-3" />
-                    Ver no explorer
-                  </a>
-                </div>
+                <p className="mb-0.5 text-xs text-muted-foreground">Hash da transacao</p>
+                <TransactionHashLink hash={blockchainStatus.transactionHash} />
               </div>
             )}
 
@@ -87,8 +85,8 @@ export function ContractBlockchainCard({
           </div>
         ) : (
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 shrink-0 animate-spin" />
-            <span>Aguardando registro on-chain.</span>
+            <Clock3 className="h-4 w-4 shrink-0" />
+            <span>Ainda nao registrado on-chain.</span>
           </div>
         )}
       </CardContent>

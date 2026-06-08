@@ -13,6 +13,7 @@ export function useRegisterOnChain() {
     onSuccess: (response, contractId) => {
       queryClient.invalidateQueries({ queryKey: queryKeys.blockchainStatus(contractId) });
       queryClient.invalidateQueries({ queryKey: queryKeys.contractEvents(contractId) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.auditEvents });
       toast.success(response.message ?? "Contrato registrado na blockchain com sucesso.");
     },
     onError: (error) => {

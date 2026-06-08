@@ -26,11 +26,13 @@ import { RegisterOnChainAction } from "./register-on-chain-action";
 interface ContractActionPanelProps {
   contract: Contract;
   blockchainStatus?: BlockchainStatus;
+  isBlockchainStatusLoading?: boolean;
 }
 
 export function ContractActionPanel({
   contract,
   blockchainStatus,
+  isBlockchainStatusLoading = false,
 }: ContractActionPanelProps) {
   const { profile, isMockMode, isAuthenticated, isLoading, error } = useCurrentProfile();
 
@@ -230,6 +232,7 @@ export function ContractActionPanel({
               <RegisterOnChainAction
                 contractId={contract.id}
                 blockchainStatus={blockchainStatus}
+                isStatusLoading={isBlockchainStatusLoading}
               />
             </div>
           </>
