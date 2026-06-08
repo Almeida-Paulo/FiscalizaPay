@@ -185,6 +185,9 @@ Exemplo:
 0x1111111111111111111111111111111111111111
 ```
 
+> **Atualização (Bloco 07 — Sessão 01):** wallets mockadas corrigidas e padronizadas
+> entre frontend e backend. Ver `Docs/sessoes/sessao_01_saneamento_backend_frontend/analises/wallets_mockadas.md`.
+
 ### 4. Smart contract
 
 `GET /contracts/{id}/blockchain-status` funciona e retorna:

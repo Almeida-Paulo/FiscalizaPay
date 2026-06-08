@@ -1,13 +1,15 @@
 import type { ContractEvent } from "@/entities/contract-event";
 
 const GESTOR_NAME = "Maria Santos";
-const GESTOR_WALLET = "0xDeadBeef1234567890abcdef1234567890DeaD01";
+const GESTOR_WALLET = "0x1111111111111111111111111111111111111111";
 const FORNECEDOR_NAME = "Carlos Rodrigues";
-const FORNECEDOR_WALLET = "0x742d35Cc6634C0532925a3b8D4C9C3500000002";
+const FORNECEDOR_WALLET = "0x2222222222222222222222222222222222222222";
 const ENTREGADOR_NAME = "Ricardo Alves";
-const ENTREGADOR_WALLET = "0xLogistica1234567890abcdef1234567890000003";
+const ENTREGADOR_WALLET = "0x3333333333333333333333333333333333333333";
 const FISCAL_NAME = "João Silva";
-const FISCAL_WALLET = "0x1234abcd5678ef901234abcd5678ef9012340004";
+const FISCAL_WALLET = "0x4444444444444444444444444444444444444444";
+const AUDITOR_NAME = "Ana Ferreira";
+const AUDITOR_WALLET = "0x5555555555555555555555555555555555555555";
 
 export const mockContractEvents: ContractEvent[] = [
   // ── CT-2026-001 (CRIADO) — 1 evento ───────────────────────────────────────
@@ -274,8 +276,8 @@ export const mockContractEvents: ContractEvent[] = [
     eventType: "FRAUDE_SIMULADA",
     description: "Tentativa de adulteração do documento detectada. Hash fornecido diverge do original registrado no contrato.",
     responsibleRole: "AUDITOR",
-    responsibleName: "Ana Ferreira",
-    responsibleWallet: "0xAuditor1234567890abcdef1234567890AudiT05",
+    responsibleName: AUDITOR_NAME,
+    responsibleWallet: AUDITOR_WALLET,
     statusBefore: "ENVIADO",
     statusAfter: "DISPUTA",
     documentHash: "HASH_ADULTERADO_xyz789abc123def456ghi789jkl012mno345pqr678",
@@ -287,8 +289,8 @@ export const mockContractEvents: ContractEvent[] = [
     eventType: "DISPUTA_ABERTA",
     description: "Disputa registrada automaticamente após detecção de hash divergente. Pagamento bloqueado até resolução.",
     responsibleRole: "AUDITOR",
-    responsibleName: "Ana Ferreira",
-    responsibleWallet: "0xAuditor1234567890abcdef1234567890AudiT05",
+    responsibleName: AUDITOR_NAME,
+    responsibleWallet: AUDITOR_WALLET,
     statusBefore: "ENVIADO",
     statusAfter: "DISPUTA",
     createdAt: "2026-05-27T10:00:30.000Z",

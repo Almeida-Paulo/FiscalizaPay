@@ -568,7 +568,7 @@ useWalletStore()  // address, chainId, networkName, isConnected, isCorrectNetwor
                   // connectMockWallet() | disconnectWallet()
 ```
 
-Simula endereço `0x8A4D35...F92B` na rede **Polygon Amoy** (Chain 80002). A integração real virá via `wagmi` + `RainbowKit` em versão futura — o store será sincronizado com `useAccount()` nessa etapa.
+Simula endereço `0x8888...8888` na rede **Polygon Amoy** (Chain 80002). A integração real virá via `wagmi` + `RainbowKit` em versão futura — o store será sincronizado com `useAccount()` nessa etapa.
 
 ### Componentes de wallet (`entities/wallet/ui/`)
 

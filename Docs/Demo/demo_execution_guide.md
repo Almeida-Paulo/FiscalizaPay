@@ -168,7 +168,7 @@ O estado dos mocks retorna ao inicial (definido em `shared/mocks/mock-store.ts`)
 Para mostrar o componente de wallet no header:
 
 1. Clicar em "Conectar wallet (demo)" no header
-2. O sistema simulará uma conexão com endereço `0x8A4D35...F92B` na Polygon Amoy
+2. O sistema simulará uma conexão com endereço `0x8888...8888` na Polygon Amoy
 3. O `NetworkBadge` ficará verde (rede correta)
 
 Não é necessário MetaMask ou carteira real. É uma simulação visual via Zustand store.

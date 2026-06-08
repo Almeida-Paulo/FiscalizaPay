@@ -6,7 +6,7 @@ import { env } from "@/shared/config/env";
 // futuramente via wagmi + MetaMask + RainbowKit. Nenhum dado aqui é persistido on-chain.
 
 const MOCK_WALLET = {
-  address: "0x8A4D35Cc6634C0532925a3b8D4C9C351234F92B",
+  address: "0x8888888888888888888888888888888888888888",
   chainId: OFFICIAL_CHAIN_ID,
   networkName: "Polygon Amoy",
 } as const;

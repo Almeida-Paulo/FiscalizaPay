@@ -8,11 +8,11 @@
 
 | ID | Nome | Role | Carteira |
 |---|---|---|---|
-| profile-gestor-1 | **Maria Santos** | GESTOR | `0xDeadBeef...DeaD01` |
-| profile-fornecedor-1 | **Carlos Rodrigues** | FORNECEDOR | `0x742d35Cc...000002` |
-| profile-entregador-1 | **Ricardo Alves** | ENTREGADOR | `0xLogistica...000003` |
-| profile-fiscal-1 | **João Silva** | FISCAL | `0x1234abcd...340004` |
-| profile-auditor-1 | **Ana Ferreira** | AUDITOR | `0xAuditor...AudiT05` |
+| profile-gestor-1 | **Maria Santos** | GESTOR | `0x1111111111111111111111111111111111111111` |
+| profile-fornecedor-1 | **Carlos Rodrigues** | FORNECEDOR | `0x2222222222222222222222222222222222222222` |
+| profile-entregador-1 | **Ricardo Alves** | ENTREGADOR | `0x3333333333333333333333333333333333333333` |
+| profile-fiscal-1 | **João Silva** | FISCAL | `0x4444444444444444444444444444444444444444` |
+| profile-auditor-1 | **Ana Ferreira** | AUDITOR | `0x5555555555555555555555555555555555555555` |
 
 **Perfil padrão ao abrir o sistema:** GESTOR (Maria Santos)
 
@@ -145,7 +145,7 @@ Já contém os eventos `FRAUDE_SIMULADA` e `DISPUTA_ABERTA` com hash divergente 
 
 **Eventos:** 4 (CRIADO → ENVIADO → FRAUDE_SIMULADA → DISPUTA_ABERTA)
 
-**Auditor registrado:** Ana Ferreira (`0xAuditor...AudiT05`)
+**Auditor registrado:** Ana Ferreira (`0x5555555555555555555555555555555555555555`)
 
 ---
 
