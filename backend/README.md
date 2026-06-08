@@ -127,7 +127,13 @@ curl http://127.0.0.1:8000/health
 6. Crie perfis de teste:
 
 ```bash
-docker compose exec api python -m scripts.seed_demo_profiles
+docker compose exec -T api python -m scripts.seed_demo_profiles
+```
+
+Comando alternativo, caso seja necessario executar o arquivo diretamente dentro do container:
+
+```bash
+docker compose exec -T api sh -c "PYTHONPATH=/app python scripts/seed_demo_profiles.py"
 ```
 
 Ou cadastre uma wallet real:
