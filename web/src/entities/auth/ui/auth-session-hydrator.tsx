@@ -2,6 +2,8 @@
 
 import { useEffect, type ReactNode } from "react";
 
+import { env } from "@/shared/config/env";
+import { refreshAuthenticatedProfile } from "../model/session";
 import { useAuthStore } from "../model/store";
 
 type AuthSessionHydratorProps = {
@@ -13,6 +15,9 @@ export function AuthSessionHydrator({ children }: AuthSessionHydratorProps) {
 
   useEffect(() => {
     hydrate();
+    if (!env.useMocks && useAuthStore.getState().accessToken) {
+      void refreshAuthenticatedProfile({ ignoreMissingToken: true }).catch(() => undefined);
+    }
   }, [hydrate]);
 
   return <>{children}</>;

@@ -34,6 +34,7 @@ export type AuthActions = {
   login: (session: AuthSession) => void;
   logout: () => void;
   setSession: (session: AuthSession) => void;
+  setAuthenticatedProfile: (profile: AuthProfile) => void;
   clearSession: () => void;
   hydrate: () => void;
   setLoading: (isLoading: boolean) => void;
@@ -217,6 +218,54 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
       });
       return;
     }
+
+    writeStoredSession(persistedSession);
+    set({
+      ...persistedSession,
+      isLoading: false,
+      error: null,
+    });
+  },
+  setAuthenticatedProfile: (profile) => {
+    const currentState = get();
+    const accessToken = currentState.accessToken?.trim();
+    const expiresAt = currentState.expiresAt?.trim();
+
+    if (!accessToken || !expiresAt) {
+      clearStoredSession();
+      set({
+        ...emptyAuthState,
+        error: "Sessao invalida ou expirada. Faca login novamente.",
+      });
+      return;
+    }
+
+    if (!isAuthProfile(profile)) {
+      clearStoredSession();
+      set({
+        ...emptyAuthState,
+        error: "Perfil autenticado nao encontrado.",
+      });
+      return;
+    }
+
+    if (isSessionExpired(expiresAt)) {
+      clearStoredSession();
+      set({
+        ...emptyAuthState,
+        error: "Sessao expirada. Faca login novamente.",
+      });
+      return;
+    }
+
+    const persistedSession: PersistedAuthSession = {
+      accessToken,
+      expiresAt,
+      profile,
+      walletAddress: profile.walletAddress,
+      role: profile.role,
+      isAuthenticated: true,
+    };
 
     writeStoredSession(persistedSession);
     set({

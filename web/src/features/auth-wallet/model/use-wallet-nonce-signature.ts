@@ -4,6 +4,7 @@ import { useCallback, useMemo, useState } from "react";
 import { useAccount, useConnect, useDisconnect, useSignMessage } from "wagmi";
 import type { Connector } from "wagmi";
 
+import { refreshAuthenticatedProfile } from "@/entities/auth/model/session";
 import { useAuthStore } from "@/entities/auth/model/store";
 import {
   getAuthNonce,
@@ -265,6 +266,7 @@ export function useWalletNonceSignature() {
 
         setVerifyData(nextVerifyData);
         useAuthStore.getState().setSession(toAuthSession(nextVerifyData));
+        await refreshAuthenticatedProfile();
         return nextVerifyData;
       } catch (verifyError) {
         const message = mapVerifyError(verifyError);
