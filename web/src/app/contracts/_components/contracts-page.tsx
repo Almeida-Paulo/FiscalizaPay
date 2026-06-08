@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/shared/ui/button";
 import { PageHeader } from "@/shared/ui/page-header";
 import { ErrorState } from "@/shared/ui/error-state";
+import { getApiErrorMessage } from "@/shared/api/handle-api-error";
 import { useContracts } from "@/entities/contract/api/use-contracts";
 import { ContractsFilters, type StatusFilter, type SortOrder } from "@/widgets/contracts-filters";
 import { ContractsList } from "@/widgets/contracts-list";
@@ -31,7 +32,7 @@ function sortContracts(contracts: ReturnType<typeof useContracts>["data"], order
 }
 
 export function ContractsPage() {
-  const { data: contracts, isLoading, isError } = useContracts();
+  const { data: contracts, isLoading, isError, error } = useContracts();
   const { profile } = useCurrentProfile();
   const canCreate = profile ? canCreateContract(profile) : false;
 
@@ -96,7 +97,7 @@ export function ContractsPage() {
         <div className="mt-6">
           <ErrorState
             title="Erro ao carregar contratos"
-            description="Não foi possível buscar a lista de contratos. Tente novamente."
+            description={getApiErrorMessage(error)}
           />
         </div>
       ) : (

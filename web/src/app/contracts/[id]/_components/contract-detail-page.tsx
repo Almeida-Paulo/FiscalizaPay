@@ -8,6 +8,8 @@ import { ErrorState } from "@/shared/ui/error-state";
 import { EmptyState } from "@/shared/ui/empty-state";
 import { Skeleton } from "@/shared/ui/skeleton";
 import { ContractStatusBadge } from "@/entities/contract/ui/contract-status-badge";
+import { HttpClientError } from "@/shared/api/http-client";
+import { getApiErrorMessage } from "@/shared/api/handle-api-error";
 import { useContractById } from "@/entities/contract/api/use-contract-by-id";
 import { useContractEvents } from "@/entities/contract-event/api/use-contract-events";
 import { useBlockchainStatus } from "@/entities/transaction/api/use-blockchain-status";
@@ -28,7 +30,12 @@ export function ContractDetailPage({ id }: ContractDetailPageProps) {
     data: contract,
     isLoading: contractLoading,
     isError: contractError,
+    error: contractFetchError,
   } = useContractById(id);
+
+  const contractNotFound =
+    contractFetchError instanceof HttpClientError &&
+    contractFetchError.apiError.code === "NOT_FOUND";
 
   const { data: events, isLoading: eventsLoading } = useContractEvents(id);
 
@@ -71,12 +78,30 @@ export function ContractDetailPage({ id }: ContractDetailPageProps) {
   }
 
   if (contractError) {
+    if (contractNotFound) {
+      return (
+        <div className="px-4 py-6 md:px-6 md:py-8">
+          <div className="mb-6">{backButton}</div>
+          <EmptyState
+            icon={<FileSearch className="h-6 w-6" />}
+            title="Contrato não encontrado"
+            description="O contrato solicitado não existe ou ainda não foi sincronizado."
+            action={
+              <Button asChild>
+                <Link href="/contracts">Voltar para contratos</Link>
+              </Button>
+            }
+          />
+        </div>
+      );
+    }
+
     return (
       <div className="px-4 py-6 md:px-6 md:py-8">
         <div className="mb-6">{backButton}</div>
         <ErrorState
           title="Erro ao carregar contrato"
-          description="Não foi possível buscar os dados do contrato. Tente novamente."
+          description={getApiErrorMessage(contractFetchError)}
           action={backButton}
         />
       </div>
@@ -84,21 +109,7 @@ export function ContractDetailPage({ id }: ContractDetailPageProps) {
   }
 
   if (!contract) {
-    return (
-      <div className="px-4 py-6 md:px-6 md:py-8">
-        <div className="mb-6">{backButton}</div>
-        <EmptyState
-          icon={<FileSearch className="h-6 w-6" />}
-          title="Contrato não encontrado"
-          description="O contrato solicitado não existe ou ainda não foi sincronizado."
-          action={
-            <Button asChild>
-              <Link href="/contracts">Voltar para contratos</Link>
-            </Button>
-          }
-        />
-      </div>
-    );
+    return null;
   }
 
   return (
