@@ -1,0 +1,32 @@
+# Node modules
+/node_modules
+
+# Compilation output
+/dist
+
+# Hardhat build artifacts
+/artifacts
+
+# Hardhat compilation (v2) support directory
+/cache
+
+# Typechain output
+/types
+
+# Environment files - never commit secrets (RPC URLs, private keys)
+.env
+.env.*
+!.env.example
+
+# Hardhat coverage reports
+/coverage
+
+# Hardhat Ignition deployment records (kept locally; contains addresses per network)
+# Uncomment if you do not want deployment history tracked in git:
+# /ignition/deployments
+
+# Gas snapshot files
+/.gas-snapshot
+
+# Hardhat keystore (encrypted secrets vault)
+/.hardhat-keystore

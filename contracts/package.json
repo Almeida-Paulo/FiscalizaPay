@@ -1,0 +1,27 @@
+{
+  "name": "fiscalizapay-contracts",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Smart contracts do FiscalizaPay (registro on-chain de hashes de contratos de fiscalizacao) - Polygon Amoy",
+  "type": "module",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy:amoy": "hardhat ignition deploy ignition/modules/FiscalizaPayRegistry.ts --network amoy"
+  },
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-ignition": "^3.1.7",
+    "@nomicfoundation/hardhat-ignition-viem": "^3.1.6",
+    "@nomicfoundation/hardhat-toolbox-viem": "^5.0.7",
+    "@types/node": "^25.9.2",
+    "dotenv": "^17.4.2",
+    "hardhat": "^3.9.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.3",
+    "viem": "^2.52.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.6.1"
+  }
+}
