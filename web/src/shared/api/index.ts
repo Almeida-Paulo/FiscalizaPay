@@ -5,6 +5,23 @@ export { queryKeys } from "./query-keys";
 export { getApiErrorMessage } from "./handle-api-error";
 
 export {
+  getAuthNonce,
+  verifyWalletSignature,
+  getCurrentProfile,
+  toAuthSession,
+} from "./auth-api";
+export type {
+  AuthMeResponse,
+  AuthNonceData,
+  AuthNonceResponse,
+  AuthProfile,
+  AuthSession,
+  VerifyWalletSignatureData,
+  VerifyWalletSignatureRequest,
+  VerifyWalletSignatureResponse,
+} from "./auth-api";
+
+export {
   getContracts,
   getContractById,
   createContract,
