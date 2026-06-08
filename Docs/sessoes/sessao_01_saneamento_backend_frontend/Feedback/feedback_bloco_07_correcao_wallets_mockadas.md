@@ -145,11 +145,16 @@ Detalhamento completo (arquivo, valor encontrado, motivo, impacto, recomendaçã
 ## 9. Commit realizado
 
 ```txt
+commit 09a5d5779c975820de478f80488c91c3aa547382
 chore: padroniza wallets demo entre frontend e backend
 ```
 
-(Commit aplicado ao final do bloco, após validações e documentação concluídas — ver
-hash no histórico do branch `main`.)
+11 arquivos alterados (471 inserções, 51 remoções), aplicado na branch `main` após
+validações e documentação concluídas. `web/package-lock.json` foi mantido fora do
+commit por ser uma alteração pré-existente e sem relação com este bloco (apenas
+metadados/quebra de linha). `Docs/analises/Frontend_explain.md` recebeu a nota de
+resolução, mas permaneceu como arquivo não rastreado (criado fora do escopo deste
+bloco) — não incluído neste commit para não misturar conteúdo de outro bloco.
 
 ## 10. Observações para o próximo bloco
 
