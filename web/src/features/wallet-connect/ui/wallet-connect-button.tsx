@@ -11,10 +11,16 @@ import { Separator } from "@/shared/ui/separator";
 import { useWalletStore } from "@/entities/wallet/model/store";
 import { shortenAddress } from "@/shared/lib/formatters";
 import { WalletAccountCard } from "@/entities/wallet/ui/wallet-account-card";
+import { env } from "@/shared/config/env";
+import { WalletSignatureButton } from "@/features/auth-wallet";
 
 export function WalletConnectButton() {
   const { isConnected, address, connectMockWallet, disconnectWallet } =
     useWalletStore();
+
+  if (!env.useMocks) {
+    return <WalletSignatureButton />;
+  }
 
   if (!isConnected) {
     return (
