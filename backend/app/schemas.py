@@ -11,6 +11,7 @@ from app.models import ContractEventType, ContractStatus, UserRole
 
 
 def iso_z(value: datetime | None) -> str | None:
+    """Serializa datetimes no padrao ISO com Z usado pelo frontend."""
     if value is None:
         return None
     if value.tzinfo is None:
@@ -213,6 +214,7 @@ class HealthOut(BaseModel):
 
 
 class JwtPayload(BaseModel):
+    # Ignora claims extras para permitir evolucao do token sem quebrar validacao.
     model_config = ConfigDict(extra="ignore")
 
     sub: UUID

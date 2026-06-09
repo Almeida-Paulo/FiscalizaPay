@@ -96,6 +96,7 @@ export function ContractActionPanel({
 
   const isCompleted = contract.status === "PAGAMENTO_AUTORIZADO";
   const isDisputed = contract.status === "DISPUTA";
+  // Registro on-chain e tratado como acao auxiliar, sem bloquear o fluxo fiscal.
   const showRegisterOnChain =
     !isCompleted && !blockchainStatus?.registeredOnChain && canDoRegisterOnChain;
 
@@ -109,7 +110,7 @@ export function ContractActionPanel({
       </CardHeader>
 
       <CardContent className="space-y-4">
-        {/* ── COMPLETED ── */}
+        {/* Contrato finalizado */}
         {isCompleted && (
           <div className="flex items-start gap-3">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-success/10">
@@ -124,7 +125,7 @@ export function ContractActionPanel({
           </div>
         )}
 
-        {/* ── DISPUTED ── */}
+        {/* Contrato em disputa */}
         {isDisputed && (
           <>
             <div className="flex items-start gap-3">
@@ -151,11 +152,11 @@ export function ContractActionPanel({
           </>
         )}
 
-        {/* ── NORMAL FLOW ── */}
+        {/* Fluxo principal do contrato */}
         {!isCompleted && !isDisputed && (
           <>
             {nextAction ? (
-              /* Primary action — highlighted */
+              /* Acao principal destacada */
               <div className="space-y-3 rounded-lg border border-primary/30 bg-primary/5 p-3">
                 <div className="flex items-center gap-2">
                   <Zap className="h-4 w-4 shrink-0 text-primary" />
@@ -175,7 +176,7 @@ export function ContractActionPanel({
                 )}
               </div>
             ) : (
-              /* Blocked — explain why */
+              /* Acao bloqueada com motivo visivel */
               <div className="flex items-start gap-3 rounded-lg border border-border bg-muted/20 p-3">
                 <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-muted">
                   <Lock className="h-4 w-4 text-muted-foreground" />
@@ -205,7 +206,7 @@ export function ContractActionPanel({
               </div>
             )}
 
-            {/* Secondary actions */}
+            {/* Acoes secundarias de disputa/auditoria */}
             {hasSecondaryActions && (
               <>
                 <Separator />
@@ -223,7 +224,7 @@ export function ContractActionPanel({
           </>
         )}
 
-        {/* Register on-chain */}
+        {/* Registro blockchain */}
         {showRegisterOnChain && (
           <>
             <Separator />

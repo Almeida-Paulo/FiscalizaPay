@@ -13,6 +13,7 @@ DEMO_PROFILES = [
 
 
 def main() -> None:
+    # Seeds idempotentes: podem rodar mais de uma vez sem duplicar wallets.
     with SessionLocal() as db:
         for name, role, wallet in DEMO_PROFILES:
             profile = db.scalar(select(Profile).where(Profile.wallet_address == wallet))

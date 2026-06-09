@@ -2,6 +2,7 @@ from app.models import Contract, ContractEvent, Profile
 from app.schemas import ContractEventOut, ContractOut, ProfileOut, iso_z
 
 
+# Serializers mantem a fronteira da API em camelCase sem vazar snake_case do banco.
 def profile_out(profile: Profile) -> ProfileOut:
     return ProfileOut(
         id=str(profile.id),

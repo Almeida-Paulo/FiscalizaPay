@@ -18,6 +18,7 @@ from app.serializers import profile_out
 
 
 def create_nonce(db: Session, wallet_address: str) -> NonceOut:
+    """Cria uma mensagem unica para a wallet assinar sem gerar transacao."""
     wallet = normalize_wallet(wallet_address)
     settings = get_settings()
     expires_at = datetime.now(timezone.utc) + timedelta(minutes=settings.auth_nonce_expires_minutes)
@@ -32,6 +33,7 @@ def create_nonce(db: Session, wallet_address: str) -> NonceOut:
 
 
 def verify_wallet(db: Session, body: VerifyWalletBody) -> AuthTokenOut:
+    """Confere nonce, assinatura EVM e perfil cadastrado antes de emitir JWT."""
     wallet = normalize_wallet(body.walletAddress)
     nonce_record = db.scalar(
         select(AuthNonce)
@@ -47,6 +49,7 @@ def verify_wallet(db: Session, body: VerifyWalletBody) -> AuthTokenOut:
     if nonce_record.expires_at < now:
         raise api_error(401, "UNAUTHORIZED_ROLE", "Nonce expirado. Solicite uma nova assinatura.")
 
+    # A assinatura prova posse da wallet sem depender do frontend enviar role.
     recovered_wallet = recover_wallet_from_signature(nonce_record.message, body.signature)
     if recovered_wallet != wallet:
         raise api_error(401, "UNAUTHORIZED_ROLE", "A assinatura não corresponde à wallet informada.")
@@ -60,6 +63,7 @@ def verify_wallet(db: Session, body: VerifyWalletBody) -> AuthTokenOut:
             {"walletAddress": wallet},
         )
 
+    # Nonce e de uso unico para evitar replay da mesma assinatura.
     nonce_record.used_at = now
     token, expires_at = create_access_token(profile)
     db.commit()

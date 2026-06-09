@@ -6,6 +6,7 @@ from fastapi.responses import JSONResponse
 
 
 class ApiException(Exception):
+    """Erro esperado da API, ja no formato publico combinado com o frontend."""
     def __init__(self, status_code: int, code: str, message: str, details: Any = None):
         self.status_code = status_code
         self.code = code
@@ -25,6 +26,7 @@ async def api_exception_handler(_: Request, exc: ApiException) -> JSONResponse:
 
 
 async def validation_exception_handler(_: Request, exc: RequestValidationError) -> JSONResponse:
+    # FastAPI/Pydantic tambem seguem o envelope de erro publico do projeto.
     return JSONResponse(
         status_code=400,
         content={

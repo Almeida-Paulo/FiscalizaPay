@@ -14,6 +14,8 @@ import type {
 import { mockStore } from "@/shared/mocks/mock-store";
 import { MockErrors } from "@/shared/mocks/mock-errors";
 
+// Este modulo e o adaptador entre o frontend e o backend real.
+// Em modo mock, ele preserva o mesmo formato de resposta da API.
 type ActionResult = {
   id: string;
   status: Contract["status"];
@@ -41,6 +43,7 @@ function persistAction(
   responsibleRole: UserRole,
   description: string,
 ): ApiResponse<ActionResult> {
+  // Mantem contrato e timeline sincronizados no modo demo.
   const now = new Date().toISOString();
   mockStore.updateContract(contractId, { status: newStatus });
   mockStore.addEvent({
@@ -296,6 +299,7 @@ export async function simulateFraud(
     const fraudDetected =
       !!contract!.documentHash && contract!.documentHash !== payload.newDocumentHash;
 
+    // Hash identico nao abre disputa; hash divergente move o contrato para DISPUTA.
     if (!fraudDetected) {
       return {
         data: {

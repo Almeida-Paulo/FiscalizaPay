@@ -17,6 +17,7 @@ def get_current_profile(
     credentials: Annotated[HTTPAuthorizationCredentials | None, Depends(bearer_scheme)],
     db: Annotated[Session, Depends(get_db)],
 ) -> Profile:
+    """Carrega o perfil autenticado a partir do JWT usado nas rotas protegidas."""
     if credentials is None or credentials.scheme.lower() != "bearer":
         raise api_error(401, "UNAUTHORIZED_ROLE", "Autenticação obrigatória.")
 

@@ -15,6 +15,7 @@ type RegisterOnChainResult = {
   event: Pick<ContractEvent, "id" | "eventType" | "transactionHash" | "createdAt">;
 };
 
+// Leitura/escrita blockchain mantem o mesmo contrato em mock e API real.
 export async function getBlockchainStatus(
   contractId: string,
 ): Promise<ApiResponse<BlockchainStatus>> {
@@ -30,6 +31,7 @@ export async function registerOnChain(
   contractId: string,
 ): Promise<ApiResponse<RegisterOnChainResult>> {
   if (env.useMocks) {
+    // Simulacao local: gera tx visual, atualiza status e cria evento auditavel.
     const now = new Date().toISOString();
     const txHash = `0xmock_onchain_${Date.now().toString(16)}`;
     const blockNumber = 12350000 + Math.floor(Math.random() * 1000);

@@ -1,6 +1,6 @@
 from functools import lru_cache
 
-from pydantic import Field
+from pydantic import Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -23,9 +23,23 @@ class Settings(BaseSettings):
     auth_nonce_expires_minutes: int = 10
     chain_id: int = 80002
 
+    db_pool_size: int = 2
+    db_max_overflow: int = 0
+    db_pool_timeout: int = 30
+
     explorer_url: str = "https://amoy.polygonscan.com"
     contract_address: str = ""
     blockchain_enabled: bool = False
+
+    @field_validator("database_url")
+    @classmethod
+    def normalize_database_url(cls, value: str) -> str:
+        """Railway costuma expor postgresql://; o projeto usa o driver psycopg v3."""
+        if value.startswith("postgres://"):
+            return value.replace("postgres://", "postgresql+psycopg://", 1)
+        if value.startswith("postgresql://"):
+            return value.replace("postgresql://", "postgresql+psycopg://", 1)
+        return value
 
     @property
     def cors_origin_list(self) -> list[str]:

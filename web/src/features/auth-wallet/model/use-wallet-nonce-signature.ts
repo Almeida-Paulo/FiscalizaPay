@@ -100,6 +100,7 @@ export function useWalletNonceSignature() {
   const [isRequestingNonce, setIsRequestingNonce] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
 
+  // A chain esperada vem do ambiente publicado para evitar assinar na rede errada.
   const expectedChainId = env.chainId || 80002;
   const selectedConnector = useMemo(
     () =>
@@ -172,6 +173,7 @@ export function useWalletNonceSignature() {
       throw new Error(message);
     }
 
+    // Fluxo em duas etapas: conectar a wallet e so depois pedir o nonce ao backend.
     let currentWallet: ConnectedWallet;
     try {
       currentWallet =
@@ -200,6 +202,7 @@ export function useWalletNonceSignature() {
     setIsRequestingNonce(true);
 
     try {
+      // O backend gera uma mensagem unica; a MetaMask assina sem custo de gas.
       const nonceResponse = await getAuthNonce(currentWallet.address);
       const nextNonceData = nonceResponse.data;
 
@@ -253,6 +256,7 @@ export function useWalletNonceSignature() {
       setIsVerifying(true);
 
       try {
+        // O backend recupera a wallet da assinatura e devolve JWT + perfil real.
         const verifyResponse = await verifyWalletSignature({
           walletAddress: signed.walletAddress,
           nonce: signed.nonce,
@@ -290,6 +294,7 @@ export function useWalletNonceSignature() {
   }, [signNonceMessage, verifySignedNonce]);
 
   const disconnectWallet = useCallback(() => {
+    // Desconectar wallet tambem remove JWT e perfil para nao manter acesso visual.
     disconnect();
     useAuthStore.getState().clearSession();
     resetSignature();

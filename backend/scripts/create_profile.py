@@ -14,6 +14,7 @@ def main() -> None:
     parser.add_argument("--wallet", required=True, help="Wallet EVM real do usuário")
     args = parser.parse_args()
 
+    # O script permite cadastrar wallets reais sem expor role no frontend.
     wallet = normalize_wallet(args.wallet)
 
     with SessionLocal() as db:

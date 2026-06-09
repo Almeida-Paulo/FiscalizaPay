@@ -21,11 +21,13 @@ app.add_middleware(
 )
 
 if settings.environment == "production":
+    # Em producao, aceita somente hosts declarados no ambiente.
     app.add_middleware(TrustedHostMiddleware, allowed_hosts=settings.allowed_host_list)
 
 
 @app.middleware("http")
 async def security_headers(request: Request, call_next):
+    """Adiciona headers basicos de hardening em todas as respostas."""
     response = await call_next(request)
     response.headers["X-Content-Type-Options"] = "nosniff"
     response.headers["X-Frame-Options"] = "DENY"

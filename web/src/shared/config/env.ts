@@ -1,6 +1,7 @@
 const DEFAULT_API_BASE_URL = "http://127.0.0.1:8000";
 
 function normalizeApiBaseUrl(value?: string): string {
+  // Aceita localhost sem protocolo e dominios de deploy sem barra final.
   const rawValue = value?.trim() || DEFAULT_API_BASE_URL;
 
   if (rawValue.startsWith("/")) {

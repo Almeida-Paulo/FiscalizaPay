@@ -28,6 +28,8 @@ from app.security import normalize_wallet
 from app.serializers import contract_out, event_out
 
 
+# Mapa unico de permissoes por acao de contrato.
+# As rotas chamam os services, e os services continuam sendo a barreira real.
 ACTION_ROLES = {
     "create": {UserRole.GESTOR.value},
     "update": {UserRole.GESTOR.value},
@@ -45,11 +47,13 @@ BLOCKCHAIN_UNAVAILABLE_MESSAGE = "Registro em blockchain indisponivel neste ambi
 
 
 def is_blockchain_available() -> bool:
+    """Retorna se o ambiente esta pronto para executar escrita on-chain real."""
     settings = get_settings()
     return settings.blockchain_enabled and bool(settings.contract_address.strip())
 
 
 def parse_dt(value: str | None, field_name: str) -> datetime | None:
+    """Converte datas recebidas pela API para UTC, mantendo erro amigavel."""
     if value is None:
         return None
     try:
@@ -67,6 +71,7 @@ def optional_wallet(value: str | None) -> str | None:
 
 
 def require_role(profile: Profile, action: str) -> None:
+    """Bloqueia a acao quando a role autenticada nao esta autorizada."""
     allowed = ACTION_ROLES[action]
     if profile.role not in allowed:
         raise api_error(
@@ -78,6 +83,7 @@ def require_role(profile: Profile, action: str) -> None:
 
 
 def require_party_wallet(contract: Contract, profile: Profile, field_name: str) -> None:
+    """Valida a wallet vinculada ao papel do contrato, quando ela foi informada."""
     expected = getattr(contract, field_name)
     if expected and expected.lower() != profile.wallet_address.lower():
         raise api_error(
@@ -127,6 +133,7 @@ def create_event(
     transaction_hash: str | None = None,
     blockchain_timestamp: datetime | None = None,
 ) -> ContractEvent:
+    """Registra a trilha auditavel de cada acao relevante do contrato."""
     event = ContractEvent(
         contract_id=contract.id,
         event_type=event_type.value,
@@ -283,6 +290,7 @@ def run_flow_action(
     default_description: str,
     body: ContractActionBody | None,
 ) -> ActionResultOut:
+    """Executa uma etapa linear do fluxo: permissao, status, evento e commit."""
     require_role(profile, action)
     require_party_wallet(contract, profile, party_wallet_field)
     ensure_status(contract, required_status)
@@ -349,6 +357,7 @@ def simulate_fraud(db: Session, contract: Contract, profile: Profile, body: Simu
             {"currentStatus": contract.status},
         )
 
+    # A fraude do MVP e demonstrada pela divergencia entre o hash original e o novo hash.
     fraud_detected = contract.document_hash != body.newDocumentHash
     if not fraud_detected:
         return SimulateFraudResultOut(
@@ -437,6 +446,8 @@ def register_on_chain(_: Session, contract: Contract, profile: Profile) -> None:
     require_role(profile, "register_on_chain")
     require_party_wallet(contract, profile, "manager_wallet")
 
+    # O endpoint existe para manter o contrato de API estavel, mas so escreve
+    # on-chain quando o ambiente tiver smart contract configurado.
     if not is_blockchain_available():
         raise api_error(
             503,

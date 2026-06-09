@@ -100,6 +100,7 @@ function isSessionExpired(expiresAt: string): boolean {
 }
 
 function toPersistedSession(session: AuthSession): PersistedAuthSession | null {
+  // Valida o payload antes de gravar sessao no browser.
   const accessToken = session.accessToken?.trim();
   const expiresAt = session.expiresAt?.trim();
   const profile = session.profile;
@@ -158,6 +159,7 @@ function readStoredSession(): PersistedAuthSession | null {
     return null;
   }
 
+  // sessionStorage expira ao fechar a aba, reduzindo persistencia de JWT em demo.
   const rawSession = window.sessionStorage.getItem(AUTH_SESSION_STORAGE_KEY);
 
   if (!rawSession) {
@@ -281,6 +283,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   hydrate: () => {
     set({ isLoading: true, error: null });
 
+    // Reidrata a sessao depois do mount sem quebrar SSR/Next.js.
     const persistedSession = readStoredSession();
 
     if (!persistedSession) {

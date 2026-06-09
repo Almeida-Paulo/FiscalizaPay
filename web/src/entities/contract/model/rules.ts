@@ -1,9 +1,9 @@
 /**
  * Regras visuais do frontend para FiscalizaPay Web3.
  *
- * ATENÇÃO: Estas funções controlam apenas a interface visual.
- * O backend é a fonte definitiva de validação e segurança.
- * Nunca confiar apenas nestas funções para autorizar ações críticas.
+ * ATENCAO: estas funcoes controlam apenas a interface visual.
+ * O backend e a fonte definitiva de validacao e seguranca.
+ * Nunca confiar apenas nestas funcoes para autorizar acoes criticas.
  */
 
 import type { Contract, ContractStatus } from "./types";
@@ -16,7 +16,7 @@ import {
   type StatusVariant,
 } from "./constants";
 
-// ─── Tipo de ação disponível no contrato ──────────────────────────────────────
+// Tipo de acao disponivel no contrato.
 
 export type ContractAction =
   | "CONFIRM_SHIPMENT"
@@ -37,12 +37,12 @@ const ACTION_LABELS: Record<ContractAction, string> = {
   REGISTER_ON_CHAIN: "registrar on-chain",
 };
 
-// ─── Regras de permissão visual por ação ─────────────────────────────────────
+// Regras de permissao visual por acao.
 
 /**
- * Espelha `require_party_wallet` do backend: a checagem só se aplica quando o
+ * Espelha `require_party_wallet` do backend: a checagem so se aplica quando o
  * contrato tem uma wallet registrada para aquele papel; sem wallet vinculada,
- * qualquer perfil com o papel correto pode agir. Comparação case-insensitive.
+ * qualquer perfil com o papel correto pode agir. Comparacao case-insensitive.
  */
 function hasRequiredWallet(
   requiredWallet: string | undefined,
@@ -91,7 +91,7 @@ export function canRegisterOnChain(_: Contract, profile: Profile): boolean {
   return profile.role === "GESTOR";
 }
 
-// ─── Labels de exibição para ações ───────────────────────────────────────────
+// Labels de exibicao para acoes.
 
 export const CONTRACT_ACTION_LABELS: Record<ContractAction, string> = {
   CONFIRM_SHIPMENT: "Confirmar envio",
@@ -103,7 +103,7 @@ export const CONTRACT_ACTION_LABELS: Record<ContractAction, string> = {
   REGISTER_ON_CHAIN: "Registrar on-chain",
 };
 
-// ─── Próxima ação e lista de ações disponíveis ────────────────────────────────
+// Proxima acao e lista de acoes disponiveis.
 
 export function getNextContractAction(
   contract: Contract,
@@ -132,6 +132,7 @@ export function getAvailableContractActions(
 }
 
 export function getCanonicalNextAction(contract: Contract): ContractAction | null {
+  // Fluxo canonico do contrato, independente da role conectada.
   switch (contract.status) {
     case "CRIADO": return "CONFIRM_SHIPMENT";
     case "ENVIADO": return "CONFIRM_DELIVERY";
@@ -141,11 +142,11 @@ export function getCanonicalNextAction(contract: Contract): ContractAction | nul
   }
 }
 
-// ─── Motivo de bloqueio de ação ───────────────────────────────────────────────
+// Motivo de bloqueio de acao.
 
 /**
- * Retorna mensagem amigável explicando por que uma ação está bloqueada.
- * Retorna null se a ação estiver disponível.
+ * Retorna mensagem amigavel explicando por que uma acao esta bloqueada.
+ * Retorna null se a acao estiver disponivel.
  */
 export function getBlockedActionReason(
   action: ContractAction,
@@ -220,7 +221,7 @@ export function getBlockedActionReason(
   return `Você não pode ${ACTION_LABELS[action]} no estado atual.`;
 }
 
-// ─── Helpers de status e progresso ───────────────────────────────────────────
+// Helpers de status e progresso.
 
 export function getContractProgress(contract: Contract): number {
   return CONTRACT_STATUS_PROGRESS[contract.status];

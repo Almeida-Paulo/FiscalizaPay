@@ -18,6 +18,7 @@ WALLET_RE = re.compile(r"^0x[a-fA-F0-9]{40}$")
 
 
 def normalize_wallet(wallet_address: str) -> str:
+    """Normaliza wallets EVM para comparacoes case-insensitive no backend."""
     value = wallet_address.strip()
     if not WALLET_RE.match(value):
         raise api_error(
@@ -33,6 +34,7 @@ def generate_nonce() -> str:
 
 
 def build_login_message(wallet_address: str, nonce: str, expires_at: datetime) -> str:
+    """Monta a mensagem humana que a MetaMask mostra antes da assinatura."""
     settings = get_settings()
     return (
         "FiscalizaPay Web3\n\n"
@@ -46,6 +48,7 @@ def build_login_message(wallet_address: str, nonce: str, expires_at: datetime) -
 
 
 def recover_wallet_from_signature(message: str, signature: str) -> str:
+    """Recupera o endereco que assinou a mensagem e rejeita assinaturas invalidas."""
     try:
         recovered = Account.recover_message(encode_defunct(text=message), signature=signature)
     except Exception as exc:
@@ -54,6 +57,7 @@ def recover_wallet_from_signature(message: str, signature: str) -> str:
 
 
 def create_access_token(profile: Profile) -> tuple[str, datetime]:
+    """Gera JWT curto contendo apenas dados necessarios para autorizacao."""
     settings = get_settings()
     expires_at = datetime.now(timezone.utc) + timedelta(minutes=settings.jwt_expires_minutes)
     payload = {

@@ -4,7 +4,7 @@ import { mockContracts } from "./contracts.mock";
 import { mockContractEvents } from "./contract-events.mock";
 import { mockBlockchainStatuses } from "./blockchain.mock";
 
-// Module-level mutable state — resets on page reload (intentional for demo)
+// Estado mutavel em memoria: suficiente para demo e reiniciado ao recarregar a pagina.
 let _contracts: Contract[] = mockContracts.map((c) => ({ ...c }));
 let _events: ContractEvent[] = mockContractEvents.map((e) => ({ ...e }));
 let _blockchainStatuses: BlockchainStatus[] = mockBlockchainStatuses.map((s) => ({ ...s }));

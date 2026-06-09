@@ -4,6 +4,7 @@ import { httpClient, HttpClientError } from "./http-client";
 
 const WALLET_ADDRESS_RE = /^0x[a-fA-F0-9]{40}$/;
 
+// Cliente de autenticacao por wallet: nonce publico, assinatura e sessao JWT.
 export type AuthProfile = {
   id: string;
   name: string;
@@ -59,6 +60,7 @@ function authValidationError(message: string): never {
 }
 
 function normalizeWalletAddress(walletAddress: string): string {
+  // Normaliza no frontend para falhar cedo antes de chamar a API.
   const value = walletAddress.trim();
   if (!WALLET_ADDRESS_RE.test(value)) {
     authValidationError(
@@ -88,6 +90,7 @@ export function getAuthNonce(
 export function verifyWalletSignature(
   payload: VerifyWalletSignatureRequest,
 ): Promise<VerifyWalletSignatureResponse> {
+  // A role nao e enviada pelo frontend; ela vem do perfil retornado pelo backend.
   const walletAddress = normalizeWalletAddress(payload.walletAddress);
   const nonce = requireText(payload.nonce, "nonce");
   const signature = requireText(payload.signature, "signature");
@@ -116,6 +119,7 @@ export function getCurrentProfile(accessToken?: string): Promise<AuthMeResponse>
 export function toAuthSession(
   data: VerifyWalletSignatureData,
 ): AuthSession {
+  // Concentra o shape persistido pelo store de autenticacao.
   return {
     accessToken: data.accessToken,
     tokenType: data.tokenType,

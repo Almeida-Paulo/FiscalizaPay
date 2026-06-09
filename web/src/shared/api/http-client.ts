@@ -21,6 +21,7 @@ interface RequestOptions {
 
 const DEFAULT_TIMEOUT_MS = 10_000;
 
+// Endpoints publicos nunca recebem Bearer token.
 const PUBLIC_API_PATHS = new Set([
   "/health",
   "/auth/nonce",
@@ -74,6 +75,7 @@ function buildHeaders(
     return headers;
   }
 
+  // Em modo API real, rotas protegidas usam o JWT obtido via assinatura da wallet.
   const accessToken = useAuthStore.getState().accessToken?.trim();
 
   if (accessToken) {
@@ -96,6 +98,7 @@ function buildResponseError(
 }
 
 function clearSessionOnUnauthorized(path: string, response: Response): void {
+  // 401 em rota protegida invalida a sessao local para evitar UI autenticada falsa.
   if (response.status === 401 && !env.useMocks && !isPublicApiPath(path)) {
     useAuthStore.getState().clearSession();
   }
@@ -127,6 +130,7 @@ async function request<T>(
   try {
     const response = await fetch(url, init);
 
+    // Alguns endpoints podem retornar corpo vazio; o cliente ainda preserva o envelope.
     if (response.status === 204 || response.headers.get("content-length") === "0") {
       if (!response.ok) {
         clearSessionOnUnauthorized(path, response);
