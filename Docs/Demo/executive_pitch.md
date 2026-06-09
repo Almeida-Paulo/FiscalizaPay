@@ -18,9 +18,9 @@
 
 "Contratos públicos no Brasil somam R$ 1,2 trilhão por ano. O problema não é falta de lei — é falta de rastreabilidade. Os documentos mudam, as versões se contradizem, as auditorias chegam tarde.
 
-FiscalizaPay resolve isso com blockchain. Cada etapa do contrato gera um registro imutável: quem fez, quando fez, com qual documento. O hash SHA-256 do PDF é gravado na Polygon Amoy no momento da assinatura. Se alguém tentar trocar o documento depois, o hash diverge e o pagamento é bloqueado automaticamente.
+FiscalizaPay resolve isso com uma trilha auditavel e uma camada blockchain para prova de integridade. O hash SHA-256 do PDF fica vinculado ao contrato; se alguem tentar trocar o documento depois, o hash diverge e o pagamento e bloqueado automaticamente.
 
-Não é teoria. Aqui está o sistema funcionando: seis contratos monitorados, vinte eventos rastreados, um contrato em disputa por fraude detectada — tudo em tempo real, sem backend, com dados mock que simulam o ambiente de produção."
+Nao e teoria. Aqui esta o sistema funcionando: seis contratos monitorados, vinte eventos rastreados, um contrato em disputa por fraude detectada — tudo demonstravel em tempo real, com backend real disponivel e modo mock como plano B para a apresentacao."
 
 ---
 
@@ -36,17 +36,17 @@ O resultado: desvios detectados apenas após o pagamento. Superfaturamento invis
 
 **A solução:**
 
-FiscalizaPay é uma plataforma de rastreabilidade de contratos públicos com infraestrutura blockchain. O sistema implementa um protocolo de cinco etapas — Criação, Envio, Entrega, Validação, Pagamento — onde cada transição de estado gera um registro imutável na Polygon Amoy.
+FiscalizaPay e uma plataforma de rastreabilidade de contratos publicos com infraestrutura blockchain. O sistema implementa um protocolo de cinco etapas — Criacao, Envio, Entrega, Validacao, Pagamento — e possui smart contract deployado na Sepolia para registro imutavel de hashes.
 
 O mecanismo central de segurança é o **hash binding**: o SHA-256 do documento físico é registrado na criação do contrato. Qualquer tentativa posterior de substituir o documento gera hash divergente, ativando automaticamente uma disputa e bloqueando o pagamento.
 
 **A arquitetura:**
 
-Frontend em Next.js 16 App Router com Feature-Sliced Design. Backend (em desenvolvimento) em NestJS com PostgreSQL. Smart contract em Solidity na Polygon Amoy. TanStack Query para cache e invalidação. Layer de mock completo para operação sem backend.
+Frontend em Next.js 16 App Router com Feature-Sliced Design. Backend em FastAPI com PostgreSQL. Smart contract em Solidity deployado na Sepolia. TanStack Query para cache e invalidacao. Layer de mock completo para demonstracao sem depender da escrita on-chain runtime.
 
 **O traction:**
 
-Sistema MVP completo com sete telas funcionais, vinte eventos de demonstração, cinco roles de usuário, detecção automática de fraude e auditoria consolidada. Zero dependência de backend para demonstração.
+Sistema MVP completo com sete telas funcionais, vinte eventos de demonstracao, cinco roles de usuario, deteccao automatica de fraude e auditoria consolidada. O modo mock permite demonstracao sem depender da infraestrutura ao vivo.
 
 **O mercado:**
 
@@ -86,7 +86,7 @@ FiscalizaPay implementa um **protocolo de rastreabilidade imutável**:
 
 4. **Auditoria preventiva:** a detecção de fraude ocorre antes do pagamento, não depois. O auditor vê tudo em tempo real, com alertas automáticos.
 
-5. **Registro descentralizado:** os eventos ficam na Polygon Amoy, não no servidor do órgão público. Quem contrata não controla a evidência.
+5. **Registro descentralizado:** o hash pode ser ancorado em contrato publico na Sepolia, fora do servidor do orgao publico.
 
 ### Demonstração ao vivo
 
@@ -110,14 +110,14 @@ Pontos de destaque:
 ### Tecnologia
 
 - **Frontend:** Next.js 16, React 19, TypeScript, TailwindCSS v4, Framer Motion
-- **Backend:** NestJS, PostgreSQL (em desenvolvimento)
-- **Blockchain:** Solidity, Polygon Amoy, wagmi v2, viem v2, RainbowKit
-- **Infraestrutura:** Deploy Vercel/Cloudflare, contrato na testnet Amoy → mainnet Polygon
+- **Backend:** FastAPI, PostgreSQL, SQLAlchemy, JWT e autenticacao por wallet
+- **Blockchain:** Solidity, Sepolia, wagmi v2, viem v2, RainbowKit
+- **Infraestrutura:** Deploy Vercel/Cloudflare, contrato na testnet Sepolia -> evolucao para rede de producao
 
 ### Roadmap pós-MVP
 
 - **Fase 1 (atual):** MVP Frontend completo, demo funcional, mock layer
-- **Fase 2 (próximo):** Backend NestJS + PostgreSQL, API real, deploy testnet
+- **Fase 2 (proximo):** Integracao runtime backend -> smart contract, registro de transaction hash real e validacao ponta a ponta
 - **Fase 3:** Piloto com órgão público parceiro (prefeitura ou autarquia)
 - **Fase 4:** Integração com sistemas existentes (SIAFI, Licitações-e, NF-e)
 - **Fase 5:** Internacionalização — América Latina, África lusófona

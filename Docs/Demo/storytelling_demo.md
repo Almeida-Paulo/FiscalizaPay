@@ -111,7 +111,7 @@ Nenhuma etapa pode ser pulada. O sistema de contrato inteligente (smart contract
 
 **O que o blockchain garante:**
 
-1. **Imutabilidade** — Um registro na Polygon Amoy não pode ser apagado ou editado. Jamais.
+1. **Imutabilidade** — Um registro em uma testnet publica como Sepolia nao pode ser apagado ou editado pelo servidor do orgao.
 2. **Descentralização** — Não está no servidor do órgão público. Não está no servidor do fornecedor. Está em uma rede global de validadores.
 3. **Verificabilidade pública** — Qualquer pessoa com o transaction hash pode verificar o registro no block explorer (Polygonscan). Sem intermediário.
 4. **Timestamp confiável** — O bloco tem horário validado pela rede, não por um servidor controlado por uma das partes.

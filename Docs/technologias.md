@@ -51,8 +51,8 @@ O FiscalizaPay e uma plataforma Web3 para fiscalizacao de contratos publicos, co
 | Hardhat Ignition | Modulo de deploy reprodutivel. |
 | OpenZeppelin Contracts | `Ownable` para controle de escrita no contrato. |
 | Viem | Testes/interacao Web3 no workspace de contratos. |
-| Sepolia | Testnet onde existe artefato de deploy local. |
-| Polygon Amoy | Testnet planejada/configurada em parte do backend e frontend local. |
+| Sepolia | Testnet atual do MVP, com contrato deployado. |
+| Polygon Amoy | Testnet alternativa/fallback mantida na configuracao Hardhat. |
 | Etherscan Sepolia | Explorer publico para consultar contrato na Sepolia. |
 
 ## Smart contract deployado
@@ -64,7 +64,7 @@ Chain ID: `11155111`
 Endereco: `0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83`  
 Explorer: `https://sepolia.etherscan.io/address/0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83`
 
-Observacao importante: o artefato de deploy existe em `contracts/ignition/deployments/chain-11155111/deployed_addresses.json`, mas a API real ainda trata `register-on-chain` como indisponivel/nao implementado quando `BLOCKCHAIN_ENABLED` e `CONTRACT_ADDRESS` nao estao configurados. Portanto, ha smart contract deployado, mas a integracao runtime backend -> contrato ainda precisa ser alinhada e validada.
+Observacao importante: o artefato de deploy existe em `contracts/ignition/deployments/chain-11155111/deployed_addresses.json`, mas a API real ainda trata `register-on-chain` como indisponivel/nao implementado. Portanto, ha smart contract deployado, mas a integracao runtime backend -> contrato ainda precisa ser implementada e validada.
 
 ## Arquitetura
 

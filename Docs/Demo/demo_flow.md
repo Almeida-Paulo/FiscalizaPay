@@ -84,7 +84,7 @@
 - Status: **PAGAMENTO_AUTORIZADO** (fluxo completo concluído)
 - Timeline com 6 eventos completos:
   1. `CONTRATO_CRIADO` — Maria Santos — nov/2025
-  2. `HASH_REGISTRADO` — Hash gravado na blockchain Polygon Amoy
+  2. `HASH_REGISTRADO` — Hash exibido como registro blockchain na demo; contrato real deployado na Sepolia
   3. `ENVIO_CONFIRMADO` — Carlos Rodrigues — dez/2025 — tx hash
   4. `ENTREGA_CONFIRMADA` — Ricardo Alves — abr/2026 — tx hash
   5. `RECEBIMENTO_VALIDADO` — João Silva (FISCAL) — mai/2026 — tx hash
@@ -198,7 +198,7 @@
 - Se `npm run dev` não subir: mostrar prints das telas em PDF/PowerPoint
 - Se alguma tela travar: usar `localStorage.clear()` no console do browser e recarregar
 - Se a simulação de fraude não funcionar: mostrar CT-2026-006 que já tem fraude registrada nos mocks
-- **Os mocks garantem que todos os dados existem sem backend** — sem ponto único de falha
+- **Os mocks garantem que todos os dados existem sem depender do backend ao vivo** — sem ponto único de falha
 
 ---
 

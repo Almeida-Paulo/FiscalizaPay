@@ -133,8 +133,8 @@ Use esta frase:
 
 Prioridade para fechar diferenciais Web3:
 
-1. escolher oficialmente Sepolia ou Polygon Amoy;
-2. alinhar `CHAIN_ID`, `NEXT_PUBLIC_CHAIN_ID`, `CONTRACT_ADDRESS`, `NEXT_PUBLIC_CONTRACT_ADDRESS` e explorer;
+1. manter Sepolia como rede oficial do MVP;
+2. manter `CHAIN_ID`, `NEXT_PUBLIC_CHAIN_ID`, `CONTRACT_ADDRESS`, `NEXT_PUBLIC_CONTRACT_ADDRESS` e explorer alinhados com Sepolia;
 3. implementar no backend a chamada real ao `FiscalizaPayRegistry`;
 4. salvar `transaction_hash`, `block_number` e `blockchain_timestamp`;
 5. exibir link real para explorer;

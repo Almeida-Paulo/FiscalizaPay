@@ -44,7 +44,7 @@ Existe um smart contract no projeto:
 - Explorer: `https://sepolia.etherscan.io/address/0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83`
 - Artefato local: `contracts/ignition/deployments/chain-11155111/deployed_addresses.json`
 
-Ponto de atencao: a API backend ainda trata o registro on-chain real como indisponivel ou nao implementado quando `BLOCKCHAIN_ENABLED` e `CONTRACT_ADDRESS` nao estao configurados. Tambem ha desalinhamento de rede em alguns ambientes: o contrato registrado esta em Sepolia, enquanto parte da configuracao local aponta para Polygon Amoy.
+Ponto de atencao: a API backend ainda trata o registro on-chain real como indisponivel ou nao implementado. A rede atual para apresentacao deve ser Sepolia, alinhada ao artefato de deploy existente.
 
 Conclusao: o requisito de contrato deployado tem evidencia local e endereco publico, mas a integracao completa frontend -> backend -> smart contract ainda precisa ser validada em runtime.
 
@@ -151,7 +151,7 @@ O projeto preenche a maior parte dos requisitos de produto, transparencia, audit
 Os pontos que precisam ser apresentados com cuidado sao:
 
 - integracao blockchain real ainda nao esta completa no backend;
-- existe smart contract deployado em Sepolia, mas ambiente local/parte da documentacao ainda aponta para Amoy;
+- existe smart contract deployado em Sepolia, mas a escrita runtime pelo backend ainda nao foi conectada;
 - NFTs/certificados e IPFS nao fazem parte do escopo atual.
 
 Para apresentacao, a formulacao mais honesta e forte e:
