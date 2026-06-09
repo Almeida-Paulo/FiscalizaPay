@@ -1,0 +1,223 @@
+{
+  "_format": "hh3-artifact-1",
+  "contractName": "FiscalizaPayRegistry",
+  "sourceName": "contracts/FiscalizaPayRegistry.sol",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "initialOwner",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "contractId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "AlreadyRegistered",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "owner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableInvalidOwner",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "OwnableUnauthorizedAccount",
+      "type": "error"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "contractId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "RecordNotFound",
+      "type": "error"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "contractId",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "bytes32",
+          "name": "documentHash",
+          "type": "bytes32"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "registeredBy",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        }
+      ],
+      "name": "ContractRegistered",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "contractId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "getRecord",
+      "outputs": [
+        {
+          "internalType": "bytes32",
+          "name": "documentHash",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "address",
+          "name": "registeredBy",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "timestamp",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "exists",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "contractId",
+          "type": "bytes32"
+        }
+      ],
+      "name": "isRegistered",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "contractId",
+          "type": "bytes32"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "documentHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "registerContract",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x6080604052348015600e575f5ffd5b506040516104a33803806104a3833981016040819052602b9160b4565b806001600160a01b038116605857604051631e4fbdf760e01b81525f600482015260240160405180910390fd5b605f816065565b505060df565b5f80546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b5f6020828403121560c3575f5ffd5b81516001600160a01b038116811460d8575f5ffd5b9392505050565b6103b7806100ec5f395ff3fe608060405234801561000f575f5ffd5b5060043610610060575f3560e01c8063213681cd14610064578063266a2f03146100a657806327258b22146100bb578063715018a6146100ef5780638da5cb5b146100f7578063f2fde38b14610111575b5f5ffd5b61007761007236600461031d565b610124565b604080519485526001600160a01b03909316602085015291830152151560608201526080015b60405180910390f35b6100b96100b4366004610334565b61017e565b005b6100df6100c936600461031d565b5f90815260016020526040902060020154151590565b604051901515815260200161009d565b6100b9610252565b5f546040516001600160a01b03909116815260200161009d565b6100b961011f366004610354565b610265565b5f8181526001602052604081206002810154829182911515908161015457505f9350839250829150819050610177565b80546001808301546002909301549196506001600160a01b039092169450925090505b9193509193565b6101866102a2565b5f82815260016020526040902060020154156101bd57604051633be57b3960e11b8152600481018390526024015b60405180910390fd5b60408051606081018252828152336020808301828152428486018181525f89815260018086529088902096518755925192860180546001600160a01b0319166001600160a01b03909416939093179092559051600290940193909355925191825291839185917f910eddeb043d2d6791f0527f844f56d54c0cc862636fae0b16d5716899dbb3c0910160405180910390a45050565b61025a6102a2565b6102635f6102ce565b565b61026d6102a2565b6001600160a01b03811661029657604051631e4fbdf760e01b81525f60048201526024016101b4565b61029f816102ce565b50565b5f546001600160a01b031633146102635760405163118cdaa760e01b81523360048201526024016101b4565b5f80546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b5f6020828403121561032d575f5ffd5b5035919050565b5f5f60408385031215610345575f5ffd5b50508035926020909101359150565b5f60208284031215610364575f5ffd5b81356001600160a01b038116811461037a575f5ffd5b939250505056fea2646970667358221220d1a57afb3ad86ec068df868b472cc8153ab741350adbf29d0644ea9a2c7d00ed64736f6c634300081c0033",
+  "deployedBytecode": "0x608060405234801561000f575f5ffd5b5060043610610060575f3560e01c8063213681cd14610064578063266a2f03146100a657806327258b22146100bb578063715018a6146100ef5780638da5cb5b146100f7578063f2fde38b14610111575b5f5ffd5b61007761007236600461031d565b610124565b604080519485526001600160a01b03909316602085015291830152151560608201526080015b60405180910390f35b6100b96100b4366004610334565b61017e565b005b6100df6100c936600461031d565b5f90815260016020526040902060020154151590565b604051901515815260200161009d565b6100b9610252565b5f546040516001600160a01b03909116815260200161009d565b6100b961011f366004610354565b610265565b5f8181526001602052604081206002810154829182911515908161015457505f9350839250829150819050610177565b80546001808301546002909301549196506001600160a01b039092169450925090505b9193509193565b6101866102a2565b5f82815260016020526040902060020154156101bd57604051633be57b3960e11b8152600481018390526024015b60405180910390fd5b60408051606081018252828152336020808301828152428486018181525f89815260018086529088902096518755925192860180546001600160a01b0319166001600160a01b03909416939093179092559051600290940193909355925191825291839185917f910eddeb043d2d6791f0527f844f56d54c0cc862636fae0b16d5716899dbb3c0910160405180910390a45050565b61025a6102a2565b6102635f6102ce565b565b61026d6102a2565b6001600160a01b03811661029657604051631e4fbdf760e01b81525f60048201526024016101b4565b61029f816102ce565b50565b5f546001600160a01b031633146102635760405163118cdaa760e01b81523360048201526024016101b4565b5f80546001600160a01b038381166001600160a01b0319831681178455604051919092169283917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e09190a35050565b5f6020828403121561032d575f5ffd5b5035919050565b5f5f60408385031215610345575f5ffd5b50508035926020909101359150565b5f60208284031215610364575f5ffd5b81356001600160a01b038116811461037a575f5ffd5b939250505056fea2646970667358221220d1a57afb3ad86ec068df868b472cc8153ab741350adbf29d0644ea9a2c7d00ed64736f6c634300081c0033",
+  "linkReferences": {},
+  "deployedLinkReferences": {},
+  "immutableReferences": {},
+  "inputSourceName": "project/contracts/FiscalizaPayRegistry.sol",
+  "buildInfoId": "solc-0_8_28-6d59d6f2672f2cd114cc4cb555b48ac52762e7f5"
+}
