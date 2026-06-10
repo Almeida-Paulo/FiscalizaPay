@@ -34,8 +34,10 @@ ignition/deployments/chain-11155111/ artefato do deploy Sepolia
 
 `FiscalizaPayRegistry` e `Ownable` (OpenZeppelin v5): so o `owner` (a wallet
 operadora/deployer) pode chamar `registerContract(contractId, documentHash)`.
-Cada `contractId` (= `keccak256(contract_number)`) so pode ser registrado uma
-unica vez. Nao existe funcao de update; o registro e imutavel por design.
+Cada `contractId` so pode ser registrado uma unica vez. No backend atual, esse
+`contractId` e `keccak256` do UUID interno do contrato, para manter estabilidade
+mesmo se o numero administrativo for corrigido. Nao existe funcao de update; o
+registro e imutavel por design.
 
 Toda escrita emite o evento:
 
@@ -83,6 +85,7 @@ copiado para:
 
 ```txt
 backend/.env      -> CONTRACT_ADDRESS
+backend/.env      -> RPC_URL, OPERATOR_PRIVATE_KEY, BLOCKCHAIN_ENABLED=true
 web/.env.local    -> NEXT_PUBLIC_CONTRACT_ADDRESS
 ```
 
@@ -96,9 +99,11 @@ npx hardhat verify --network sepolia <endereco-do-contrato> <endereco-do-owner>
 
 ## Estado da integracao
 
-O contrato esta deployado, mas o backend ainda nao executa escrita on-chain em
-runtime. No MVP atual, o endpoint `register-on-chain` fica reservado e a demo
-pode usar mocks para evitar dependencia de faucet, saldo e transacoes ao vivo.
+O contrato esta deployado e o backend possui integracao Web3 para escrita
+runtime. Por padrao, a demo mantem `BLOCKCHAIN_ENABLED=false` para evitar
+dependencia de faucet, saldo e transacoes ao vivo. Para teste ponta a ponta,
+habilite `BLOCKCHAIN_ENABLED=true`, configure RPC Sepolia, chave da wallet owner
+em `OPERATOR_PRIVATE_KEY` e saldo suficiente para gas.
 
 ## Testes
 

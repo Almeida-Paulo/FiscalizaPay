@@ -1,6 +1,6 @@
 # Ajustes Necessários no Frontend
 
-Este backend foi criado para funcionar com wallets reais em testnet, sem smart contract ainda.
+Este backend foi criado para funcionar com wallets reais em testnet e smart contract Sepolia. A escrita on-chain real existe, mas e controlada por `BLOCKCHAIN_ENABLED`.
 
 ## Mudança principal
 
@@ -203,9 +203,9 @@ Exemplo:
 }
 ```
 
-`POST /contracts/{id}/register-on-chain` retorna erro `BLOCKCHAIN_ERROR` até o smart contract existir.
+`POST /contracts/{id}/register-on-chain` chama o smart contract quando `BLOCKCHAIN_ENABLED=true`, `RPC_URL`, `OPERATOR_PRIVATE_KEY` e `CONTRACT_ADDRESS` estiverem configurados.
 
-O frontend deve ocultar esse botão ou mostrar como indisponível por enquanto.
+Com blockchain desabilitada ou sem configuracao completa, o frontend deve ocultar/desabilitar esse botao ou mostrar indisponibilidade controlada.
 
 ## Variáveis do frontend
 
@@ -214,6 +214,7 @@ Para usar esta API:
 ```env
 NEXT_PUBLIC_API_BASE_URL=https://api.seudominio.com
 NEXT_PUBLIC_USE_MOCKS=false
-NEXT_PUBLIC_CHAIN_ID=80002
-NEXT_PUBLIC_EXPLORER_URL=https://amoy.polygonscan.com
+NEXT_PUBLIC_CHAIN_ID=11155111
+NEXT_PUBLIC_EXPLORER_URL=https://sepolia.etherscan.io
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
 ```

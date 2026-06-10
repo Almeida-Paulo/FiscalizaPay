@@ -69,7 +69,7 @@ Endereco: `0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83`
 
 Explorer: `https://sepolia.etherscan.io/address/0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83`
 
-Estado atual: o contrato existe e ha artefato de deploy em `contracts/ignition/deployments/chain-11155111/`. A escrita runtime pelo backend ainda nao esta integrada por decisao de escopo/custo operacional da demo. No backend real, `register-on-chain` permanece desabilitado/nao implementado; em modo mock, o frontend simula a experiencia.
+Estado atual: o contrato existe e ha artefato de deploy em `contracts/ignition/deployments/chain-11155111/`. O backend possui integracao Web3 real para `register-on-chain`, mas ela fica desabilitada por padrao para evitar gasto de faucet/taxa durante demo. Para gravar de fato em Sepolia, configure `BLOCKCHAIN_ENABLED=true`, `RPC_URL`, `OPERATOR_PRIVATE_KEY` e saldo na wallet owner do contrato.
 
 ## Metricas de impacto
 
@@ -136,7 +136,7 @@ npx hardhat ignition deploy ignition/modules/FiscalizaPayRegistry.ts --network s
 ## Tecnologias
 
 - Frontend: Next.js 16, React 19, TypeScript, TailwindCSS, shadcn/ui, TanStack Query, Zustand, wagmi, viem, RainbowKit.
-- Backend: Python, FastAPI, SQLAlchemy, Alembic, PostgreSQL, JWT, eth-account, Docker.
+- Backend: Python, FastAPI, SQLAlchemy, Alembic, PostgreSQL, JWT, eth-account, web3.py, Docker.
 - Blockchain: Solidity 0.8.28, Hardhat 3, Hardhat Ignition, OpenZeppelin, Sepolia.
 
 ## Demo
@@ -151,6 +151,18 @@ NEXT_PUBLIC_CHAIN_ID=11155111
 NEXT_PUBLIC_EXPLORER_URL=https://sepolia.etherscan.io
 NEXT_PUBLIC_CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
 ```
+
+Modo API real com escrita on-chain:
+
+```env
+BLOCKCHAIN_ENABLED=true
+CHAIN_ID=11155111
+RPC_URL=https://...
+CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
+OPERATOR_PRIVATE_KEY=0x...
+```
+
+Use uma wallet de teste, com saldo Sepolia, e nunca versione a chave privada.
 
 ## Uso de IA
 

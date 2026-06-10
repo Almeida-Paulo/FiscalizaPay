@@ -2,9 +2,10 @@
 
 API real do FiscalizaPay usando Python, FastAPI e PostgreSQL.
 
-O projeto ja possui smart contract `FiscalizaPayRegistry` deployado em Sepolia,
-mas esta API ainda nao executa escrita on-chain em runtime. A autenticacao ja
-usa wallet real por assinatura EVM, sem gas e sem transacao.
+O projeto possui smart contract `FiscalizaPayRegistry` deployado em Sepolia e
+integracao Web3 real para registrar hashes on-chain quando o ambiente estiver
+habilitado. A autenticacao usa wallet real por assinatura EVM, sem gas e sem
+transacao.
 
 ## Stack
 
@@ -16,6 +17,7 @@ Alembic
 PostgreSQL
 JWT
 eth-account
+web3.py
 Docker / Docker Compose
 Nginx em producao
 ```
@@ -28,7 +30,7 @@ Nginx em producao
 - O backend busca a role da wallet na tabela `profiles`.
 - O backend valida status, role e wallet vinculada ao contrato.
 - Leituras de contratos, dashboard e auditoria exigem JWT.
-- O contrato Sepolia existe, mas a escrita runtime on-chain ainda esta desabilitada.
+- O contrato Sepolia existe e a escrita runtime on-chain e controlada por flag.
 
 ## Endpoints
 
@@ -56,7 +58,7 @@ POST /contracts/{id}/open-dispute
 POST /contracts/{id}/simulate-fraud
 
 GET  /contracts/{id}/blockchain-status # requer JWT
-POST /contracts/{id}/register-on-chain # endpoint reservado; escrita real ainda nao integrada
+POST /contracts/{id}/register-on-chain # escreve on-chain quando Web3 estiver habilitado
 
 GET /audit/events # requer JWT
 ```
@@ -87,6 +89,9 @@ CHAIN_ID=11155111
 EXPLORER_URL=https://sepolia.etherscan.io
 CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
 BLOCKCHAIN_ENABLED=false
+RPC_URL=
+OPERATOR_PRIVATE_KEY=
+BLOCKCHAIN_TX_TIMEOUT_SECONDS=120
 ```
 
 Para rodar a API fora do Docker, troque o host do banco em `DATABASE_URL` de
@@ -155,7 +160,7 @@ Validar recebimento: FISCAL, e wallet deve bater com inspectorWallet se preenchi
 Autorizar pagamento: GESTOR, e wallet deve bater com managerWallet se preenchida
 Abrir disputa: GESTOR, FISCAL ou AUDITOR
 Simular fraude: GESTOR, FISCAL ou AUDITOR
-Registrar on-chain: GESTOR, mas escrita real ainda nao implementada
+Registrar on-chain: GESTOR, e wallet deve bater com managerWallet se preenchida
 ```
 
 ## Estado blockchain
@@ -167,10 +172,25 @@ Contrato Sepolia:
 https://sepolia.etherscan.io/address/0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
 ```
 
-`POST /contracts/{id}/register-on-chain` existe para manter o contrato de API
-estavel, mas hoje retorna erro quando a escrita real estiver desabilitada ou nao
-implementada. Isso e intencional no MVP para evitar custo operacional de faucets
-e transacoes durante a demo.
+`POST /contracts/{id}/register-on-chain` chama `registerContract(bytes32,bytes32)`
+no contrato Sepolia quando todos os itens estiverem configurados:
+
+```env
+BLOCKCHAIN_ENABLED=true
+RPC_URL=https://...
+OPERATOR_PRIVATE_KEY=0x...
+CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
+CHAIN_ID=11155111
+```
+
+O `contractId` on-chain e derivado do UUID interno do contrato, garantindo
+estabilidade mesmo se o numero administrativo do contrato for corrigido. O
+`documentHash` e gravado como `bytes32`; se o valor informado nao for um hash
+hexadecimal de 32 bytes, o backend calcula `keccak256` do texto recebido.
+
+Com `BLOCKCHAIN_ENABLED=false`, ou sem RPC/chave/saldo, o endpoint retorna
+`503 BLOCKCHAIN_UNAVAILABLE`. Isso e intencional no MVP para evitar custo
+operacional de faucets e transacoes durante a demo.
 
 ## Comandos uteis de Docker
 

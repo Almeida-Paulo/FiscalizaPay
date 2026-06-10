@@ -214,5 +214,5 @@ def register_on_chain(
     profile: Annotated[Profile, Depends(get_current_profile)],
 ):
     contract = service.get_contract_or_404(db, contract_id)
-    service.register_on_chain(db, contract, profile)
-    return {"data": None}
+    result = service.register_on_chain(db, contract, profile)
+    return {"data": result, "message": "Contrato registrado na blockchain com sucesso."}

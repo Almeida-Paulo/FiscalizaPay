@@ -732,7 +732,7 @@ O FiscalizaPay tem um MVP completo e demonstrável com dados mock realistas.
 
 ### Objetivo do produto
 
-Plataforma de rastreabilidade de contratos públicos com blockchain. O MVP mostra o fluxo auditável completo e possui contrato deployado na Sepolia para registro imutável de hashes; a escrita on-chain real pelo backend ainda está desabilitada.
+Plataforma de rastreabilidade de contratos públicos com blockchain. O MVP mostra o fluxo auditável completo, possui contrato deployado na Sepolia e backend com integração Web3 para registro imutável de hashes. A escrita on-chain real fica desabilitada por padrão para demo sem gasto de faucet/taxa.
 
 ### Fluxo recomendado para demo
 
@@ -811,9 +811,9 @@ Com `NEXT_PUBLIC_USE_MOCKS=true`, o deploy funciona sem depender do backend ao v
 ```env
 NEXT_PUBLIC_USE_MOCKS=false
 NEXT_PUBLIC_API_BASE_URL=https://api.fiscalizapay.com.br
-NEXT_PUBLIC_CHAIN_ID=137
-NEXT_PUBLIC_EXPLORER_URL=https://polygonscan.com
-NEXT_PUBLIC_CONTRACT_ADDRESS=0x...
+NEXT_PUBLIC_CHAIN_ID=11155111
+NEXT_PUBLIC_EXPLORER_URL=https://sepolia.etherscan.io
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=<project-id>
 ```
 
@@ -840,9 +840,9 @@ Para produção:
 ```bash
 NEXT_PUBLIC_API_BASE_URL=https://api.fiscalizapay.com.br
 NEXT_PUBLIC_USE_MOCKS=false
-NEXT_PUBLIC_CHAIN_ID=137
-NEXT_PUBLIC_CONTRACT_ADDRESS=0x...
-NEXT_PUBLIC_EXPLORER_URL=https://polygonscan.com
+NEXT_PUBLIC_CHAIN_ID=11155111
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
+NEXT_PUBLIC_EXPLORER_URL=https://sepolia.etherscan.io
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=<project-id>
 ```
 

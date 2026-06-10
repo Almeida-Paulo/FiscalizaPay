@@ -190,6 +190,15 @@ class BlockchainStatusOut(BaseModel):
     unavailableReason: str | None = None
 
 
+class RegisterOnChainResultOut(BaseModel):
+    contractId: str
+    transactionHash: str
+    blockNumber: int
+    blockchainTimestamp: str
+    registeredOnChain: bool = True
+    event: dict[str, Any]
+
+
 class SimulateFraudResultOut(BaseModel):
     id: str | None = None
     status: ContractStatus | None = None

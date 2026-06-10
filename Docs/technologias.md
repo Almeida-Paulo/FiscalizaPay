@@ -40,6 +40,7 @@ O FiscalizaPay e uma plataforma Web3 para fiscalizacao de contratos publicos, co
 | Pydantic / pydantic-settings | Schemas, validacao e configuracao por ambiente. |
 | PyJWT | Emissao e validacao de JWT. |
 | eth-account | Recuperacao de wallet a partir de assinatura EVM. |
+| web3.py | Chamada runtime do backend ao contrato Sepolia. |
 | Docker / Docker Compose | Execucao local da API e banco. |
 
 ## Blockchain e smart contracts
@@ -64,7 +65,7 @@ Chain ID: `11155111`
 Endereco: `0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83`  
 Explorer: `https://sepolia.etherscan.io/address/0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83`
 
-Observacao importante: o artefato de deploy existe em `contracts/ignition/deployments/chain-11155111/deployed_addresses.json`, mas a API real ainda trata `register-on-chain` como indisponivel/nao implementado. Portanto, ha smart contract deployado, mas a integracao runtime backend -> contrato ainda precisa ser implementada e validada.
+Observacao importante: o artefato de deploy existe em `contracts/ignition/deployments/chain-11155111/deployed_addresses.json` e a API real possui integracao Web3 para `register-on-chain`. Por padrao, a escrita fica desabilitada para nao gastar faucet/taxa; para validar ponta a ponta, habilite RPC, chave owner e saldo Sepolia.
 
 ## Arquitetura
 
@@ -90,6 +91,9 @@ Observacao importante: o artefato de deploy existe em `contracts/ignition/deploy
 | `CHAIN_ID` | Backend | Chain usada na mensagem de login. |
 | `CONTRACT_ADDRESS` | Backend | Endereco do contrato para integracao on-chain. |
 | `BLOCKCHAIN_ENABLED` | Backend | Habilita/desabilita escrita blockchain real. |
+| `RPC_URL` | Backend | RPC usado pelo backend para enviar transacoes. |
+| `OPERATOR_PRIVATE_KEY` | Backend | Chave da wallet owner/operadora que assina `registerContract`. |
+| `BLOCKCHAIN_TX_TIMEOUT_SECONDS` | Backend | Tempo maximo de espera pela confirmacao da transacao. |
 | `SEPOLIA_RPC_URL` | Contracts | RPC de deploy Sepolia. |
 | `AMOY_RPC_URL` | Contracts | RPC de deploy Polygon Amoy. |
 | `DEPLOYER_PRIVATE_KEY` | Contracts | Chave da wallet deployer/owner. |

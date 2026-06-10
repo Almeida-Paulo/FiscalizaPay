@@ -136,11 +136,14 @@ ALLOWED_HOSTS=api.seudominio.com,127.0.0.1,localhost
 DATABASE_URL=postgresql+psycopg://fiscalizapay:fiscalizapay_dev_password@db:5432/fiscalizapay
 
 AUTH_NONCE_EXPIRES_MINUTES=10
-CHAIN_ID=80002
+CHAIN_ID=11155111
 
-EXPLORER_URL=https://amoy.polygonscan.com
-CONTRACT_ADDRESS=
+EXPLORER_URL=https://sepolia.etherscan.io
+CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
 BLOCKCHAIN_ENABLED=false
+RPC_URL=
+OPERATOR_PRIVATE_KEY=
+BLOCKCHAIN_TX_TIMEOUT_SECONDS=120
 ```
 
 Importante:

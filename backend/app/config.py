@@ -30,6 +30,9 @@ class Settings(BaseSettings):
     explorer_url: str = "https://sepolia.etherscan.io"
     contract_address: str = ""
     blockchain_enabled: bool = False
+    rpc_url: str = ""
+    operator_private_key: str = ""
+    blockchain_tx_timeout_seconds: int = 120
 
     @field_validator("database_url")
     @classmethod
