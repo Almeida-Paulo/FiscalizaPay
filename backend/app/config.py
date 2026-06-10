@@ -21,15 +21,18 @@ class Settings(BaseSettings):
     allowed_hosts: str = "localhost,127.0.0.1,0.0.0.0"
 
     auth_nonce_expires_minutes: int = 10
-    chain_id: int = 80002
+    chain_id: int = 11155111
 
     db_pool_size: int = 2
     db_max_overflow: int = 0
     db_pool_timeout: int = 30
 
-    explorer_url: str = "https://amoy.polygonscan.com"
+    explorer_url: str = "https://sepolia.etherscan.io"
     contract_address: str = ""
     blockchain_enabled: bool = False
+    rpc_url: str = ""
+    operator_private_key: str = ""
+    blockchain_tx_timeout_seconds: int = 120
 
     @field_validator("database_url")
     @classmethod

@@ -38,11 +38,11 @@ cp .env.example .env.local
 Para a demo, **não é necessário alterar nada**. O `.env.local` gerado a partir do `.env.example` já tem:
 
 ```env
-NEXT_PUBLIC_API_BASE_URL=http://localhost:3001
+NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 NEXT_PUBLIC_USE_MOCKS=true
-NEXT_PUBLIC_CHAIN_ID=80002
-NEXT_PUBLIC_CONTRACT_ADDRESS=
-NEXT_PUBLIC_EXPLORER_URL=https://amoy.polygonscan.com
+NEXT_PUBLIC_CHAIN_ID=11155111
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
+NEXT_PUBLIC_EXPLORER_URL=https://sepolia.etherscan.io
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=
 ```
 
@@ -168,7 +168,7 @@ O estado dos mocks retorna ao inicial (definido em `shared/mocks/mock-store.ts`)
 Para mostrar o componente de wallet no header:
 
 1. Clicar em "Conectar wallet (demo)" no header
-2. O sistema simulará uma conexão com endereço `0x8888...8888` na Polygon Amoy
+2. O sistema simulara uma conexao com endereco `0x8888...8888` na Sepolia
 3. O `NetworkBadge` ficará verde (rede correta)
 
 Não é necessário MetaMask ou carteira real. É uma simulação visual via Zustand store.

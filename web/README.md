@@ -60,11 +60,11 @@ Copie `.env.example` para `.env.local`:
 |---|---|---|
 | `NEXT_PUBLIC_API_BASE_URL` | URL da API backend (preferida) | `http://127.0.0.1:8000` |
 | `NEXT_PUBLIC_API_URL` | Alias legado de `API_BASE_URL` | `http://127.0.0.1:8000` |
-| `NEXT_PUBLIC_CHAIN_ID` | Chain ID da testnet | `80002` (Polygon Amoy) |
+| `NEXT_PUBLIC_CHAIN_ID` | Chain ID da testnet | `11155111` (Sepolia) |
 | `NEXT_PUBLIC_CONTRACT_ADDRESS` | Endereço do smart contract | _(preenchido após deploy)_ |
 | `NEXT_PUBLIC_USE_MOCKS` | Ativar mocks locais (preferida) | `true` |
 | `NEXT_PUBLIC_ENABLE_MOCKS` | Alias legado de `USE_MOCKS` | — |
-| `NEXT_PUBLIC_EXPLORER_URL` | URL do block explorer | `https://amoy.polygonscan.com` |
+| `NEXT_PUBLIC_EXPLORER_URL` | URL do block explorer | `https://sepolia.etherscan.io` |
 | `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` | WalletConnect Project ID | — |
 
 Para ativar a API real: `NEXT_PUBLIC_USE_MOCKS=false` + `NEXT_PUBLIC_API_BASE_URL=<url-do-backend>`.
@@ -120,8 +120,8 @@ RootProviders (index.tsx)
 ```
 
 A configuração Web3 fica em `src/shared/config/web3.ts`:
-- Chain principal: **Polygon Amoy** (ID 80002)
-- Fallback: Sepolia (ID 11155111)
+- Chain principal: **Sepolia** (ID 11155111)
+- Fallback: Polygon Amoy (ID 80002)
 - Connector padrão: MetaMask (injected)
 - WalletConnect: ativado apenas se `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` for fornecido
 
@@ -202,8 +202,8 @@ canConfirmShipment(contract, profile)  // FORNECEDOR + status CRIADO
 canConfirmDelivery(contract, profile)  // ENTREGADOR + status ENVIADO
 canValidateReceipt(contract, profile)  // FISCAL + status ENTREGUE
 canAuthorizePayment(contract, profile) // GESTOR + status VALIDADO
-canOpenDispute(contract, profile)      // GESTOR|FISCAL|FORNECEDOR|ENTREGADOR
-canSimulateFraud(contract, profile)    // GESTOR|FISCAL + documentHash presente
+canOpenDispute(contract, profile)      // GESTOR|FISCAL|AUDITOR
+canSimulateFraud(contract, profile)    // GESTOR|FISCAL|AUDITOR + documentHash presente
 getNextContractAction(contract, profile) → ContractAction | null
 getBlockedActionReason(action, contract, profile) → string | null
 ```
@@ -568,7 +568,7 @@ useWalletStore()  // address, chainId, networkName, isConnected, isCorrectNetwor
                   // connectMockWallet() | disconnectWallet()
 ```
 
-Simula endereço `0x8888...8888` na rede **Polygon Amoy** (Chain 80002). A integração real virá via `wagmi` + `RainbowKit` em versão futura — o store será sincronizado com `useAccount()` nessa etapa.
+Simula endereço `0x8888...8888` na rede **Sepolia** (Chain 11155111). Em modo API real, a assinatura usa `wagmi` e MetaMask pelo fluxo de nonce/JWT.
 
 ### Componentes de wallet (`entities/wallet/ui/`)
 
@@ -611,8 +611,8 @@ Depois: [WalletConnectButton] [Perfil dropdown → ProfileIdentityCard]
 ### Helpers (`entities/wallet/model/helpers.ts`)
 
 ```ts
-isExpectedChain(chainId: number | null): boolean      // compara com OFFICIAL_CHAIN_ID (80002)
-getNetworkLabel(chainId: number | null): string        // "Polygon Amoy" | "Sepolia" | "Chain X"
+isExpectedChain(chainId: number | null): boolean      // compara com OFFICIAL_CHAIN_ID (11155111)
+getNetworkLabel(chainId: number | null): string        // "Sepolia" | "Polygon Amoy" | "Chain X"
 getExplorerAddressUrl(explorerUrl, address): string    // URL do explorer para o endereço
 ```
 
@@ -732,7 +732,7 @@ O FiscalizaPay tem um MVP completo e demonstrável com dados mock realistas.
 
 ### Objetivo do produto
 
-Plataforma de rastreabilidade de contratos públicos com blockchain — cada etapa do contrato (criação, envio, entrega, validação, pagamento) gera um registro imutável na Polygon Amoy. Adulterações de documentos são detectadas automaticamente por hash divergente.
+Plataforma de rastreabilidade de contratos públicos com blockchain. O MVP mostra o fluxo auditável completo, possui contrato deployado na Sepolia e backend com integração Web3 para registro imutável de hashes. A escrita on-chain real fica desabilitada por padrão para demo sem gasto de faucet/taxa.
 
 ### Fluxo recomendado para demo
 
@@ -768,7 +768,7 @@ Simulação ao vivo             — CT-2026-004 (VALIDADO) → perfil AUDITOR �
 NEXT_PUBLIC_USE_MOCKS=true
 ```
 
-Todos os dados, ações e eventos funcionam sem backend. Estado reseta com F5.
+Todos os dados, ações e eventos funcionam sem depender do backend ao vivo. Estado reseta com F5.
 
 ### Documentação da demo
 
@@ -798,21 +798,22 @@ Todos os dados, ações e eventos funcionam sem backend. Estado reseta com F5.
 
 ```env
 NEXT_PUBLIC_USE_MOCKS=true
-NEXT_PUBLIC_CHAIN_ID=80002
-NEXT_PUBLIC_EXPLORER_URL=https://amoy.polygonscan.com
+NEXT_PUBLIC_CHAIN_ID=11155111
+NEXT_PUBLIC_EXPLORER_URL=https://sepolia.etherscan.io
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
 NEXT_PUBLIC_API_BASE_URL=http://127.0.0.1:8000
 ```
 
-Com `NEXT_PUBLIC_USE_MOCKS=true`, o deploy funciona sem backend — todos os dados virão dos mocks.
+Com `NEXT_PUBLIC_USE_MOCKS=true`, o deploy funciona sem depender do backend ao vivo — todos os dados virão dos mocks.
 
 ### Modo API real (quando backend disponível)
 
 ```env
 NEXT_PUBLIC_USE_MOCKS=false
 NEXT_PUBLIC_API_BASE_URL=https://api.fiscalizapay.com.br
-NEXT_PUBLIC_CHAIN_ID=137
-NEXT_PUBLIC_EXPLORER_URL=https://polygonscan.com
-NEXT_PUBLIC_CONTRACT_ADDRESS=0x...
+NEXT_PUBLIC_CHAIN_ID=11155111
+NEXT_PUBLIC_EXPLORER_URL=https://sepolia.etherscan.io
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=<project-id>
 ```
 
@@ -839,9 +840,9 @@ Para produção:
 ```bash
 NEXT_PUBLIC_API_BASE_URL=https://api.fiscalizapay.com.br
 NEXT_PUBLIC_USE_MOCKS=false
-NEXT_PUBLIC_CHAIN_ID=137
-NEXT_PUBLIC_CONTRACT_ADDRESS=0x...
-NEXT_PUBLIC_EXPLORER_URL=https://polygonscan.com
+NEXT_PUBLIC_CHAIN_ID=11155111
+NEXT_PUBLIC_CONTRACT_ADDRESS=0xC39B2598EF9eaDc8F5C4e670893544e7Dfc52f83
+NEXT_PUBLIC_EXPLORER_URL=https://sepolia.etherscan.io
 NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID=<project-id>
 ```
 

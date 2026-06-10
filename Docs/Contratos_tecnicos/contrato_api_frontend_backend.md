@@ -4,7 +4,7 @@
 > **Sessão:** Session Two de Coerência  
 > **Referência:** `Docs/decisoes_tecnicas_finais.md` | `Docs/glossario_tecnico_oficial.md`
 
-Este documento define o contrato de integração entre o frontend (Next.js) e o backend (NestJS/Node.js). Toda implementação deve seguir os formatos aqui definidos.
+Este documento define o contrato de integração entre o frontend (Next.js) e o backend real (FastAPI/Python). Toda implementação deve seguir os formatos aqui definidos.
 
 ---
 
@@ -19,7 +19,7 @@ Garantir que frontend e backend implementem a mesma interface de dados, sem dive
 ### 2.1 URL base
 
 ```txt
-Desenvolvimento: http://localhost:3001
+Desenvolvimento: http://127.0.0.1:8000
 Produção:        variável NEXT_PUBLIC_API_URL
 ```
 

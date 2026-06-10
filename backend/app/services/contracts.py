@@ -7,6 +7,7 @@ from uuid import UUID
 from sqlalchemy import func, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
+from web3.exceptions import ContractLogicError, Web3Exception
 
 from app.config import get_settings
 from app.errors import api_error
@@ -19,6 +20,7 @@ from app.schemas import (
     CreateContractBody,
     DashboardSummaryOut,
     OpenDisputeBody,
+    RegisterOnChainResultOut,
     SimulateFraudBody,
     SimulateFraudResultOut,
     UpdateContractBody,
@@ -26,6 +28,7 @@ from app.schemas import (
 )
 from app.security import normalize_wallet
 from app.serializers import contract_out, event_out
+from app.services.blockchain import get_record, make_contract_id, make_document_hash, register_contract, to_hex32
 
 
 # Mapa unico de permissoes por acao de contrato.
@@ -49,7 +52,30 @@ BLOCKCHAIN_UNAVAILABLE_MESSAGE = "Registro em blockchain indisponivel neste ambi
 def is_blockchain_available() -> bool:
     """Retorna se o ambiente esta pronto para executar escrita on-chain real."""
     settings = get_settings()
-    return settings.blockchain_enabled and bool(settings.contract_address.strip())
+    return all(
+        [
+            settings.blockchain_enabled,
+            settings.contract_address.strip(),
+            settings.rpc_url.strip(),
+            settings.operator_private_key.strip(),
+        ]
+    )
+
+
+def blockchain_unavailable_reason() -> str | None:
+    settings = get_settings()
+    missing = []
+    if not settings.blockchain_enabled:
+        missing.append("BLOCKCHAIN_ENABLED=true")
+    if not settings.contract_address.strip():
+        missing.append("CONTRACT_ADDRESS")
+    if not settings.rpc_url.strip():
+        missing.append("RPC_URL")
+    if not settings.operator_private_key.strip():
+        missing.append("OPERATOR_PRIVATE_KEY")
+    if not missing:
+        return None
+    return f"{BLOCKCHAIN_UNAVAILABLE_MESSAGE} Configure: {', '.join(missing)}."
 
 
 def parse_dt(value: str | None, field_name: str) -> datetime | None:
@@ -432,33 +458,112 @@ def dashboard_summary(db: Session) -> DashboardSummaryOut:
 
 def blockchain_status(contract: Contract) -> BlockchainStatusOut:
     blockchain_available = is_blockchain_available()
+    latest_event = max(
+        (event for event in contract.events if event.event_type == ContractEventType.HASH_REGISTRADO.value),
+        key=lambda event: event.created_at,
+        default=None,
+    )
+    if not blockchain_available:
+        return BlockchainStatusOut(
+            contractId=str(contract.id),
+            status=contract.status,
+            documentHash=contract.document_hash,
+            transactionHash=latest_event.transaction_hash if latest_event else None,
+            blockchainTimestamp=iso_z(latest_event.blockchain_timestamp) if latest_event else None,
+            registeredOnChain=False,
+            blockchainAvailable=False,
+            unavailableReason=blockchain_unavailable_reason(),
+        )
+
+    settings = get_settings()
+    contract_id = make_contract_id(str(contract.id))
+    try:
+        record = get_record(settings, contract_id)
+    except (ContractLogicError, Web3Exception, ValueError) as exc:
+        return BlockchainStatusOut(
+            contractId=str(contract.id),
+            status=contract.status,
+            documentHash=contract.document_hash,
+            transactionHash=latest_event.transaction_hash if latest_event else None,
+            blockchainTimestamp=iso_z(latest_event.blockchain_timestamp) if latest_event else None,
+            registeredOnChain=False,
+            blockchainAvailable=False,
+            unavailableReason=f"Falha ao consultar blockchain: {exc}",
+        )
+
     return BlockchainStatusOut(
         contractId=str(contract.id),
         status=contract.status,
-        documentHash=contract.document_hash,
-        registeredOnChain=False,
-        blockchainAvailable=blockchain_available,
-        unavailableReason=None if blockchain_available else BLOCKCHAIN_UNAVAILABLE_MESSAGE,
+        documentHash=record.document_hash or contract.document_hash,
+        transactionHash=latest_event.transaction_hash if latest_event else None,
+        blockchainTimestamp=iso_z(record.blockchain_timestamp),
+        registeredOnChain=record.exists,
+        blockchainAvailable=True,
+        unavailableReason=None,
     )
 
 
-def register_on_chain(_: Session, contract: Contract, profile: Profile) -> None:
+def register_on_chain(db: Session, contract: Contract, profile: Profile) -> RegisterOnChainResultOut:
     require_role(profile, "register_on_chain")
     require_party_wallet(contract, profile, "manager_wallet")
+    if not contract.document_hash:
+        raise api_error(400, "VALIDATION_ERROR", "Contrato nao possui documentHash para registrar on-chain.")
 
-    # O endpoint existe para manter o contrato de API estavel, mas so escreve
-    # on-chain quando o ambiente tiver smart contract configurado.
     if not is_blockchain_available():
         raise api_error(
             503,
             "BLOCKCHAIN_UNAVAILABLE",
-            BLOCKCHAIN_UNAVAILABLE_MESSAGE,
+            blockchain_unavailable_reason() or BLOCKCHAIN_UNAVAILABLE_MESSAGE,
         )
 
-    raise api_error(
-        501,
-        "BLOCKCHAIN_ERROR",
-        "Registro on-chain ainda nao implementado.",
+    settings = get_settings()
+    contract_id = make_contract_id(str(contract.id))
+    document_hash = make_document_hash(contract.document_hash)
+    try:
+        registration = register_contract(settings, contract_id, document_hash)
+    except ContractLogicError as exc:
+        raise api_error(
+            409,
+            "BLOCKCHAIN_ERROR",
+            "Contrato ja registrado na blockchain.",
+            {"contractId": to_hex32(contract_id), "reason": str(exc)},
+        ) from exc
+    except (Web3Exception, ValueError) as exc:
+        raise api_error(
+            502,
+            "BLOCKCHAIN_ERROR",
+            "Falha ao registrar contrato na blockchain.",
+            {"reason": str(exc)},
+        ) from exc
+
+    contract.blockchain_contract_id = registration.contract_id
+    event = create_event(
+        db,
+        contract,
+        ContractEventType.HASH_REGISTRADO,
+        "Hash do contrato registrado na blockchain.",
+        profile,
+        contract.status,
+        contract.status,
+        document_hash=contract.document_hash,
+        transaction_hash=registration.transaction_hash,
+        blockchain_timestamp=registration.blockchain_timestamp,
+    )
+    db.commit()
+    db.refresh(contract)
+    db.refresh(event)
+
+    return RegisterOnChainResultOut(
+        contractId=str(contract.id),
+        transactionHash=registration.transaction_hash,
+        blockNumber=registration.block_number,
+        blockchainTimestamp=iso_z(registration.blockchain_timestamp) or "",
+        event={
+            "id": str(event.id),
+            "eventType": event.event_type,
+            "transactionHash": event.transaction_hash,
+            "createdAt": iso_z(event.created_at),
+        },
     )
 
 

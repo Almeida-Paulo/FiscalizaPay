@@ -2,7 +2,7 @@
 
 ## Resumo
 
-O FiscalizaPay possui diferenciais fortes em transparencia, visualizacao, experiencia de usuario, historico auditavel, aplicacao pratica e impacto social. Os diferenciais ligados a blockchain estao bem encaminhados, mas devem ser apresentados como parcialmente atendidos ate a integracao runtime com o smart contract deployado estar validada.
+O FiscalizaPay possui diferenciais fortes em transparencia, visualizacao, experiencia de usuario, historico auditavel, aplicacao pratica e impacto social. Os diferenciais ligados a blockchain estao bem encaminhados: o contrato esta deployado e o backend ja possui integracao Web3, mas devem ser apresentados como parcialmente validados ate haver uma transacao ponta a ponta em Sepolia com RPC, chave owner e saldo.
 
 ## Avaliacao dos diferenciais
 
@@ -16,7 +16,7 @@ O FiscalizaPay possui diferenciais fortes em transparencia, visualizacao, experi
 | Potencial real de adocao | **Sim** | Serve para orgaos publicos, ONGs, empresas contratantes e auditorias independentes. |
 | Dashboard simples e compreensivel | **Sim** | Mostra total, status, disputas, pagamentos autorizados e valor fiscalizado. |
 | Uso adequado de certificados digitais ou NFTs | **Nao aplicado / pendente** | O projeto nao precisa de NFT para o fluxo atual. O diferencial principal e hash + auditoria; certificado/NFT pode ser evolucao. |
-| Integracao funcional entre frontend, blockchain e smart contracts | **Parcial** | Frontend tem wallet, tx/hash visual e smart contract existe; backend ainda nao grava no contrato em runtime real. |
+| Integracao funcional entre frontend, blockchain e smart contracts | **Parcial / em validacao** | Frontend tem wallet, tx/hash visual, smart contract existe e backend tem chamada Web3; falta executar e evidenciar uma transacao real ponta a ponta com saldo Sepolia. |
 | Clareza sobre dados on-chain e off-chain | **Sim** | A arquitetura separa dados completos no banco e provas/hash no smart contract. |
 | Uso de IPFS ou equivalente para evidencias | **Nao aplicado / pendente** | O projeto usa hash do documento, mas nao armazena arquivo/evidencia em IPFS. Pode ser futuro se houver upload real. |
 | Metricas de impacto bem definidas | **Sim** | Valor total fiscalizado, contratos por status, disputas e pagamentos autorizados. |
@@ -94,13 +94,14 @@ O projeto possui:
 - campos `transactionHash`;
 - UI preparada;
 - endpoint de blockchain status.
+- chamada backend Web3 para `registerContract`.
 
 Ainda falta:
 
 - configurar backend com `BLOCKCHAIN_ENABLED=true`;
 - alinhar chain/backend/frontend/smart contract;
-- implementar chamada real ao contrato;
-- salvar transaction hash real no banco;
+- executar chamada real ao contrato em Sepolia;
+- salvar transaction hash real no banco em um teste validado;
 - validar fluxo de ponta a ponta.
 
 ### Certificados, NFTs ou reconhecimentos
@@ -127,16 +128,16 @@ Evite dizer:
 
 Use esta frase:
 
-> O projeto ja possui smart contract deployado e arquitetura preparada para registro on-chain, mas a demo atual deve ser apresentada como fluxo auditavel com integracao blockchain em fase final de conexao runtime.
+> O projeto ja possui smart contract deployado e integracao backend Web3 implementada para registro on-chain; a demo pode rodar sem gas por padrao, e a validacao publica ponta a ponta depende de habilitar RPC, chave owner e saldo Sepolia.
 
 ## Como transformar parcial em completo
 
 Prioridade para fechar diferenciais Web3:
 
-1. escolher oficialmente Sepolia ou Polygon Amoy;
-2. alinhar `CHAIN_ID`, `NEXT_PUBLIC_CHAIN_ID`, `CONTRACT_ADDRESS`, `NEXT_PUBLIC_CONTRACT_ADDRESS` e explorer;
-3. implementar no backend a chamada real ao `FiscalizaPayRegistry`;
-4. salvar `transaction_hash`, `block_number` e `blockchain_timestamp`;
+1. manter Sepolia como rede oficial do MVP;
+2. manter `CHAIN_ID`, `NEXT_PUBLIC_CHAIN_ID`, `CONTRACT_ADDRESS`, `NEXT_PUBLIC_CONTRACT_ADDRESS` e explorer alinhados com Sepolia;
+3. habilitar no backend a chamada real ao `FiscalizaPayRegistry`;
+4. salvar `transaction_hash` e `blockchain_timestamp`, retornando `block_number` na resposta;
 5. exibir link real para explorer;
 6. rodar teste ponta a ponta com uma carteira de gestor.
 
@@ -144,6 +145,6 @@ Prioridade para fechar diferenciais Web3:
 
 Voce preenche com seguranca os diferenciais de transparencia, impacto social, visualizacao, automacao, experiencia, dashboard, metricas e aplicacao real.
 
-Preenche parcialmente os diferenciais de blockchain/smart contract porque o contrato existe e esta deployado, mas a integracao runtime ainda precisa ser finalizada.
+Preenche parcialmente os diferenciais de blockchain/smart contract porque o contrato existe, esta deployado e o backend ja chama Web3, mas falta validar publicamente uma transacao real com saldo Sepolia.
 
 Nao preenche hoje os diferenciais de NFT/certificado e IPFS, mas eles nao sao essenciais para a proposta central do FiscalizaPay.

@@ -28,7 +28,7 @@
 - Tipos TypeScript consistentes com o contrato API documentado
 
 **Limitações:**
-- Backend NestJS ainda não implementado (fora do escopo do frontend)
+- Escrita on-chain real depende de RPC, chave owner e saldo Sepolia
 - Smart contract na testnet, não em mainnet
 
 **Nota:** 9/10 — arquitetura exemplar para o escopo do projeto.
@@ -131,27 +131,27 @@
 
 ---
 
-## 7. Preparação backend — 5/10
+## 7. Preparação backend — 8/10
 
-**Contexto:** backend NestJS está fora do escopo dos blocos de frontend.
+**Contexto:** o backend real do projeto usa Python, FastAPI, PostgreSQL, JWT por assinatura de wallet e integração Web3 controlada por flag.
 
 **O que existe:**
-- Contrato de integração API completo documentado (`contrato_api_frontend_backend.md`)
-- Mock layer que espelha exatamente os formatos do contrato API
-- Services frontend mapeados para cada endpoint
-- httpClient configurado com `env.apiBaseUrl`, timeout, error handling
+- API FastAPI com endpoints de autenticação, contratos, eventos, dashboard, disputas e auditoria
+- PostgreSQL, SQLAlchemy e Alembic
+- Autenticação por wallet EVM (`nonce -> assinatura -> JWT`)
+- Regras de role e wallet validadas no backend
+- Integração Web3 para `register-on-chain`, desabilitada por padrão
 
 **O que falta:**
-- NestJS não implementado
-- PostgreSQL não configurado
-- Endpoints não criados
-- Deploy backend não realizado
+- Deploy backend de produção
+- Teste ponta a ponta real em Sepolia com RPC, chave owner e saldo
+- Observabilidade e hardening operacional para produção
 
-**Nota:** 5/10 — a preparação do frontend para receber o backend é excelente; o backend em si não existe.
+**Nota:** 8/10 — backend funcional para MVP; falta validação operacional em ambiente público.
 
 ---
 
-## 8. Integração (frontend ↔ blockchain) — 6/10
+## 8. Integração (frontend ↔ backend ↔ blockchain) — 7/10
 
 **O que existe:**
 - wagmi v2 + viem v2 + RainbowKit v2 configurados
@@ -160,14 +160,17 @@
 - `useWalletStore` com `connectMockWallet()` e `disconnectWallet()`
 - `NetworkBadge`, `WalletStatus`, `WalletAccountCard` implementados
 - `getExplorerAddressUrl()` e `TransactionHashLink` funcionais
+- Backend FastAPI chama `FiscalizaPayRegistry.registerContract`
+- Endpoint real retorna `transactionHash`, `blockNumber`, timestamp e evento auditável
 
 **O que falta:**
 - `useAccount()` do wagmi ainda não sincronizado com o `useWalletStore`
-- Assinatura real de transações não implementada (mock)
-- Smart contract no frontend não chamado diretamente (passa pelo backend)
+- Executar transação real em Sepolia para validar o fluxo completo
+- Manter saldo/faucet na wallet owner usada pelo backend
+- Smart contract não é chamado diretamente pelo frontend; a decisão atual é passar pelo backend
 - `NEXT_PUBLIC_WALLETCONNECT_PROJECT_ID` não configurado (opcional para demo)
 
-**Nota:** 6/10 — infraestrutura pronta; falta ligação real wagmi ↔ store e integração com o contrato.
+**Nota:** 7/10 — integração técnica implementada; falta evidência pública de transação real ponta a ponta.
 
 ---
 
@@ -218,11 +221,11 @@
 | Design Visual | 8/10 |
 | Escalabilidade | 7/10 |
 | Documentação | 10/10 |
-| Preparação Backend | 5/10 |
-| Integração Blockchain | 6/10 |
+| Preparação Backend | 8/10 |
+| Integração Blockchain | 7/10 |
 | Demo | 9/10 |
 | Apresentação | 8/10 |
-| **Média** | **7.9/10** |
+| **Média** | **8.3/10** |
 
 ---
 
@@ -230,7 +233,7 @@
 
 **O FiscalizaPay está pronto para demonstração profissional.**
 
-A nota 7.9/10 reflete um MVP de alta qualidade no que foi implementado (frontend, UX, demo, documentação) com limitações conhecidas e documentadas no que ainda não foi construído (backend, integração blockchain real).
+A nota 8.3/10 reflete um MVP de alta qualidade com frontend, backend, demo, documentação e integração Web3 implementados, mantendo limitações conhecidas de validação operacional on-chain.
 
 Para uma banca acadêmica ou investidor de estágio inicial, o MVP demonstra:
 - Capacidade técnica de execução
@@ -242,9 +245,9 @@ Para uma banca acadêmica ou investidor de estágio inicial, o MVP demonstra:
 
 ## Próximos passos críticos (pós-MVP)
 
-1. Implementar backend NestJS com PostgreSQL (Bloco 21+)
+1. Executar teste ponta a ponta em Sepolia com `BLOCKCHAIN_ENABLED=true`
 2. Conectar `useAccount()` wagmi ao `useWalletStore`
-3. Deploy do smart contract na testnet Amoy
+3. Automatizar testes backend/frontend/contratos no pipeline
 4. Piloto com órgão público parceiro
 5. Criar slides de apresentação institucional
 6. Implementar testes automatizados (Vitest + Playwright)
